@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/location"
+        android:menuCategory="secondary"
+        android:orderInCategory="1"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/notificaiton"
+        android:menuCategory="secondary"
+        android:orderInCategory="2"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_blog"
+        android:orderInCategory="100"
+        android:title="Blog"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_feedBack"
+        android:orderInCategory="200"
+        android:title="Feedback"
+        app:showAsAction="never" />
+
+
+</menu>
+
