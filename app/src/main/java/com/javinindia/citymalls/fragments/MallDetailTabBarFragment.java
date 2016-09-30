@@ -12,9 +12,9 @@ import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.recyclerview.ViewPagerAdapter;
 
 /**
- * Created by Ashish on 29-09-2016.
+ * Created by Ashish on 30-09-2016.
  */
-public class StoreTabsFragment extends BaseFragment {
+public class MallDetailTabBarFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -30,7 +30,7 @@ public class StoreTabsFragment extends BaseFragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-     //   viewPager.setCurrentItem(Constants.VIEW_PAGER_CURRENT_POSITION);
+        //   viewPager.setCurrentItem(Constants.VIEW_PAGER_CURRENT_POSITION);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -38,7 +38,7 @@ public class StoreTabsFragment extends BaseFragment {
     }
     @Override
     protected int getFragmentLayout() {
-        return R.layout.store_tab_layout;
+        return R.layout.mall_detail_tab_layout;
     }
 
     @Override
@@ -53,6 +53,7 @@ public class StoreTabsFragment extends BaseFragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(new StoreOffersFragment(), "Stores");
         adapter.addFragment(new StoreOffersFragment(), "Offers");
         adapter.addFragment(new StoreEventsFragment(), "Events");
         viewPager.setAdapter(adapter);

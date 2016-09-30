@@ -80,7 +80,7 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
     }
     @Override
     protected int getFragmentLayout() {
-        return R.layout.mall_offer_layout;
+        return R.layout.store_offer_layout;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onItemClick(int position, CountryModel model) {
-        BaseFragment fragment = new OfferDetailFragment();
+        BaseFragment fragment = new StoreTabsFragment();
         callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.navigationContainer);
     }
 

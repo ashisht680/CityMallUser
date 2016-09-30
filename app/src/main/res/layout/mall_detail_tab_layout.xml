@@ -36,8 +36,7 @@
                 android:layout_below="@+id/imgFavourateMalls"
                 android:gravity="center"
                 android:padding="2dp"
-                android:text="STORE"
-                android:lines="2"
+                android:text="FAVOURATE\nMALLS"
                 android:textColor="@android:color/white"
                 android:textSize="10sp" />
         </RelativeLayout>
@@ -60,14 +59,14 @@
                 android:transformPivotY="5dp" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtStoreName"
+                android:id="@+id/txtMallName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_toLeftOf="@+id/chkImageMall"
                 android:layout_toRightOf="@+id/imgLogo"
                 android:singleLine="true"
-                android:text="Store Name"
+                android:text="Pacific Mall"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -77,7 +76,7 @@
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtStoreName"
+                android:layout_below="@+id/txtMallName"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/imgLogo"
@@ -94,7 +93,7 @@
                 android:id="@+id/txtRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtStoreName"
+                android:layout_below="@+id/txtMallName"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/ratingBar"
@@ -104,7 +103,7 @@
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtStoreDistance"
+                android:id="@+id/txtMallDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ratingBar"

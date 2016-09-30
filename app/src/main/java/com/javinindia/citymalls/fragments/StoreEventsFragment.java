@@ -24,7 +24,7 @@ public class StoreEventsFragment extends BaseFragment {
     }
     @Override
     protected int getFragmentLayout() {
-        return R.layout.mall_event_layout;
+        return R.layout.store_event_layout;
     }
 
     @Override

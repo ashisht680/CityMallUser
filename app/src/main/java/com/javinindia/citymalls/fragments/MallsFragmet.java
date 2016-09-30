@@ -1,6 +1,5 @@
 package com.javinindia.citymalls.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.CountryModel;
@@ -65,18 +63,6 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMall);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
-       /* RelativeLayout rlFavourateMalls = (RelativeLayout)view.findViewById(R.id.rlFavourateMalls);
-        RelativeLayout rlOffers = (RelativeLayout)view.findViewById(R.id.rlOffers);
-        RelativeLayout rlEvents = (RelativeLayout)view.findViewById(R.id.rlEvents);
-        RelativeLayout rlSearch = (RelativeLayout)view.findViewById(R.id.rlSearch);
-        rlFavourateMalls.setBackgroundColor(Color.parseColor("#000000"));
-        rlFavourateMalls.setOnClickListener(this);
-        rlOffers.setOnClickListener(this);
-        rlEvents.setOnClickListener(this);
-        rlSearch.setOnClickListener(this);*/
-      //  appCompatEditText = (AppCompatEditText) view.findViewById(R.id.etName);
-     //   appCompatEditText.addTextChangedListener(this);
-
 
     }
 
@@ -125,7 +111,7 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
     public void onItemClick(int position, CountryModel model) {
         String name = model.getName();
 
-        BaseFragment fragment = new MallTabsFragment();
+        BaseFragment fragment = new MallDetailTabBarFragment();
        /* Bundle bundle = new Bundle();
         //    bundle.putSerializable("images", postImage);
         bundle.putInt("position", 0);
