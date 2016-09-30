@@ -35,6 +35,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.javinindia.citymalls.activity.NavigationActivity"
             android:screenOrientation="portrait" />
     </application>

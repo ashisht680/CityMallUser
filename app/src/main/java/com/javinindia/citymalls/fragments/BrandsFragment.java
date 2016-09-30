@@ -46,7 +46,7 @@ public class BrandsFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initialize(View view) {
-        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMall);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
 
@@ -71,7 +71,7 @@ public class BrandsFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.offer_layout;
+        return R.layout.mall_layout;
     }
 
     @Override

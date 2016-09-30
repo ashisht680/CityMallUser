@@ -19,7 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.utility.Utility;
 
@@ -39,7 +38,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity.getSupportActionBar().hide();
+       // activity.getSupportActionBar().hide();
     }
 
     @Nullable
@@ -88,7 +87,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
                 String email = etEmailAddress.getText().toString().trim();
                 if (Utility.isEmailValid(email)) {
                     showLoader();
-                    sendDataOnForgetPasswordApi(email);
+                    //sendDataOnForgetPasswordApi(email);
                 } else if (TextUtils.isEmpty(email)) {
                     etEmailAddress.setError("Enter your email id");
                     etEmailAddress.requestFocus();
@@ -104,7 +103,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private void sendDataOnForgetPasswordApi(final String email) {
+  /*  private void sendDataOnForgetPasswordApi(final String email) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FORGET_PASSWORD_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -131,7 +130,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         stringRequest.setTag(Constants.FORGOT_TAG);
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-    }
+    }*/
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
@@ -150,7 +149,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         if (status.equalsIgnoreCase("true") && !status.isEmpty()) {
             fragment = new LoginFragment();
             Toast.makeText(activity, "Congrats! Your password has been submitted.", Toast.LENGTH_SHORT).show();
-            callFragmentMethod(fragment, Constants.FORGOT_TAG,R.id.navigationContainer);
+            callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.navigationContainer);
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);

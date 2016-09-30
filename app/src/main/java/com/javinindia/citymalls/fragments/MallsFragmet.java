@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.CountryModel;
-import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
 
 import java.util.ArrayList;
@@ -63,10 +62,10 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
     }
 
     private void initialize(View view) {
-        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMall);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
-        RelativeLayout rlFavourateMalls = (RelativeLayout)view.findViewById(R.id.rlFavourateMalls);
+       /* RelativeLayout rlFavourateMalls = (RelativeLayout)view.findViewById(R.id.rlFavourateMalls);
         RelativeLayout rlOffers = (RelativeLayout)view.findViewById(R.id.rlOffers);
         RelativeLayout rlEvents = (RelativeLayout)view.findViewById(R.id.rlEvents);
         RelativeLayout rlSearch = (RelativeLayout)view.findViewById(R.id.rlSearch);
@@ -74,7 +73,7 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
         rlFavourateMalls.setOnClickListener(this);
         rlOffers.setOnClickListener(this);
         rlEvents.setOnClickListener(this);
-        rlSearch.setOnClickListener(this);
+        rlSearch.setOnClickListener(this);*/
       //  appCompatEditText = (AppCompatEditText) view.findViewById(R.id.etName);
      //   appCompatEditText.addTextChangedListener(this);
 
@@ -84,7 +83,7 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.offer_layout;
+        return R.layout.mall_layout;
     }
 
     @Override
@@ -101,18 +100,7 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rlFavourateMalls:
 
-                break;
-            case R.id.rlOffers:
-
-                break;
-            case R.id.rlEvents:
-
-                break;
-            case R.id.rlSearch:
-
-                break;
         }
 
     }
@@ -137,16 +125,16 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
     public void onItemClick(int position, CountryModel model) {
         String name = model.getName();
 
-        BaseFragment fragment = new OfferPostFragment();
-        Bundle bundle = new Bundle();
+        BaseFragment fragment = new MallTabsFragment();
+       /* Bundle bundle = new Bundle();
         //    bundle.putSerializable("images", postImage);
         bundle.putInt("position", 0);
         bundle.putString("mallname","LBC,Ambience,Gurgaon");
         bundle.putString("offer","20% off at LBC");
         bundle.putString("timer","08 Sep 2016 – 18 Sep 2016");
         bundle.putString("discription","A shopping mall is a modern, chiefly North American, term for a form of shopping precinct or shopping center, in which one or more buildings form a complex of shops representing merchandisers with interconnecting walkways that enable customers to walk from unit to unit. A shopping arcade is a specific form serving the same purpose.");
-        fragment.setArguments(bundle);
-        callFragmentMethod(fragment, Constants.LOGIN_AND_SIGN_UP_TAG,R.id.navigationContainer);
+        fragment.setArguments(bundle);*/
+        callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.navigationContainer);
 
 
     }

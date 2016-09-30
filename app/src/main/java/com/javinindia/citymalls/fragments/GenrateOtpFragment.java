@@ -20,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 
@@ -43,7 +42,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity.getSupportActionBar().hide();
+      //  activity.getSupportActionBar().hide();
     }
 
     @Nullable
@@ -98,7 +97,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
             case R.id.btn_regester:
               //  registrationMethod();
                 BaseFragment signUpFragment = new SignUpFragment();
-                callFragmentMethod(signUpFragment, Constants.OTHER_USER_FEED, R.id.navigationContainer);
+                callFragmentMethod(signUpFragment, this.getClass().getSimpleName(), R.id.container);
                 break;
             case R.id.imgBack:
                 activity.onBackPressed();
@@ -122,7 +121,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    private void sendDataOnRegistrationApi(final String number, final String password) {
+    /*private void sendDataOnRegistrationApi(final String number, final String password) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.REGISTRATION_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -147,11 +146,11 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
             }
 
         };
-        stringRequest.setTag(Constants.REGISTRATION_TAG);
+        stringRequest.setTag(this.getClass().getSimpleName());
         volleyDefaultTimeIncreaseMethod(stringRequest);
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-    }
+    }*/
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
@@ -181,7 +180,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
             //   fragment = new LoginFragment();
             saveDataOnPreference(username, phone, gender, email, userid);
             Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-            callFragmentMethodDead(fragment, Constants.REGISTRATION_TAG);
+            callFragmentMethodDead(fragment, this.getClass().getSimpleName());
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
@@ -191,9 +190,9 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
 
     private void saveDataOnPreference(String username, String phone, String gender, String email, String userId) {
         SharedPreferencesManager.setUsername(activity, username);
-        SharedPreferencesManager.setPhone(activity, phone);
-        SharedPreferencesManager.setGender(activity, gender);
+        SharedPreferencesManager.setMobile(activity, phone);
         SharedPreferencesManager.setEmail(activity, email);
+        //  SharedPreferencesManager.setSocialID(activity, socialId);
         SharedPreferencesManager.setUserID(activity, userId);
     }
 
@@ -220,7 +219,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
     public void onStop() {
         super.onStop();
         if (requestQueue != null) {
-            requestQueue.cancelAll(Constants.REGISTRATION_TAG);
+            requestQueue.cancelAll(this.getClass().getSimpleName());
         }
     }
 }

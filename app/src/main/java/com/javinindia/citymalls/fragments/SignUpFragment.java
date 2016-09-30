@@ -21,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.utility.Utility;
@@ -44,7 +43,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity.getSupportActionBar().hide();
+     //   activity.getSupportActionBar().hide();
     }
 
     @Nullable
@@ -123,7 +122,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    private void sendDataOnRegistrationApi(final String number, final String otp, final String password) {
+   /* private void sendDataOnRegistrationApi(final String number, final String otp, final String password) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.REGISTRATION_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -153,7 +152,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         volleyDefaultTimeIncreaseMethod(stringRequest);
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-    }
+    }*/
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
@@ -183,7 +182,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             //   fragment = new LoginFragment();
             saveDataOnPreference(username, phone, gender, email, userid);
             Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-            callFragmentMethodDead(fragment, Constants.REGISTRATION_TAG);
+            callFragmentMethodDead(fragment, this.getClass().getSimpleName());
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
@@ -193,8 +192,8 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
 
     private void saveDataOnPreference(String username, String phone, String gender, String email, String userId) {
         SharedPreferencesManager.setUsername(activity, username);
-        SharedPreferencesManager.setPhone(activity, phone);
-        SharedPreferencesManager.setGender(activity, gender);
+        SharedPreferencesManager.setMobile(activity, phone);
+       // SharedPreferencesManager.setGender(activity, gender);
         SharedPreferencesManager.setEmail(activity, email);
         SharedPreferencesManager.setUserID(activity, userId);
     }
@@ -221,7 +220,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     public void onStop() {
         super.onStop();
         if (requestQueue != null) {
-            requestQueue.cancelAll(Constants.REGISTRATION_TAG);
+            requestQueue.cancelAll(this.getClass().getSimpleName());
         }
     }
 }

@@ -23,9 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.fragments.HomeFragment;
 import com.javinindia.citymalls.fragments.LocationSearchFragment;
 import com.javinindia.citymalls.fragments.LoginFragment;
-import com.javinindia.citymalls.fragments.MallsFragmet;
 import com.javinindia.citymalls.picasso.CircleTransform;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.squareup.picasso.Picasso;
@@ -60,7 +60,10 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
 
         String username = SharedPreferencesManager.getUsername(getApplicationContext());
         String loc = SharedPreferencesManager.getLocation(getApplicationContext());
-        if (TextUtils.isEmpty(username)) {
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
+        mFragmentTransaction.replace(R.id.navigationContainer, new HomeFragment()).commit();
+      /*  if (TextUtils.isEmpty(username)) {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
             mFragmentTransaction.replace(R.id.navigationContainer, new LoginFragment()).commit();
@@ -68,8 +71,8 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
             Log.e("username", username);
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
-            mFragmentTransaction.replace(R.id.navigationContainer, new MallsFragmet()).commit();
-        }
+            mFragmentTransaction.replace(R.id.navigationContainer, new HomeFragment()).commit();
+        }*/
     }
 
 
@@ -163,7 +166,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
                         SharedPreferencesManager.setPassword(getApplicationContext(), null);
                         SharedPreferencesManager.setEmail(getApplicationContext(), null);
                         SharedPreferencesManager.setLocation(getApplicationContext(), null);
-                        Intent refresh = new Intent(getApplicationContext(), NavigationActivity.class);
+                        Intent refresh = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(refresh);//Start the same Activity
                         finish();
                     }

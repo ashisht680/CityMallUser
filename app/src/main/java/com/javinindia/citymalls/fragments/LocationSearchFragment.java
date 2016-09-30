@@ -68,7 +68,7 @@ public class LocationSearchFragment extends BaseFragment implements TextWatcher,
     }
 
     private void initialize(View view) {
-        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMall);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
      //   appCompatEditText = (AppCompatEditText) view.findViewById(R.id.etName);
@@ -80,7 +80,7 @@ public class LocationSearchFragment extends BaseFragment implements TextWatcher,
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.offer_layout;
+        return R.layout.mall_layout;
     }
 
     @Override

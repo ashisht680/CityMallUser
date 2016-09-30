@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_toLeftOf="@+id/chkImage"
+        android:layout_toLeftOf="@+id/chkImageMall"
         android:layout_toRightOf="@+id/imgLogo"
         android:singleLine="true"
         android:text="Pacific Mall"
@@ -95,7 +95,7 @@
         android:textColor="@android:color/white"
         android:textSize="12sp" />
     <CheckBox
-        android:id="@+id/chkImage"
+        android:id="@+id/chkImageMall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -118,7 +118,7 @@
             android:text="Get direction"
             android:textColor="@android:color/white"
             android:textAllCaps="true"
-            android:background="@color/toolbar_color"
+            android:background="@color/background_color"
             android:layout_weight="1"/>
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btnViewOffers"

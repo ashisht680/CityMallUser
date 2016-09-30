@@ -1,5 +1,6 @@
 package com.javinindia.citymalls.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
@@ -17,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.activity.NavigationActivity;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
@@ -40,7 +42,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity.getSupportActionBar().hide();
+//        activity.getSupportActionBar().hide();
     }
 
     @Nullable
@@ -100,16 +102,19 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             case R.id.btn_login:
                 Utility.hideKeyboard(activity);
                 //  loginMethod();
-                baseFragment = new MallsFragmet();
-                callFragmentMethodDead(baseFragment, Constants.LOGIN_AND_SIGN_UP_TAG);
+                /*baseFragment = new MallsFragmet();
+                callFragmentMethodDead(baseFragment, this.getClass().getSimpleName());*/
+                Intent refresh = new Intent(activity, NavigationActivity.class);
+                startActivity(refresh);//Start the same Activity
+                activity.finish();
                 break;
             case R.id.forgot_password:
                 baseFragment = new ForgotPasswordFragment();
-                callFragmentMethod(baseFragment, Constants.LOGIN_AND_SIGN_UP_TAG,R.id.navigationContainer);
+                callFragmentMethod(baseFragment, this.getClass().getSimpleName(),R.id.container);
                 break;
             case R.id.txtRegistration:
                 baseFragment = new GenrateOtpFragment();
-                callFragmentMethod(baseFragment, Constants.LOGIN_AND_SIGN_UP_TAG,R.id.navigationContainer);
+                callFragmentMethod(baseFragment, this.getClass().getSimpleName(),R.id.container);
                 break;
         }
     }
@@ -160,7 +165,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             }
 
         };
-        stringRequest.setTag(Constants.LOGIN_TAG);
+        stringRequest.setTag(this.getClass().getSimpleName());
         volleyDefaultTimeIncreaseMethod(stringRequest);
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
@@ -189,7 +194,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             if (jsonObject.has("gender"))
                 gender = jsonObject.optString("gender");
             if (jsonObject.has("profilePic"))
-                SharedPreferencesManager.setImageResource(activity, jsonObject.optString("profilePic"));
+                SharedPreferencesManager.setProfileImage(activity, jsonObject.optString("profilePic"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -200,7 +205,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             etPassword.setText("");
             //  fragment = new HomeLauncherFragment();
             saveDataOnPreference(username, phone, gender, email, socialId, userId);
-            callFragmentMethodDead(fragment, Constants.LOGIN_TAG);
+            callFragmentMethodDead(fragment, this.getClass().getSimpleName());
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
@@ -211,10 +216,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     private void saveDataOnPreference(String username, String phone, String gender, String email, String socialId, String userId) {
         SharedPreferencesManager.setUsername(activity, username);
-        SharedPreferencesManager.setPhone(activity, phone);
-        SharedPreferencesManager.setGender(activity, gender);
+        SharedPreferencesManager.setMobile(activity, phone);
         SharedPreferencesManager.setEmail(activity, email);
-        SharedPreferencesManager.setSocialID(activity, socialId);
+      //  SharedPreferencesManager.setSocialID(activity, socialId);
         SharedPreferencesManager.setUserID(activity, userId);
     }
 

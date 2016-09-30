@@ -2,29 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/background_color"
     android:orientation="vertical">
 
-    <include layout="@layout/commen_bar_layout"/>
+  <!--  <include layout="@layout/commen_bar_layout"/>-->
 
-   <!-- <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
+    <!-- <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:padding="5dp">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_border"
-            android:hint="malls"
-            android:lines="1"
-            android:padding="3dp"
-            android:textSize="15dp" />
-    </RelativeLayout>-->
+         <android.support.v7.widget.AppCompatEditText
+             android:id="@+id/etName"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="5dp"
+             android:background="@drawable/button_border"
+             android:hint="malls"
+             android:lines="1"
+             android:padding="3dp"
+             android:textSize="15dp" />
+     </RelativeLayout>-->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/recyclerviewOffer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

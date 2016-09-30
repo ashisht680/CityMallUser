@@ -1,18 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
 
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:layout_height="60dp"
+       android:layout_margin="8dp"
+        android:background="@color/highlight_color"
         android:elevation="7dp"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorHeight="60dp"
+        app:tabIndicatorColor="#99000000"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@color/tab_text_color" />
@@ -22,6 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@id/tabs"
-        android:background="@color/orange_color" />
+        android:background="@color/background_color" />
 
 </RelativeLayout>

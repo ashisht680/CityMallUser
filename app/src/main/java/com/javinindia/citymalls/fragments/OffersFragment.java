@@ -1,19 +1,19 @@
 package com.javinindia.citymalls.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.CountryModel;
-import com.javinindia.citymalls.preference.SharedPreferencesManager;
-import com.javinindia.citymalls.recyclerview.RVAdapter;
+import com.javinindia.citymalls.recyclerview.OfferAdaptar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,42 +22,29 @@ import java.util.Locale;
 /**
  * Created by Ashish on 08-09-2016.
  */
-public class OffersFragment extends BaseFragment implements View.OnClickListener{
+public class OffersFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener{
 
     private RecyclerView recyclerview;
     private List<CountryModel> mCountryModel;
-    private RVAdapter adapter;
+    private OfferAdaptar adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setHasOptionsMenu(true);
+        activity.getSupportActionBar().show();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize(view);
-        String loc = SharedPreferencesManager.getLocation(activity);
-        if(!TextUtils.isEmpty(loc)){
-            Log.e("OffersFragment loc",loc);
-        }
+        setRequest();
         return view;
     }
 
-    private void initialize(View view) {
-        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerview.setLayoutManager(layoutManager);
-
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-       // setHasOptionsMenu(true);
+    private void setRequest() {
         String[] locales = Locale.getISOCountries();
         mCountryModel = new ArrayList<>();
 
@@ -66,8 +53,25 @@ public class OffersFragment extends BaseFragment implements View.OnClickListener
             mCountryModel.add(new CountryModel(obj.getDisplayCountry(), obj.getISO3Country()));
         }
 
-        adapter = new RVAdapter(mCountryModel);
+        adapter = new OfferAdaptar(mCountryModel);
+        adapter.setMyClickListener(OffersFragment.this);
         recyclerview.setAdapter(adapter);
+    }
+
+    private void initialize(View view) {
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerview.setLayoutManager(layoutManager);
+      /*  RelativeLayout rlFavourateMalls = (RelativeLayout)view.findViewById(R.id.rlFavourateMalls);
+        RelativeLayout rlOffers = (RelativeLayout)view.findViewById(R.id.rlOffers);
+        RelativeLayout rlEvents = (RelativeLayout)view.findViewById(R.id.rlEvents);
+        RelativeLayout rlSearch = (RelativeLayout)view.findViewById(R.id.rlSearch);
+        rlOffers.setBackgroundColor(Color.parseColor("#000000"));
+        rlFavourateMalls.setOnClickListener(this);
+        rlOffers.setOnClickListener(this);
+        rlEvents.setOnClickListener(this);
+        rlSearch.setOnClickListener(this);*/
+
     }
 
 
@@ -122,8 +126,25 @@ public class OffersFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+          /*  case R.id.rlFavourateMalls:
+                BaseFragment fragment = new MallsFragmet();
+                callFragmentMethod(fragment,this.getClass().getSimpleName(),R.id.navigationContainer);
+                break;
+            case R.id.rlOffers:
 
+                break;
+            case R.id.rlEvents:
 
+                break;
+            case R.id.rlSearch:
+
+                break;*/
         }
+    }
+
+    @Override
+    public void onItemClick(int position, CountryModel model) {
+        BaseFragment fragment = new OfferDetailFragment();
+        callFragmentMethod(fragment,this.getClass().getSimpleName(),R.id.navigationContainer);
     }
 }
