@@ -14,7 +14,7 @@ import com.javinindia.citymalls.recyclerview.ViewPagerAdapter;
 /**
  * Created by Ashish on 29-09-2016.
  */
-public class MallTabsFragment extends BaseFragment {
+public class StoreTabsFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 

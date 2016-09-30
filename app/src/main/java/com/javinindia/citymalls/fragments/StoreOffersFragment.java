@@ -25,7 +25,7 @@ import java.util.Locale;
 /**
  * Created by Ashish on 29-09-2016.
  */
-public class MallOffersFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener{
+public class StoreOffersFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener{
     private RecyclerView recyclerview;
     private List<CountryModel> mCountryModel;
     private OfferAdaptar adapter;
@@ -56,7 +56,7 @@ public class MallOffersFragment extends BaseFragment implements View.OnClickList
         }
 
         adapter = new OfferAdaptar(mCountryModel);
-        adapter.setMyClickListener(MallOffersFragment.this);
+        adapter.setMyClickListener(StoreOffersFragment.this);
         recyclerview.setAdapter(adapter);
     }
     private void initialize(View view) {

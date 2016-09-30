@@ -12,7 +12,7 @@ import com.javinindia.citymalls.R;
 /**
  * Created by Ashish on 29-09-2016.
  */
-public class MallEventsFragment extends BaseFragment {
+public class StoreEventsFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
