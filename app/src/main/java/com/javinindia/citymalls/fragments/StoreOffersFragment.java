@@ -67,15 +67,6 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
-       /* RelativeLayout rlFavourateMalls = (RelativeLayout)view.findViewById(R.id.rlFavourateMalls);
-        RelativeLayout rlOffers = (RelativeLayout)view.findViewById(R.id.rlOffers);
-        RelativeLayout rlEvents = (RelativeLayout)view.findViewById(R.id.rlEvents);
-        RelativeLayout rlSearch = (RelativeLayout)view.findViewById(R.id.rlSearch);
-        rlOffers.setBackgroundColor(Color.parseColor("#000000"));
-        rlFavourateMalls.setOnClickListener(this);
-        rlOffers.setOnClickListener(this);
-        rlEvents.setOnClickListener(this);
-        rlSearch.setOnClickListener(this);*/
 
     }
     @Override
