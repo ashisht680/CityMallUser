@@ -10,28 +10,27 @@ import android.view.WindowManager;
 import com.javinindia.citymalls.R;
 
 /**
- * Created by Ashish on 29-09-2016.
+ * Created by Ashish on 10-10-2016.
  */
-public class StoreEventsFragment extends BaseFragment {
+public class EventFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-      //  initialize(view);
-       // setRequest();
+        //  initialize(view);
+        // setRequest();
         return view;
     }
 
-    @Override
+   /* @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         disableTouchOfBackFragment(savedInstanceState);
-    }
-
+    }*/
     @Override
     protected int getFragmentLayout() {
-        return R.layout.store_event_layout;
+        return R.layout.events_layout;
     }
 
     @Override
@@ -44,3 +43,4 @@ public class StoreEventsFragment extends BaseFragment {
 
     }
 }
+

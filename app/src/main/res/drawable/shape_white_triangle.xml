@@ -2,12 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <rotate
-            android:fromDegrees="75"
+            android:fromDegrees="80"
             android:pivotX="0%"
             android:pivotY="0%"
             android:toDegrees="0">
             <shape android:shape="rectangle">
-                <solid android:color="@color/brown_color" />
+                <solid android:color="@android:color/white" />
             </shape>
 
         </rotate>

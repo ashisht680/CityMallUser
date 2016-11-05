@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.activity.LoginActivity;
 import com.javinindia.citymalls.activity.NavigationActivity;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
@@ -36,13 +37,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     private RequestQueue requestQueue;
     private EditText etUsername;
     private EditText etPassword;
-    private BaseFragment fragment;
-    private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        activity.getSupportActionBar().hide();
     }
 
     @Nullable
@@ -101,19 +99,14 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btn_login:
                 Utility.hideKeyboard(activity);
-                //  loginMethod();
-                /*baseFragment = new MallsFragmet();
-                callFragmentMethodDead(baseFragment, this.getClass().getSimpleName());*/
-                Intent refresh = new Intent(activity, NavigationActivity.class);
-                startActivity(refresh);//Start the same Activity
-                activity.finish();
+                loginMethod();
                 break;
             case R.id.forgot_password:
                 baseFragment = new ForgotPasswordFragment();
                 callFragmentMethod(baseFragment, this.getClass().getSimpleName(),R.id.container);
                 break;
             case R.id.txtRegistration:
-                baseFragment = new GenrateOtpFragment();
+                baseFragment = new SignUpFragment();
                 callFragmentMethod(baseFragment, this.getClass().getSimpleName(),R.id.container);
                 break;
         }
@@ -159,8 +152,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 params.put("email", username);
                 params.put("password", password);
                 String deviceToken = SharedPreferencesManager.getDeviceToken(activity);
-                params.put("deviceToken", deviceToken);
-                params.put("type", "manual");
+                params.put("deviceToken", "hello");
+                params.put("phone", "manual");
                 return params;
             }
 
@@ -173,39 +166,32 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String status = null, userId = null, socialId = null, msg = null,
-                username = null, phone = null, gender = null, email = null;
+        String userid = null, msg = null, username = null, password = null, mobile = null, email = null, otp = null;
+        int status = 0;
         try {
             jsonObject = new JSONObject(response);
             if (jsonObject.has("status"))
-                status = jsonObject.optString("status");
-            if (jsonObject.has("id"))
-                userId = jsonObject.optString("id");
-            if (jsonObject.has("socialid"))
-                socialId = jsonObject.optString("socialid");
+                status = jsonObject.optInt("status");
             if (jsonObject.has("msg"))
                 msg = jsonObject.optString("msg");
-            if (jsonObject.has("username"))
-                username = jsonObject.optString("username");
-            if (jsonObject.has("email"))
-                email = jsonObject.optString("email");
-            if (jsonObject.has("phone"))
-                phone = jsonObject.optString("phone");
-            if (jsonObject.has("gender"))
-                gender = jsonObject.optString("gender");
-            if (jsonObject.has("profilePic"))
-                SharedPreferencesManager.setProfileImage(activity, jsonObject.optString("profilePic"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (status.equals("true") && !TextUtils.isEmpty(status)) {
-            etUsername.setText("");
-            etPassword.setText("");
-            //  fragment = new HomeLauncherFragment();
-            saveDataOnPreference(username, phone, gender, email, socialId, userId);
-            callFragmentMethodDead(fragment, this.getClass().getSimpleName());
+        if (status == 1) {
+            if (jsonObject.has("userid"))
+                userid = jsonObject.optString("userid");
+            if (jsonObject.has("name"))
+                username = jsonObject.optString("name");
+            if (jsonObject.has("email"))
+                email = jsonObject.optString("email");
+            if (jsonObject.has("phone"))
+                mobile = jsonObject.optString("phone");
+            saveDataOnPreference(username, mobile, email, userid);
+            Intent refresh = new Intent(activity, NavigationActivity.class);
+            startActivity(refresh);//Start the same Activity
+            activity.finish();
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
@@ -214,11 +200,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     }
 
 
-    private void saveDataOnPreference(String username, String phone, String gender, String email, String socialId, String userId) {
+    private void saveDataOnPreference(String username, String phone, String email, String userId) {
         SharedPreferencesManager.setUsername(activity, username);
         SharedPreferencesManager.setMobile(activity, phone);
         SharedPreferencesManager.setEmail(activity, email);
-      //  SharedPreferencesManager.setSocialID(activity, socialId);
         SharedPreferencesManager.setUserID(activity, userId);
     }
 

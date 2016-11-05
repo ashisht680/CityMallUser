@@ -36,6 +36,12 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(getFragmentLayout(), container, false);

@@ -35,10 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/button_border_white"
-            android:hint="MOBILE NUMBER"
+            android:hint="MOBILE / EMAIL"
             android:textColorHint="@android:color/white"
             android:textColor="@android:color/white"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:nextFocusDown="@+id/et_email"
             android:padding="8dp"
             android:singleLine="true" />

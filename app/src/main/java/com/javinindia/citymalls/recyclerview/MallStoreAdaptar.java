@@ -4,47 +4,42 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.CountryModel;
-import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
-import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Ashish on 14-09-2016.
+ * Created by Ashish on 10-10-2016.
  */
-public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
+public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.ViewHolder> {
     List<CountryModel> list;
     Context context;
     MyClickListener myClickListener;
     ArrayList<CountryModel> countryModelArrayList;
 
 
-    public MallAdapter(List<CountryModel> mCountryModel,Context context) {
+    public MallStoreAdaptar(List<CountryModel> mCountryModel) {
         this.list = mCountryModel;
         this.countryModelArrayList = new ArrayList<>();
         this.countryModelArrayList.addAll(mCountryModel);
-        this.context = context;
     }
 
 
     @Override
-    public MallAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public MallStoreAdaptar.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                      int viewType) {
         View itemLayoutView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.mall_item_layout, parent, false);
+                .inflate(R.layout.store_item_layout, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
         return viewHolder;
@@ -56,11 +51,10 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
         String icoCode = countryModel.getisoCode();
         final String name = countryModel.getName();
 
-        viewHolder.txtTiming.setText(Html.fromHtml("Timing"+"\t"+"<font color=#000000>"+"10:00 AM - 11:00 PM"+"</font>"));
-        viewHolder.txtDistance.setText(Html.fromHtml("Distance"+"\t"+"<font color=#000000>"+"5.5 km"+"</font>"));
-        viewHolder.ratingBar.setRating(Float.parseFloat("2.0"));
 
-        viewHolder.chkImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //   viewHolder.ratingBar.setRating(Float.parseFloat("2.0"));
+
+  /*      viewHolder.chkImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(viewHolder.chkImage.isChecked()){
@@ -69,17 +63,23 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
                     viewHolder.chkImage.setChecked(false);
                 }
             }
-        });
+        });*/
 
 
-        viewHolder.txtMallName.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.txtShopName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
 
-        viewHolder.btnViewOffers.setOnClickListener(new View.OnClickListener() {
+        viewHolder.rlMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myClickListener.onItemClick(position, countryModel);
+            }
+        });*/
+        viewHolder.rlMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myClickListener.onItemClick(position, countryModel);
@@ -104,9 +104,9 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView txtMallName,txtRating,txtAddress,txtTiming,txtDistance,txtOffers;
+        public AppCompatTextView txtShopName,txtRating,txtAddress,txtTiming,txtDistance,txtOffers;
         public RatingBar ratingBar;
         public RelativeLayout rlMain;
         public CheckBox chkImage;
@@ -114,25 +114,18 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            txtMallName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtMallName);
-            txtMallName.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            rlMain = (RelativeLayout)itemLayoutView.findViewById(R.id.rlMain);
+          /*  txtShopName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtShopName);
             txtRating = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtRating);
-            txtRating.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtAddress = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtAddress);
-            txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
-            txtTiming = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtTiming);
-            txtTiming.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtTiming = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtTimingAbout);
             txtDistance = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtDistance);
-            txtDistance.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtOffers = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOffers);
-            txtOffers.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             ratingBar = (RatingBar) itemLayoutView.findViewById(R.id.ratingBar);
             rlMain = (RelativeLayout)itemLayoutView.findViewById(R.id.rlMain);
-            chkImage = (CheckBox) itemLayoutView.findViewById(R.id.chkImageMall);
-            btnDirection = (AppCompatButton)itemLayoutView.findViewById(R.id.btnDirection);
-            btnDirection.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
-            btnViewOffers = (AppCompatButton)itemLayoutView.findViewById(R.id.btnViewOffers);
-            btnViewOffers.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            chkImage = (CheckBox) itemLayoutView.findViewById(R.id.chkImage);*/
+           /* btnDirection = (AppCompatButton)itemLayoutView.findViewById(R.id.btnDirection);
+            btnViewOffers = (AppCompatButton)itemLayoutView.findViewById(R.id.btnViewOffers);*/
 
         }
     }

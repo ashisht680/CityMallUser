@@ -32,6 +32,12 @@ public class OfferDetailFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
+    }
+
     private void initialize(View view) {
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         myViewPagerAdapter = new MyViewPagerAdapter();

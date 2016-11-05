@@ -35,6 +35,12 @@ public class MallsFragmet extends BaseFragment implements TextWatcher, View.OnCl
         activity.getSupportActionBar().show();
     }
 
+  /*  @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
+    }*/
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

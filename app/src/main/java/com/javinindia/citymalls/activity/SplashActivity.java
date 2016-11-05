@@ -30,7 +30,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent splashIntent = new Intent(SplashActivity.this, NavigationActivity.class);
+                Intent splashIntent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(splashIntent);
                 finish();
             }

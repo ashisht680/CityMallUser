@@ -12,9 +12,9 @@ import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.recyclerview.ViewPagerAdapter;
 
 /**
- * Created by Ashish on 30-09-2016.
+ * Created by Ashish on 12-10-2016.
  */
-public class MallDetailTabBarFragment extends BaseFragment {
+public class SearchTabFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -43,7 +43,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
     }
     @Override
     protected int getFragmentLayout() {
-        return R.layout.mall_detail_tab_layout;
+        return R.layout.search_layout;
     }
 
     @Override
@@ -58,9 +58,9 @@ public class MallDetailTabBarFragment extends BaseFragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new MallsStoreListFragment(), "Stores");
-        adapter.addFragment(new MallsOffersListFragment(), "Offers");
-        adapter.addFragment(new MallEventsListFragment(), "Events");
+        adapter.addFragment(new SearchStoreFragment(), "Stores");
+        adapter.addFragment(new SearchStoreFragment(), "Offers");
+        adapter.addFragment(new SearchStoreFragment(), "Events");
         viewPager.setAdapter(adapter);
 
     }

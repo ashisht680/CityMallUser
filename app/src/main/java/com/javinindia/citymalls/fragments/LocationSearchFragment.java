@@ -35,6 +35,12 @@ public class LocationSearchFragment extends BaseFragment implements TextWatcher,
         void onCallBack(String a);
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
+    }
+
     public void setMyCallBackListener(OnCallBackListener callback) {
         this.callback = callback;
     }

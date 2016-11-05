@@ -5,5 +5,9 @@
     <string name="close_drawer">Close Drawer</string>
     <string name="search_hint">Search Places</string>
     <string name="search_settings">Search Places</string>
+    <string name="food">Food &amp; Groceries</string>
+    <string name="Fashion">Fashion &amp; Festive</string>
+    <string name="Home">Home &amp; Living</string>
+    <string name="Kitchen">Kitchen &amp; Bath</string>
 
 </resources>

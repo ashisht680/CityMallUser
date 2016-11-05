@@ -1,5 +1,6 @@
 package com.javinindia.citymalls.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
@@ -20,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.activity.NavigationActivity;
+import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 
@@ -34,25 +37,31 @@ import java.util.Map;
  */
 public class GenrateOtpFragment extends BaseFragment implements View.OnClickListener {
 
-    private EditText et_mobileNum, et_otp,et_password;
+    private EditText et_mobileNum, et_otp;
     AppCompatTextView txtResendOtp;
     private RequestQueue requestQueue;
-    private BaseFragment fragment;
+    String mobile;
+    String otp,email;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  activity.getSupportActionBar().hide();
+        mobile = getArguments().getString("mobile");
+        otp = getArguments().getString("otp");
+        email = getArguments().getString("email");
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(getFragmentLayout(), container, false);
-
         initialize(view);
-
         return view;
     }
 
@@ -61,17 +70,18 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
         imgBack.setOnClickListener(this);
         AppCompatButton btn_regester = (AppCompatButton) view.findViewById(R.id.btn_regester);
         btn_regester.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        btn_regester.setOnClickListener(this);
-        et_otp = (EditText) view.findViewById(R.id.et_Name);
+        et_otp = (EditText) view.findViewById(R.id.et_otp);
         et_otp.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         et_mobileNum = (EditText) view.findViewById(R.id.et_Mobile);
         et_mobileNum.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        et_password = (EditText) view.findViewById(R.id.et_password);
-        et_password.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtResendOtp = (AppCompatTextView) view.findViewById(R.id.txtResendOtp);
         txtResendOtp.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtResendOtp.setText(Html.fromHtml("<font color=#0d7bbf>" + "Resend OTP" + "</font>"));
         txtResendOtp.setOnClickListener(this);
+        btn_regester.setOnClickListener(this);
+
+        et_mobileNum.setText(mobile);
+        et_otp.setText(otp);
     }
 
 
@@ -95,9 +105,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.btn_regester:
-              //  registrationMethod();
-                BaseFragment signUpFragment = new SignUpFragment();
-                callFragmentMethod(signUpFragment, this.getClass().getSimpleName(), R.id.container);
+                registrationMethod();
                 break;
             case R.id.imgBack:
                 activity.onBackPressed();
@@ -110,19 +118,18 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
     }
 
     private void registrationMethod() {
-        String password = et_password.getText().toString().trim();
         String mobile = et_mobileNum.getText().toString().trim();
         String  otp = et_otp.getText().toString().trim();
 
-        if (registerValidation(mobile, password,otp)) {
+        if (registerValidation(mobile,otp)) {
             showLoader();
-          //  sendDataOnRegistrationApi(mobile, password,otp);
+            sendDataOnRegistrationApi(mobile, email,otp);
         }
 
     }
 
-    /*private void sendDataOnRegistrationApi(final String number, final String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.REGISTRATION_URL,
+    private void sendDataOnRegistrationApi(final String number,final String email, final String otp) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.VERIFY_OTP_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -140,8 +147,9 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("number", number);
-                params.put("password", password);
+                params.put("email", email);
+                params.put("phone", number);
+                params.put("otp", otp);
                 return params;
             }
 
@@ -150,37 +158,26 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
         volleyDefaultTimeIncreaseMethod(stringRequest);
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-    }*/
+    }
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String status = null, userid = null, msg = null, username = null, phone = null, gender = null, email = null;
+        String msg = null;
+        int status = 0;
         try {
             jsonObject = new JSONObject(response);
             if (jsonObject.has("status"))
-                status = jsonObject.optString("status");
-            if (jsonObject.has("userid"))
-                userid = jsonObject.optString("userid");
+                status = jsonObject.optInt("status");
             if (jsonObject.has("msg"))
                 msg = jsonObject.optString("msg");
-            if (jsonObject.has("username"))
-                username = jsonObject.optString("username");
-            if (jsonObject.has("email"))
-                email = jsonObject.optString("email");
-            if (jsonObject.has("phone"))
-                phone = jsonObject.optString("phone");
-            if (jsonObject.has("gender"))
-                gender = jsonObject.optString("gender");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (status.equalsIgnoreCase("true") && !status.isEmpty()) {
-            // fragment = new HomeLauncherFragment();
-            //   fragment = new LoginFragment();
-            saveDataOnPreference(username, phone, gender, email, userid);
-            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-            callFragmentMethodDead(fragment, this.getClass().getSimpleName());
+        if (status==1) {
+            Intent refresh = new Intent(activity, NavigationActivity.class);
+            startActivity(refresh);//Start the same Activity
+            activity.finish();
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
@@ -188,21 +185,9 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private void saveDataOnPreference(String username, String phone, String gender, String email, String userId) {
-        SharedPreferencesManager.setUsername(activity, username);
-        SharedPreferencesManager.setMobile(activity, phone);
-        SharedPreferencesManager.setEmail(activity, email);
-        //  SharedPreferencesManager.setSocialID(activity, socialId);
-        SharedPreferencesManager.setUserID(activity, userId);
-    }
-
-    private boolean registerValidation(final String mobile, final String password,final String otp) {
+    private boolean registerValidation(final String mobile,final String otp) {
         if (mobile.length() != 10) {
             et_mobileNum.setError("Please enter your valid mobile number");
-            et_mobileNum.requestFocus();
-            return false;
-        } else if (password.length() < 8) {
-            et_mobileNum.setError("Please enter password more than 8 character");
             et_mobileNum.requestFocus();
             return false;
         }

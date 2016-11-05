@@ -26,6 +26,12 @@ public class HomeFragment extends BaseFragment {
         activity.getSupportActionBar().show();
     }
 
+   /* @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
+    }*/
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,8 +105,8 @@ public class HomeFragment extends BaseFragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new MallsFragmet(), "Favourate malls");
         adapter.addFragment(new OffersFragment(), "Offers");
-        adapter.addFragment(new OffersFragment(), "Event");
-        adapter.addFragment(new OffersFragment(), "Search");
+        adapter.addFragment(new EventFragment(), "Event");
+        adapter.addFragment(new SearchTabFragment(), "Search");
         viewPager.setAdapter(adapter);
 
     }

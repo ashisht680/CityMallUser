@@ -23,9 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.fragments.BaseFragment;
+import com.javinindia.citymalls.fragments.BrandsFragment;
 import com.javinindia.citymalls.fragments.HomeFragment;
 import com.javinindia.citymalls.fragments.LocationSearchFragment;
 import com.javinindia.citymalls.fragments.LoginFragment;
+import com.javinindia.citymalls.fragments.NavigationAboutFragment;
+import com.javinindia.citymalls.fragments.Test;
 import com.javinindia.citymalls.picasso.CircleTransform;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.squareup.picasso.Picasso;
@@ -60,10 +64,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
 
         String username = SharedPreferencesManager.getUsername(getApplicationContext());
         String loc = SharedPreferencesManager.getLocation(getApplicationContext());
-        mFragmentManager = getSupportFragmentManager();
-        mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
-        mFragmentTransaction.replace(R.id.navigationContainer, new HomeFragment()).commit();
-      /*  if (TextUtils.isEmpty(username)) {
+        if (TextUtils.isEmpty(username)) {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
             mFragmentTransaction.replace(R.id.navigationContainer, new LoginFragment()).commit();
@@ -72,7 +73,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
             mFragmentTransaction.replace(R.id.navigationContainer, new HomeFragment()).commit();
-        }*/
+        }
     }
 
 
@@ -111,18 +112,18 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
     private void displayView(CharSequence title) {
         if (title.equals("Home")) {
             Toast.makeText(getApplicationContext(), title, Toast.LENGTH_LONG).show();
-            /*BaseFragment fragment = new BrandsFragment();
-            mFragmentManager = getSupportFragmentManager();
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.navigationContainer, fragment).addToBackStack(Constants.NAVIGATION_DETAILS).commit();*/
-            drawerLayout.closeDrawers();
-        } else if (title.equals("Profile")) {
-            Toast.makeText(getApplicationContext(), title, Toast.LENGTH_LONG).show();
-           /* BaseFragment fragment = new NavigationAboutFragment();
+            BaseFragment fragment = new Test();
             mFragmentManager = getSupportFragmentManager();
             mFragmentManager.beginTransaction()
                     .replace(R.id.navigationContainer, fragment).addToBackStack(this.getClass().getSimpleName()).commit();
-            drawerLayout.closeDrawers();*/
+            drawerLayout.closeDrawers();
+        } else if (title.equals("Profile")) {
+            Toast.makeText(getApplicationContext(), title, Toast.LENGTH_LONG).show();
+            BaseFragment fragment = new NavigationAboutFragment();
+            mFragmentManager = getSupportFragmentManager();
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.navigationContainer, fragment).addToBackStack(this.getClass().getSimpleName()).commit();
+            drawerLayout.closeDrawers();
         } else if (title.equals("Invite Amigo")) {
             Toast.makeText(getApplicationContext(), title, Toast.LENGTH_LONG).show();
            /* BaseFragment fragment = new ForgotPasswordFragment();
@@ -154,7 +155,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
     public void dialogBox() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Logout");
-        alertDialogBuilder.setMessage("Thanks for visiting WishZee! Be back soon!");
+        alertDialogBuilder.setMessage("Thanks for visiting City mall! Be back soon!");
         alertDialogBuilder.setPositiveButton("Ok!",
                 new DialogInterface.OnClickListener() {
 

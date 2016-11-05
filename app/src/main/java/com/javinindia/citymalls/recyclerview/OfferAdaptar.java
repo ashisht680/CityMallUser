@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.CountryModel;
+import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
+import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,27 +109,27 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView txtShopName,txtRating,txtAddress,txtTiming,txtDistance,txtOffers;
-        public RatingBar ratingBar;
+        public AppCompatTextView txtShopName,txtAddress,txtTimingOffer,txtOfferAmount,txtOfferCategory;
+       // public RatingBar ratingBar;
         public RelativeLayout rlMain;
-        public CheckBox chkImage;
-        public AppCompatButton btnDirection,btnViewOffers;
+        public CheckBox chkImageOffer;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             rlMain = (RelativeLayout)itemLayoutView.findViewById(R.id.rlMain);
-          /*  txtShopName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtShopName);
-            txtRating = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtRating);
+            txtShopName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtShopName);
+         //   txtShopName.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
             txtAddress = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtAddress);
-            txtTiming = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtTimingAbout);
-            txtDistance = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtDistance);
-            txtOffers = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOffers);
-            ratingBar = (RatingBar) itemLayoutView.findViewById(R.id.ratingBar);
+         //   txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtTimingOffer = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtTimingOffer);
+         //   txtTimingOffer.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtOfferAmount = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferAmount);
+         //   txtOfferAmount.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            txtOfferCategory = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferCategory);
+         //   txtOfferCategory.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+          //  ratingBar = (RatingBar) itemLayoutView.findViewById(R.id.ratingBar);
             rlMain = (RelativeLayout)itemLayoutView.findViewById(R.id.rlMain);
-            chkImage = (CheckBox) itemLayoutView.findViewById(R.id.chkImage);*/
-           /* btnDirection = (AppCompatButton)itemLayoutView.findViewById(R.id.btnDirection);
-            btnViewOffers = (AppCompatButton)itemLayoutView.findViewById(R.id.btnViewOffers);*/
-
+            chkImageOffer = (CheckBox) itemLayoutView.findViewById(R.id.chkImageOffer);
         }
     }
 

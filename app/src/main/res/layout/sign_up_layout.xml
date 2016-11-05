@@ -72,6 +72,19 @@
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white" />
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_border_white"
+                android:hint="PASSWORD"
+                android:inputType="textPassword"
+                android:nextFocusDown="@+id/et_Name"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"

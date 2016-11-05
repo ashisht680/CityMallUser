@@ -23,16 +23,16 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Ashish on 29-09-2016.
+ * Created by Ashish on 10-10-2016.
  */
-public class StoreOffersFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener{
+public class MallsOffersListFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener{
     private RecyclerView recyclerview;
     private List<CountryModel> mCountryModel;
     private OfferAdaptar adapter;
 
-    private ViewPager viewPager;
+  /*  private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
-    private int selectedPosition = 0;
+    private int selectedPosition = 0;*/
 
 
     @Nullable
@@ -42,7 +42,7 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize(view);
         setRequest();
-        setCurrentItem(selectedPosition);
+        //setCurrentItem(selectedPosition);
         return view;
     }
 
@@ -62,22 +62,22 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
         }
 
         adapter = new OfferAdaptar(mCountryModel);
-        adapter.setMyClickListener(StoreOffersFragment.this);
+        adapter.setMyClickListener(MallsOffersListFragment.this);
         recyclerview.setAdapter(adapter);
     }
     private void initialize(View view) {
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+       /* viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
+        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);*/
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallOffer);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
 
     }
     @Override
     protected int getFragmentLayout() {
-        return R.layout.store_offer_layout;
+        return R.layout.mall_offers_layout;
     }
 
     @Override
@@ -101,10 +101,10 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private void setCurrentItem(int position) {
+   /* private void setCurrentItem(int position) {
         viewPager.setCurrentItem(position, false);
         displayMetaInfo(selectedPosition);
-    }
+    }*/
     private void displayMetaInfo(int position) {
         //   txtShopeName.setText((position + 1) + " of " + images.size());
 

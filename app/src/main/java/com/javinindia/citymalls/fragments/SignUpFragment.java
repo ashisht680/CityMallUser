@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.utility.Utility;
@@ -34,7 +36,7 @@ import java.util.Map;
 
 public class SignUpFragment extends BaseFragment implements View.OnClickListener {
 
-    private AppCompatEditText et_Name, et_email, et_phoneNum;
+    private AppCompatEditText et_Name, et_email, et_phoneNum, et_password;
     RadioButton radioButton;
     TextView txtTermCondition;
     private RequestQueue requestQueue;
@@ -43,7 +45,13 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //   activity.getSupportActionBar().hide();
+        //   activity.getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
     }
 
     @Nullable
@@ -69,6 +77,8 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         et_email.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         et_Name = (AppCompatEditText) view.findViewById(R.id.et_Name);
         et_Name.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        et_password = (AppCompatEditText) view.findViewById(R.id.et_password);
+        et_password.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         radioButton = (RadioButton) view.findViewById(R.id.radioButton);
         txtTermCondition = (TextView) view.findViewById(R.id.txtTermCondition);
         txtTermCondition.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
@@ -98,7 +108,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
 
         switch (v.getId()) {
             case R.id.btn_sign_up:
-             //   registrationMethod();
+                   registrationMethod();
                 break;
             case R.id.imgBack:
                 activity.onBackPressed();
@@ -114,16 +124,17 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         String number = et_phoneNum.getText().toString().trim();
         String email = et_email.getText().toString().trim();
         String name = et_Name.getText().toString().trim();
+        String password = et_password.getText().toString().trim();
 
-        if (registerValidation(number, email, name)) {
+        if (registerValidation(number, email, name, password)) {
             showLoader();
-          //  sendDataOnRegistrationApi(number, email, name);
+            sendDataOnRegistrationApi(number, email, name, password);
         }
 
     }
 
-   /* private void sendDataOnRegistrationApi(final String number, final String otp, final String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.REGISTRATION_URL,
+    private void sendDataOnRegistrationApi(final String number, final String email, final String name, final String password) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SIGN_UP_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -141,48 +152,59 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("number", number);
-                params.put("otp", otp);
+                params.put("email", email);
+                params.put("phone", number);
+                params.put("name", name);
                 params.put("password", password);
+                params.put("token", "hello");
                 return params;
             }
 
         };
-        stringRequest.setTag(Constants.REGISTRATION_TAG);
+        stringRequest.setTag(this.getClass().getSimpleName());
         volleyDefaultTimeIncreaseMethod(stringRequest);
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-    }*/
+    }
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String status = null, userid = null, msg = null, username = null, phone = null, gender = null, email = null;
+        String userid = null, msg = null, username = null, password = null, mobile = null, email = null, otp = null;
+        int status = 0;
         try {
             jsonObject = new JSONObject(response);
             if (jsonObject.has("status"))
-                status = jsonObject.optString("status");
-            if (jsonObject.has("userid"))
-                userid = jsonObject.optString("userid");
+                status = jsonObject.optInt("status");
             if (jsonObject.has("msg"))
                 msg = jsonObject.optString("msg");
-            if (jsonObject.has("username"))
-                username = jsonObject.optString("username");
-            if (jsonObject.has("email"))
-                email = jsonObject.optString("email");
-            if (jsonObject.has("phone"))
-                phone = jsonObject.optString("phone");
-            if (jsonObject.has("gender"))
-                gender = jsonObject.optString("gender");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (status.equalsIgnoreCase("true") && !status.isEmpty()) {
-           // fragment = new HomeLauncherFragment();
-            //   fragment = new LoginFragment();
-            saveDataOnPreference(username, phone, gender, email, userid);
-            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-            callFragmentMethodDead(fragment, this.getClass().getSimpleName());
+        if (status == 1) {
+            if (jsonObject.has("userid"))
+                userid = jsonObject.optString("userid");
+            if (jsonObject.has("name"))
+                username = jsonObject.optString("name");
+            if (jsonObject.has("email"))
+                email = jsonObject.optString("email");
+            if (jsonObject.has("password"))
+                password = jsonObject.optString("password");
+            if (jsonObject.has("mobile"))
+                mobile = jsonObject.optString("mobile");
+            if (jsonObject.has("otp"))
+                otp = jsonObject.optString("otp");
+            saveDataOnPreference(username, mobile, email, userid);
+            GenrateOtpFragment baseFragment = new GenrateOtpFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("mobile", mobile);
+            bundle.putString("otp",otp);
+            bundle.putString("email",email);
+            baseFragment.setArguments(bundle);
+
+            callFragmentMethod(baseFragment, this.getClass().getSimpleName(), R.id.container);
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
@@ -190,15 +212,14 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private void saveDataOnPreference(String username, String phone, String gender, String email, String userId) {
+    private void saveDataOnPreference(String username, String phone, String email, String userId) {
         SharedPreferencesManager.setUsername(activity, username);
         SharedPreferencesManager.setMobile(activity, phone);
-       // SharedPreferencesManager.setGender(activity, gender);
         SharedPreferencesManager.setEmail(activity, email);
         SharedPreferencesManager.setUserID(activity, userId);
     }
 
-    private boolean registerValidation(final String number, final String email, final String name) {
+    private boolean registerValidation(final String number, final String email, final String name, final String password) {
         if (TextUtils.isEmpty(name)) {
             et_Name.setError("Please enter your name");
             et_Name.requestFocus();
@@ -211,7 +232,14 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             et_email.setError("Please enter valid email");
             et_email.requestFocus();
             return false;
-        }  else {
+        } else if (password.length() < 8) {
+            et_password.setError("Please enter password more than 8 character");
+            et_password.requestFocus();
+            return false;
+        }else if (!radioButton.isChecked()){
+            Toast.makeText(activity,"please accept terms and conditions",Toast.LENGTH_LONG).show();
+            return  false;
+        }else {
             return true;
         }
     }

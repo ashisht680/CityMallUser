@@ -34,6 +34,12 @@ public class OffersFragment extends BaseFragment implements View.OnClickListener
         activity.getSupportActionBar().show();
     }
 
+ /*   @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
+    }*/
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

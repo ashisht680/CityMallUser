@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.utility.Utility;
 
@@ -38,7 +39,12 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // activity.getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
     }
 
     @Nullable
@@ -85,15 +91,15 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         switch (v.getId()) {
             case R.id.btn_reset_password:
                 String email = etEmailAddress.getText().toString().trim();
-                if (Utility.isEmailValid(email)) {
+               /* if (Utility.isEmailValid(email)) {
                     showLoader();
-                    //sendDataOnForgetPasswordApi(email);
-                } else if (TextUtils.isEmpty(email)) {
+                    sendDataOnForgetPasswordApi(email);
+                } else*/
+                if (TextUtils.isEmpty(email)) {
                     etEmailAddress.setError("Enter your email id");
                     etEmailAddress.requestFocus();
                 } else {
-                    etEmailAddress.setError("Enter your correct email id");
-                    etEmailAddress.requestFocus();
+                    sendDataOnForgetPasswordApi(email);
                 }
 
                 break;
@@ -103,7 +109,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         }
     }
 
-  /*  private void sendDataOnForgetPasswordApi(final String email) {
+    private void sendDataOnForgetPasswordApi(final String email) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FORGET_PASSWORD_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -122,34 +128,33 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("email", email);
+                params.put("uname", email);
                 return params;
             }
 
         };
-        stringRequest.setTag(Constants.FORGOT_TAG);
+        stringRequest.setTag(this.getClass().getSimpleName());
         requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-    }*/
+    }
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String status = null, userid = null, msg = null;
+        String  msg = null;
+        int status = 0;
         try {
             jsonObject = new JSONObject(response);
             if (jsonObject.has("status"))
-                status = jsonObject.optString("status");
-            if (jsonObject.has("userid"))
-                userid = jsonObject.optString("userid");
+                status = jsonObject.optInt("status");
             if (jsonObject.has("msg"))
                 msg = jsonObject.optString("msg");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (status.equalsIgnoreCase("true") && !status.isEmpty()) {
+        if (status==1) {
             fragment = new LoginFragment();
-            Toast.makeText(activity, "Congrats! Your password has been submitted.", Toast.LENGTH_SHORT).show();
-            callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.navigationContainer);
+            showDialogMethod(msg);
+            callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.container);
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
