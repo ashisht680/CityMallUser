@@ -1,39 +1,67 @@
 package com.javinindia.citymalls.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.activity.LoginActivity;
+import com.javinindia.citymalls.activity.NavigationActivity;
 import com.javinindia.citymalls.apiparsing.CountryModel;
+import com.javinindia.citymalls.apiparsing.offerListparsing.DetailsList;
+import com.javinindia.citymalls.apiparsing.offerListparsing.OfferListResponseparsing;
+import com.javinindia.citymalls.constant.Constants;
+import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
+import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.OfferAdaptar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Ashish on 29-09-2016.
  */
-public class StoreOffersFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener{
+public class StoreOffersFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener, TextWatcher, OfferPostFragment.OnCallBackOfferDetailFavListener {
     private RecyclerView recyclerview;
-    private List<CountryModel> mCountryModel;
+    private int startLimit = 0;
+    private int countLimit = 5000;
+    private boolean loading = true;
+    private RequestQueue requestQueue;
     private OfferAdaptar adapter;
-
-    private ViewPager viewPager;
-    private MyViewPagerAdapter myViewPagerAdapter;
-    private int selectedPosition = 0;
-
+    ArrayList arrayList;
+    AppCompatTextView txtDataNotFound;
+    LinearLayout llSearch;
+    AppCompatEditText etSearch;
 
     @Nullable
     @Override
@@ -41,9 +69,66 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize(view);
-        setRequest();
-        setCurrentItem(selectedPosition);
+        sendRequestOnReplyFeed(startLimit, countLimit);
         return view;
+    }
+
+    private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.OFFERS_IN_SHOP_LIST_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("limits", AstartLimit + "" + AcountLimit);
+                        OfferListResponseparsing responseparsing = new OfferListResponseparsing();
+                        Log.e("request", response);
+                        responseparsing.responseParseMethod(response);
+
+                        int status = responseparsing.getStatus();
+                        if (status == 1) {
+                            if (responseparsing.getDetailsListArrayList().size() > 0) {
+                                arrayList = responseparsing.getDetailsListArrayList();
+                                if (arrayList.size() > 0) {
+                                    txtDataNotFound.setVisibility(View.GONE);
+                                    llSearch.setVisibility(View.VISIBLE);
+                                    if (adapter.getData() != null && adapter.getData().size() > 0) {
+                                        adapter.getData().addAll(arrayList);
+                                        adapter.notifyDataSetChanged();
+                                    } else {
+                                        adapter.setData(arrayList);
+                                        adapter.notifyDataSetChanged();
+
+                                    }
+                                } else {
+                                    txtDataNotFound.setVisibility(View.VISIBLE);
+                                    llSearch.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorHandle(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("userid", SharedPreferencesManager.getUserID(activity));
+                params.put("sid", SharedPreferencesManager.getShopId(activity));
+                params.put("mallid", SharedPreferencesManager.getMallId(activity));
+                params.put("startlimit", String.valueOf(AstartLimit));
+                params.put("countlimit", String.valueOf(AcountLimit));
+                return params;
+            }
+
+        };
+        stringRequest.setTag(this.getClass().getSimpleName());
+        volleyDefaultTimeIncreaseMethod(stringRequest);
+        requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
     }
 
     @Override
@@ -52,29 +137,25 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
         disableTouchOfBackFragment(savedInstanceState);
     }
 
-    private void setRequest() {
-        String[] locales = Locale.getISOCountries();
-        mCountryModel = new ArrayList<>();
 
-        for (String countryCode : locales) {
-            Locale obj = new Locale("", countryCode);
-            mCountryModel.add(new CountryModel(obj.getDisplayCountry(), obj.getISO3Country()));
-        }
-
-        adapter = new OfferAdaptar(mCountryModel);
-        adapter.setMyClickListener(StoreOffersFragment.this);
-        recyclerview.setAdapter(adapter);
-    }
     private void initialize(View view) {
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        myViewPagerAdapter = new MyViewPagerAdapter();
-        viewPager.setAdapter(myViewPagerAdapter);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerview.setLayoutManager(layoutManager);
+        adapter = new OfferAdaptar(activity);
+        LinearLayoutManager layoutMangerDestination
+                = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        recyclerview.setLayoutManager(layoutMangerDestination);
+        // recyclerview.addOnScrollListener(new replyScrollListener());
+        recyclerview.setAdapter(adapter);
+        adapter.setMyClickListener(StoreOffersFragment.this);
+        llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
+        txtDataNotFound = (AppCompatTextView) view.findViewById(R.id.txtDataNotFound);
+
+        etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
+        etSearch.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        etSearch.addTextChangedListener(this);
 
     }
+
     @Override
     protected int getFragmentLayout() {
         return R.layout.store_offer_layout;
@@ -90,87 +171,168 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    @Override
-    public void onItemClick(int position, CountryModel model) {
-        BaseFragment fragment = new OfferDetailFragment();
-        callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.navigationContainer);
-    }
 
     @Override
     public void onClick(View v) {
 
     }
 
-    private void setCurrentItem(int position) {
-        viewPager.setCurrentItem(position, false);
-        displayMetaInfo(selectedPosition);
+
+    @Override
+    public void onOfferItemClick(int position, DetailsList detailsList) {
+        String brandName = detailsList.getOfferBrandDetails().getBrandName().trim();
+        String brandPic = detailsList.getOfferBrandDetails().getBrandLogo().trim();
+        String shopName = detailsList.getOfferShopDetails().getShopName().trim();
+        String mallName = detailsList.getOfferMallDetails().getMallName().trim();
+        String offerId = detailsList.getOfferDetails().getOfferId().trim();
+        String shopId = detailsList.getOfferShopDetails().getShopId().trim();
+        String offerRating = "4";
+        String offerPic = detailsList.getOfferDetails().getOfferBanner().trim();
+        String offerTitle = detailsList.getOfferDetails().getOfferTitle().trim();
+        String offerCategory = detailsList.getOfferDetails().getOfferCategory();
+        String offerSubCategory = detailsList.getOfferDetails().getOfferSubcategory().trim();
+        String offerPercentType = detailsList.getOfferDetails().getOfferPercentageType().trim();
+        String offerPercentage = detailsList.getOfferDetails().getOfferPercentage().trim();
+        String offerActualPrice = detailsList.getOfferDetails().getOfferActualPrice().trim();
+        String offerDiscountPrice = detailsList.getOfferDetails().getOfferDiscountedPrice().trim();
+        String offerStartDate = detailsList.getOfferDetails().getOfferOpenDate().trim();
+        String offerCloseDate = detailsList.getOfferDetails().getOfferCloseDate().trim();
+        String offerDescription = detailsList.getOfferDetails().getOfferDescription().trim();
+        String shopOpenTime = detailsList.getOfferShopDetails().getShopOpenTime().trim();
+        String shopCloseTime = detailsList.getOfferShopDetails().getShopCloseTime().trim();
+        int favStatus = detailsList.getFavStatus();
+
+        OfferPostFragment fragment1 = new OfferPostFragment();
+
+        Bundle bundle = new Bundle();
+        //    bundle.putSerializable("images", postImage);
+        bundle.putString("brandName", brandName);
+        bundle.putString("brandPic", brandPic);
+        bundle.putString("shopName", shopName);
+        bundle.putString("mallName", mallName);
+        bundle.putString("offerRating", offerRating);
+        bundle.putString("offerPic", offerPic);
+        bundle.putString("offerTitle", offerTitle);
+        bundle.putString("offerCategory", offerCategory);
+        bundle.putString("offerSubCategory", offerSubCategory);
+        bundle.putString("offerPercentType", offerPercentType);
+        bundle.putString("offerPercentage", offerPercentage);
+        bundle.putString("offerActualPrice", offerActualPrice);
+        bundle.putString("offerDiscountPrice", offerDiscountPrice);
+        bundle.putString("offerStartDate", offerStartDate);
+        bundle.putString("offerCloseDate", offerCloseDate);
+        bundle.putString("offerDescription", offerDescription);
+        bundle.putString("shopOpenTime", shopOpenTime);
+        bundle.putString("shopCloseTime", shopCloseTime);
+        bundle.putString("offerId", offerId);
+        bundle.putString("shopId", shopId);
+        bundle.putInt("favStatus", favStatus);
+        bundle.putInt("position", position);
+        fragment1.setArguments(bundle);
+        fragment1.setMyCallBackOfferDetailFavListener(this);
+        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
-    private void displayMetaInfo(int position) {
-        //   txtShopeName.setText((position + 1) + " of " + images.size());
 
-        //   PostImage image = images.get(position);
-        //  lblTitle.setText(image.getName());
-        //     txtOffer.setText(Utility.getDateFormatAmAndPm(image.getCreateDate()));
+    private void favHitOnApi(final String uId, final String offerId, final String yes, final int position) {
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_FAVORITE_OFFER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("fav", response);
+                        JSONObject jsonObject = null;
+                        String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
+                        int status = 0, action = 0;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if (jsonObject.has("status"))
+                                status = jsonObject.optInt("status");
+                            if (jsonObject.has("msg"))
+                                msg = jsonObject.optString("msg");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (status == 1) {
+                            if (jsonObject.has("userid"))
+                                userid = jsonObject.optString("userid");
+                            if (jsonObject.has("offerid"))
+                                mallid = jsonObject.optString("offerid");
+                            if (jsonObject.has("action"))
+                                action = jsonObject.optInt("action");
+                            List list = adapter.getData();
+                            DetailsList wd = (DetailsList) list.get(position);
+                            wd.setFavStatus(action);
+                            adapter.notifyItemChanged(position);
+
+
+                        } else {
+                            if (!TextUtils.isEmpty(msg)) {
+                                showDialogMethod(msg);
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        noInternetToast(error);
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("userid", uId);
+                params.put("offerid", offerId);
+                params.put("status", yes);
+                return params;
+            }
+
+        };
+        stringRequest.setTag(this.getClass().getSimpleName());
+        volleyDefaultTimeIncreaseMethod(stringRequest);
+        requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
     }
 
-    //	page change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(int position) {
-            displayMetaInfo(position);
+    @Override
+    public void onFavoriteClick(int position, DetailsList detailsList) {
+        int fav = detailsList.getFavStatus();
+        String offerId = detailsList.getOfferDetails().getOfferId().trim();
+        String uId = SharedPreferencesManager.getUserID(activity);
+        if (fav == 0) {
+            String Yes = "1";
+            favHitOnApi(uId, offerId, Yes, position);
+        } else {
+            String No = "0";
+            favHitOnApi(uId, offerId, No, position);
         }
+    }
 
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String text = s.toString().toLowerCase(Locale.getDefault());
+        if (etSearch.getText().toString().length() > 0) {
+            adapter.filter(text);
         }
+    }
 
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
-
-    //	adapter
-    public class MyViewPagerAdapter extends PagerAdapter {
-
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-
-            layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false);
-
-            ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
-            final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
-            //   PostImage image = images.get(position);
-
-            //   Utility.imageLoadGlideLibrary(getActivity(), progressBar, imageViewPreview, image.getPostUrl());
-            container.addView(view);
-
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            //  return images.size();
-            return 1;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == ((View) obj);
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
+    @Override
+    public void OnCallBackOfferDetailFav(int pos, int action) {
+        List list = adapter.getData();
+        DetailsList wd = (DetailsList) list.get(pos);
+        wd.setFavStatus(action);
+        adapter.notifyItemChanged(pos);
     }
 }

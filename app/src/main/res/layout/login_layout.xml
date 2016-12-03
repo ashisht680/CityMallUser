@@ -1,102 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/toolbar_color"
     android:orientation="vertical"
     tools:ignore="NewApi">
 
-    <RelativeLayout
-        android:id="@+id/sign_parent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/wish_zee_logo"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="25dp"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/logo" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et_userMobile"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border_white"
-            android:hint="MOBILE / EMAIL"
-            android:textColorHint="@android:color/white"
-            android:textColor="@android:color/white"
-            android:inputType="text"
-            android:nextFocusDown="@+id/et_email"
-            android:padding="8dp"
-            android:singleLine="true" />
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_border_white"
-            android:hint="PASSWORD"
-            android:textColorHint="@android:color/white"
-            android:textColor="@android:color/white"
-            android:inputType="textPassword"
-            android:nextFocusDown="@+id/et_email"
-            android:padding="8dp"
-            android:singleLine="true" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="16dp"
-            android:textColor="@android:color/white"
-            android:text="Forgot Password"
-            android:textSize="14dp" />
+            <RelativeLayout
+                android:id="@+id/sign_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_margin="8dp">
+                <ImageView
+                    android:id="@+id/wish_zee_logo"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@mipmap/logo" />
+            </RelativeLayout>
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:background="@android:color/white"
-                android:text="SIGN IN"
-                android:textColor="@color/background_color"
-                android:textSize="15dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_userMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/button_border_white"
+                    android:hint="MOBILE / EMAIL"
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/et_email"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/button_border_white"
+                    android:hint="PASSWORD"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white" />
+
+                <CheckBox
+                    android:id="@+id/checkShowPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show password"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="16dp"
+                    android:text="Forgot Password"
+                    android:textColor="@android:color/white"
+                    android:textSize="14dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="8dp">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:padding="3dp"
+                        android:text="SIGN IN"
+                        android:textColor="@color/blue_button_color"
+                        android:textSize="15dp" />
 
 
-        </RelativeLayout>
+                </RelativeLayout>
 
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/txtRegistration"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:padding="3dp"
-            android:background="@android:color/white"
-            android:text="REGISTER AS NEW USER"
-            android:textColor="@color/background_color"
-            android:textSize="15dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="40dp" />
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/txtRegistration"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@android:color/white"
+                    android:padding="3dp"
+                    android:text="REGISTER AS A NEW USER"
+                    android:textColor="@color/blue_button_color"
+                    android:textSize="15dp" />
 
-    </LinearLayout>
+               <!-- <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="40dp"
+                    android:visibility="visible"
+                    tools:visibility="visible" />-->
+
+             <!--   <Button
+                    android:id="@+id/sign_out_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="sign_out"
+                    android:visibility="visible" />-->
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="or sign up with"
+                    android:layout_marginTop="50dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+             <!--   <com.facebook.login.widget.LoginButton
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="40dp" />-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp">
+
+                    <ImageButton
+                        android:id="@+id/btnFacebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:padding="20dp"
+                        android:background="@drawable/facebook_icon_white" />
+
+                    <ImageButton
+                        android:id="@+id/btnGmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:padding="20dp"
+                        android:layout_toRightOf="@+id/btnFacebook"
+                        android:background="@drawable/google_icon_white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
 </LinearLayout>

@@ -22,9 +22,10 @@
                 android:background="@drawable/button_border_black">
 
                 <RelativeLayout
+                    android:id="@+id/rlBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/brown_color"
+                    android:background="@color/black_transparent_color"
                     android:padding="5dp">
 
                     <ImageView
@@ -45,12 +46,13 @@
                         android:textSize="10sp"
                         app:textAllCaps="true" />
                 </RelativeLayout>
-
+                <include layout="@layout/common_progressbar" />
                 <ImageView
                     android:id="@+id/imgProfilePic"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:padding="2dp"
+                    android:src="@drawable/no_image_icon" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -104,17 +106,18 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtEmailHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Email"
-                        android:textColor="@android:color/white"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp" />
 
                     <ImageView
@@ -123,7 +126,7 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/txtEmailHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtEmailAddress"
@@ -149,7 +152,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -161,17 +164,18 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtMobileHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Phone"
-                        android:textColor="@android:color/white"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />
 
                     <ImageView
@@ -180,7 +184,7 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/txtMobileHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtMobile"
@@ -206,7 +210,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -218,17 +222,18 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtGenderHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Gender"
-                        android:textColor="@android:color/white"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />
 
                     <ImageView
@@ -237,7 +242,7 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/txtGenderHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtGender"
@@ -254,7 +259,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -266,17 +271,18 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtDOBHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Date of Birth"
-                        android:textColor="@android:color/white"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />
 
                     <ImageView
@@ -285,7 +291,7 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/txtDOBHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtDOB"
@@ -302,7 +308,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -314,35 +320,36 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtLocationHd"
+                        android:id="@+id/txtStateHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
-                        android:text="Location"
-                        android:textColor="@android:color/white"
+                        android:text="State"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />
 
                     <ImageView
                         android:id="@+id/img5"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/txtLocationHd"
+                        android:layout_toRightOf="@+id/txtStateHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtLocation"
+                        android:id="@+id/txtState"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img5"
                         android:gravity="center|left"
                         android:singleLine="true"
-                        android:text="Kohat inclave, Pitampura, New Delhi"
+                        android:text="New Delhi"
                         android:textColor="@android:color/white"
                         android:textSize="12dp"  />
 
@@ -350,7 +357,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -362,52 +369,44 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall1Hd"
+                        android:id="@+id/txtCityHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
-                        android:text="Favourate Mall 1"
-                        android:textColor="@android:color/white"
+                        android:text="City"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />
 
                     <ImageView
                         android:id="@+id/img6"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/txtfavourateMall1Hd"
+                        android:layout_toRightOf="@+id/txtCityHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall1"
+                        android:id="@+id/txtCity"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_toLeftOf="@+id/imgFav1"
                         android:layout_toRightOf="@+id/img6"
                         android:gravity="center|left"
                         android:singleLine="true"
-                        android:text="Pacific Mall,Subhash Nagar"
+                        android:text="Delhi"
                         android:textColor="@android:color/white"
                         android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/imgFav1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/select" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -419,225 +418,47 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_button_color">
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall2Hd"
+                        android:id="@+id/txtAddressHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@color/brown_color"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
-                        android:text="Favourate Mall 2"
-                        android:textColor="@android:color/white"
+                        android:text="Address"
+                        android:background="@android:color/white"
+                        android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />
 
                     <ImageView
                         android:id="@+id/img7"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/txtfavourateMall2Hd"
+                        android:layout_toRightOf="@+id/txtAddressHd"
                         android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
+                        android:src="@drawable/shape_white_triangle" />
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall2"
+                        android:id="@+id/txtAddress"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_toLeftOf="@+id/imgFav2"
                         android:layout_toRightOf="@+id/img7"
                         android:gravity="center|left"
                         android:singleLine="true"
-                        android:text="Pacific Mall,Subhash Nagar"
+                        android:text="Kohat inclave, Pitampura"
                         android:textColor="@android:color/white"
                         android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/imgFav2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/select" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
+                        android:background="@android:color/white"></View>
                 </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall3Hd"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:background="@color/brown_color"
-                        android:gravity="center|left"
-                        android:paddingLeft="5dp"
-                        android:text="Favourate Mall 3"
-                        android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/img8"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/txtfavourateMall3Hd"
-                        android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall3"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_toLeftOf="@+id/imgFav3"
-                        android:layout_toRightOf="@+id/img8"
-                        android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="Pacific Mall,Subhash Nagar"
-                        android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/imgFav3"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/select" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall4Hd"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:background="@color/brown_color"
-                        android:gravity="center|left"
-                        android:paddingLeft="5dp"
-                        android:text="Favourate Mall 4"
-                        android:textColor="@android:color/white"
-                        android:textSize="12dp" />
-
-                    <ImageView
-                        android:id="@+id/img9"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/txtfavourateMall4Hd"
-                        android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall4"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_toLeftOf="@+id/imgFav4"
-                        android:layout_toRightOf="@+id/img9"
-                        android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="Pacific Mall,Subhash Nagar"
-                        android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/imgFav4"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/select" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall5Hd"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:background="@color/brown_color"
-                        android:gravity="center|left"
-                        android:paddingLeft="5dp"
-                        android:text="Favourate Mall 5"
-                        android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/img10"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/txtfavourateMall5Hd"
-                        android:rotation="0"
-                        android:src="@drawable/shape_triangle" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/txtfavourateMall5"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_toLeftOf="@+id/imgFav5"
-                        android:layout_toRightOf="@+id/img10"
-                        android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="Pacific Mall,Subhash Nagar"
-                        android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
-
-                    <ImageView
-                        android:id="@+id/imgFav5"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/select" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/brown_color"></View>
-                </RelativeLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

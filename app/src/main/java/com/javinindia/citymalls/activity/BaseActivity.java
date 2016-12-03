@@ -103,6 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+
     public class NetworkConnected extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {

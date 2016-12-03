@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_color"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/llSearch"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:background="#e3e3e3"
         android:orientation="horizontal"
         android:padding="3dp"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_weight="7"
             android:background="@drawable/button_border_black_fill_white"
-            android:hint="Search Now"
+            android:hint="Search store"
             android:clickable="true"
             android:cursorVisible="false"
             android:focusable="false"
@@ -32,10 +32,10 @@
         <ImageView
             android:id="@+id/imgSearch"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/black"
-            android:src="@drawable/select" />
+            android:src="@drawable/search_white" />
 
         <!-- <Spinner
              android:layout_width="0dp"
@@ -45,167 +45,19 @@
 
          </Spinner>-->
     </LinearLayout>
-
-    <LinearLayout
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+        android:padding="5dp"
+        android:text="Browse Category"
+        android:textColor="@android:color/black"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Browse Category"
-            android:textColor="@android:color/black"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="1">
-
-                <com.javinindia.citymalls.customview.CircleImageView
-                    android:id="@+id/one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtCloths"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/one"
-                    android:gravity="center"
-                    android:text="Clothing"
-                    android:textSize="11sp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="1">
-                <com.javinindia.citymalls.customview.CircleImageView
-                    android:id="@+id/two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtHome"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_below="@+id/two"
-                    android:text="@string/Home"
-                    android:textSize="11sp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="1">
-                <com.javinindia.citymalls.customview.CircleImageView
-                    android:id="@+id/three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtKitchen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/three"
-                    android:gravity="center"
-                    android:text="@string/Kitchen"
-                    android:textSize="11sp"/>
-            </RelativeLayout>
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="1">
-
-                <com.javinindia.citymalls.customview.CircleImageView
-                    android:id="@+id/four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtLifeStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/four"
-                    android:gravity="center"
-                    android:text="Lifestyle"
-                    android:textSize="11sp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="1">
-                <com.javinindia.citymalls.customview.CircleImageView
-                    android:id="@+id/five"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtFashion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/five"
-                    android:gravity="center"
-                    android:text="@string/Fashion"
-                    android:textSize="11sp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_weight="1">
-                <com.javinindia.citymalls.customview.CircleImageView
-                    android:id="@+id/six"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtFood"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_below="@+id/six"
-                    android:text="@string/food"
-                    android:textSize="11sp"/>
-            </RelativeLayout>
-
-
-        </LinearLayout>
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

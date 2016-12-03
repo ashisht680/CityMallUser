@@ -22,37 +22,42 @@
 
         <item
             android:id="@+id/drawer_home"
-            android:checked="false"
-            android:icon="@mipmap/ic_launcher"
+            android:checkable="false"
+            android:icon="@drawable/ic_home_black"
             android:title="Home"/>
         <item
             android:id="@+id/drawer_profile"
-            android:checked="false"
-            android:icon="@mipmap/ic_launcher"
+            android:checkable="false"
+            android:icon="@drawable/ic_account_circle_black"
             android:title="Profile"/>
 
         <item
-            android:id="@+id/drawer_downloaded"
-            android:checked="false"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Invite Friends"/>
+            android:id="@+id/drawer_favorite"
+            android:checkable="false"
+            android:icon="@drawable/ic_favorite_black"
+            android:title="Favorite"/>
 
         <item
             android:id="@+id/drawer_more"
-            android:checked="false"
-            android:icon="@mipmap/ic_launcher"
+            android:checkable="false"
+            android:icon="@drawable/ic_more_black"
             android:title="More"/>
+        <item
+            android:id="@+id/drawer_About"
+            android:checkable="false"
+            android:icon="@drawable/ic_info_black"
+            android:title="About App"/>
 
         <item
             android:id="@+id/drawer_settings"
-            android:checked="false"
-            android:icon="@mipmap/ic_launcher"
+            android:checkable="false"
+            android:icon="@drawable/ic_settings_black"
             android:title="Settings"/>
 
         <item
             android:id="@+id/drawer_favourite"
-            android:checked="false"
-            android:icon="@mipmap/ic_launcher"
+            android:checkable="false"
+            android:icon="@drawable/log_out_black"
             android:title="Logout"/>
 
     </group>

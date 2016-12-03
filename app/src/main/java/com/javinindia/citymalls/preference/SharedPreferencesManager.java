@@ -103,9 +103,9 @@ public class SharedPreferencesManager {
         return getSharedPreferences(context).getString("Latitude", null);
     }
 
-    public static void setLatitude(Context context, String latitude) {
+    public static void setLatitude(Context context, double latitude) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString("Latitude", latitude);
+        editor.putString("Latitude", String.valueOf(latitude));
         editor.commit();
     }
 
@@ -113,9 +113,39 @@ public class SharedPreferencesManager {
         return getSharedPreferences(context).getString("Longitude", null);
     }
 
-    public static void setLongitude(Context context, String longitude) {
+    public static void setLongitude(Context context, double longitude) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString("Longitude", longitude);
+        editor.putString("Longitude", String.valueOf(longitude));
+        editor.commit();
+    }
+
+    public static String getMallId(Context context) {
+        return getSharedPreferences(context).getString("MallId", null);
+    }
+
+    public static void setMAllId(Context context, String longitude) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("MallId", longitude);
+        editor.commit();
+    }
+
+    public static String getShopId(Context context) {
+        return getSharedPreferences(context).getString("ShopId", null);
+    }
+
+    public static void setShopId(Context context, String longitude) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("ShopId", longitude);
+        editor.commit();
+    }
+
+    public static String getCity(Context context) {
+        return getSharedPreferences(context).getString("city", null);
+    }
+
+    public static void setCity(Context context, String city) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("city", city);
         editor.commit();
     }
 

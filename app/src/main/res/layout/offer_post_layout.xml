@@ -1,92 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/background_color"
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@android:color/black" />
-
-
         <LinearLayout
-            android:id="@+id/llDiscription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewpager"
-            android:layout_marginBottom="40dp"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/highlight_color">
 
-            <TextView
-                android:id="@+id/txtShopeName"
+                <ImageView
+                    android:id="@+id/imgBrand"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@android:color/white"
+                    android:src="@drawable/no_image_icon" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/imgBrand">
+
+                    <CheckBox
+                        android:id="@+id/chkImageMall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:button="@drawable/selector"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:transformPivotX="30dp"
+                        android:transformPivotY="5dp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/txtOfferBrandNamePost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toLeftOf="@+id/chkImageMall"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtOfferBrandNamePost"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:backgroundTint="@color/wow_gray"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:progressTint="@color/yellow_color"
+                        android:secondaryProgressTint="@color/sq_background_blue" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/txtRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtOfferBrandNamePost"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/ratingBar"
+                        android:paddingTop="2dp"
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/txtMallNamePost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ratingBar"
+                        android:layout_marginLeft="5dp"
+                        android:text=""
+                        android:textColor="@android:color/white" />
+                </RelativeLayout>
+
+                <!--<android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOffers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@android:color/black"
+                    android:padding="3dp"
+                    android:text="35 offers"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />-->
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="count"
-                android:textColor="@android:color/black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtOffer"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/common_progressbar" />
+
+                    <ImageView
+                        android:id="@+id/imgOffer"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:padding="5dp"
+                        android:src="@drawable/no_image_icon" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOfferActualPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/toolbar_color"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"
+                    android:visibility="visible" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOfferPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/toolbar_color"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="30dp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtSubcategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/toolbar_color"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="date"
-                android:gravity="center"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/txtOfferTime"
+                android:background="@android:color/white"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOfferDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@android:color/black"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textColor="@android:color/white" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_toLeftOf="@+id/txtShopTiming"
+                    android:background="@android:color/white">
+
+                </View>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtShopTiming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/black"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="timier"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="16dp" />
+                android:background="@android:color/white">
 
-            <TextView
-                android:id="@+id/txtDiscription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Discription"
-                android:textColor="@android:color/black"
-                android:textSize="16dp" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOfferTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text=""
+                    android:textColor="@android:color/black" />
 
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOfferDiscription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtOfferTitle"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btnRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/txtOfferDiscription"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/black"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Rate CM"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/llDiscription"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:weightSum="3">
-            <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Direction"
-                android:layout_weight="1"/>
-            <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Share"
-                android:layout_weight="1"/>
-            <android.support.v7.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Store"
-                android:layout_weight="1"/>
-        </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
-</ScrollView>
+</RelativeLayout>

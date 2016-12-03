@@ -1,23 +1,37 @@
 package com.javinindia.citymalls.recyclerview;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.CountryModel;
+import com.javinindia.citymalls.apiparsing.offerListparsing.DetailsList;
+import com.javinindia.citymalls.apiparsing.storeInMallParsing.ShopData;
 import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
+import com.javinindia.citymalls.utility.Utility;
+import com.javinindia.citymalls.volleycustomrequest.VolleySingleTon;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,16 +39,23 @@ import java.util.Locale;
  * Created by Ashish on 14-09-2016.
  */
 public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> {
-    List<CountryModel> list;
+    List<DetailsList> list;
     Context context;
     MyClickListener myClickListener;
-    ArrayList<CountryModel> countryModelArrayList;
+    ArrayList<DetailsList> shopCategoryListArrayList;
 
+    public OfferAdaptar(Context context) {
+        this.context = context;
+    }
 
-    public OfferAdaptar(List<CountryModel> mCountryModel) {
-        this.list = mCountryModel;
-        this.countryModelArrayList = new ArrayList<>();
-        this.countryModelArrayList.addAll(mCountryModel);
+    public void setData(List<DetailsList> list) {
+        this.list = list;
+        this.shopCategoryListArrayList = new ArrayList<>();
+        this.shopCategoryListArrayList.addAll(list);
+    }
+
+    public List<DetailsList> getData() {
+        return list;
     }
 
 
@@ -50,86 +71,165 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final CountryModel countryModel = (CountryModel) list.get(position);
-        String icoCode = countryModel.getisoCode();
-        final String name = countryModel.getName();
+        final VolleySingleTon volleySingleTon = VolleySingleTon.getInstance(context);
+        final DetailsList requestDetail = (DetailsList) list.get(position);
 
-
-     //   viewHolder.ratingBar.setRating(Float.parseFloat("2.0"));
-
-  /*      viewHolder.chkImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(viewHolder.chkImage.isChecked()){
-                    viewHolder.chkImage.setChecked(true);
-                }else {
-                    viewHolder.chkImage.setChecked(false);
-                }
-            }
-        });*/
-
-
-       /* viewHolder.txtShopName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        viewHolder.rlMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myClickListener.onItemClick(position, countryModel);
-            }
-        });*/
-        viewHolder.rlMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myClickListener.onItemClick(position, countryModel);
-            }
-        });
-    }
-
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        list.clear();
-        if (charText.length() == 0) {
-            list.addAll(countryModelArrayList);
+        if (!TextUtils.isEmpty(requestDetail.getOfferShopDetails().getShopName().trim())) {
+            String shopName = requestDetail.getOfferShopDetails().getShopName().trim();
+            viewHolder.txtShopName.setText(Html.fromHtml(shopName));
         } else {
-            for (CountryModel model : countryModelArrayList) {
-                if (model.getName().toLowerCase(Locale.getDefault())
-                        .contains(charText)) {
-                    list.add(model);
-                }
-            }
+            viewHolder.txtShopName.setText(Html.fromHtml("Shop not found"));
         }
-        notifyDataSetChanged();
+
+        if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallName().trim())) {
+            String mallName = requestDetail.getOfferMallDetails().getMallName().trim();
+            viewHolder.txtMallName.setText(Html.fromHtml(mallName));
+        } else {
+            viewHolder.txtMallName.setText(Html.fromHtml("Mall not found"));
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferBrandDetails().getBrandName().trim())) {
+            String brandName = requestDetail.getOfferBrandDetails().getBrandName().trim();
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferTitle().trim())) {
+            String offerTitle = requestDetail.getOfferDetails().getOfferTitle().trim();
+            viewHolder.txtOfferAmount.setText(Html.fromHtml(offerTitle));
+        } else {
+            viewHolder.txtOfferAmount.setText(Html.fromHtml("Offer not found"));
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferCategory().trim())) {
+            String category = requestDetail.getOfferDetails().getOfferCategory().trim();
+            viewHolder.txtOfferCategory.setText("on " + Html.fromHtml(category));
+        } else {
+            viewHolder.txtOfferCategory.setText("on " + Html.fromHtml("Category not found"));
+        }
+
+        final ArrayList<String> data = new ArrayList<>();
+        if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallAddress().trim())) {
+            String mallAddress = requestDetail.getOfferMallDetails().getMallAddress().trim();
+            data.add(mallAddress);
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallLandmark().trim())) {
+            String mallLandMark = requestDetail.getOfferMallDetails().getMallLandmark().trim();
+            data.add(mallLandMark);
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallCity().trim())) {
+            String mallCity = requestDetail.getOfferMallDetails().getMallCity().trim();
+            data.add(mallCity);
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallState().trim())) {
+            String mallState = requestDetail.getOfferMallDetails().getMallState().trim();
+            data.add(mallState);
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallPincode().trim())) {
+            String mallPinCode = requestDetail.getOfferMallDetails().getMallPincode().trim();
+            data.add(mallPinCode);
+        }
+
+        if (data.size() > 0) {
+            String str = Arrays.toString(data.toArray());
+            String test = str.replaceAll("[\\[\\](){}]", "");
+            viewHolder.txtAddress.setText(Html.fromHtml(test));
+        } else {
+            viewHolder.txtAddress.setText("Address: Not found");
+        }
+
+        if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferOpenDate().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferCloseDate().trim())) {
+            String openTime = requestDetail.getOfferDetails().getOfferOpenDate().trim();
+            String closeTime = requestDetail.getOfferDetails().getOfferCloseDate().trim();
+            viewHolder.txtTimingOffer.setText(openTime + " till " + closeTime);
+        } else {
+            viewHolder.txtTimingOffer.setText("Timing not available");
+        }
+
+        if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
+            String offerType = requestDetail.getOfferDetails().getOfferPercentageType().trim();
+            String offerPercent = requestDetail.getOfferDetails().getOfferPercentage().trim();
+            viewHolder.llOffItem.setBackgroundColor(Color.parseColor("#b94115"));
+            viewHolder.txtOfferTypeOrActualPrice.setText(offerType);
+            viewHolder.txtOfferTypeOrActualPrice.setPaintFlags(viewHolder.txtOfferTypeOrActualPrice.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            viewHolder.txtOfferPercentOrDiscountPrice.setText(offerPercent + "% off");
+        } else if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim())) {
+            String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
+            String offerDiscountPrice = requestDetail.getOfferDetails().getOfferDiscountedPrice().trim();
+            viewHolder.llOffItem.setBackgroundColor(Color.parseColor("#1da6b9"));
+            viewHolder.txtOfferTypeOrActualPrice.setText("Rs " + offerActualPrice + "/-");
+            viewHolder.txtOfferTypeOrActualPrice.setPaintFlags(viewHolder.txtOfferTypeOrActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.txtOfferPercentOrDiscountPrice.setText("Rs " + offerDiscountPrice + "/-");
+        }
+
+        if (requestDetail.getFavStatus() == 1) {
+            viewHolder.chkImageOffer.setChecked(true);
+        } else {
+            viewHolder.chkImageOffer.setChecked(false);
+        }
+        if (!TextUtils.isEmpty(requestDetail.getOfferBrandDetails().getBrandLogo().trim())) {
+            String brandPic = requestDetail.getOfferBrandDetails().getBrandLogo().trim();
+            Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoOffer, brandPic);
+        } else {
+            viewHolder.imgShopLogoOffer.setImageResource(R.drawable.no_image_icon);
+        }
+
+        viewHolder.rlMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myClickListener.onOfferItemClick(position, requestDetail);
+            }
+        });
+
+        viewHolder.chkImageOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myClickListener.onFavoriteClick(position, requestDetail);
+            }
+        });
+
+        //   viewHolder.ratingBar.setRating(Float.parseFloat("2.0"));
+
+        viewHolder.txtShopName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView txtShopName,txtAddress,txtTimingOffer,txtOfferAmount,txtOfferCategory;
-       // public RatingBar ratingBar;
-        public RelativeLayout rlMain;
+        public AppCompatTextView txtShopName, txtAddress, txtTimingOffer, txtOfferAmount, txtOfferCategory, txtMallName, txtOfferTypeOrActualPrice, txtOfferPercentOrDiscountPrice;
+        // public RatingBar ratingBar;
+        public CardView rlMain;
         public CheckBox chkImageOffer;
+        ImageView imgShopLogoOffer;
+        public ProgressBar progressBar;
+        LinearLayout llOffItem;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            rlMain = (RelativeLayout)itemLayoutView.findViewById(R.id.rlMain);
+            rlMain = (CardView) itemLayoutView.findViewById(R.id.rlMain);
+            progressBar = (ProgressBar) itemLayoutView.findViewById(R.id.progress);
+            imgShopLogoOffer = (ImageView) itemLayoutView.findViewById(R.id.imgShopLogoOffer);
             txtShopName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtShopName);
-         //   txtShopName.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            txtShopName.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            txtMallName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtMallName);
+            txtMallName.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtAddress = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtAddress);
-         //   txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtTimingOffer = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtTimingOffer);
-         //   txtTimingOffer.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtTimingOffer.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtOfferAmount = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferAmount);
-         //   txtOfferAmount.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            txtOfferAmount.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
             txtOfferCategory = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferCategory);
-         //   txtOfferCategory.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
-          //  ratingBar = (RatingBar) itemLayoutView.findViewById(R.id.ratingBar);
-            rlMain = (RelativeLayout)itemLayoutView.findViewById(R.id.rlMain);
+            txtOfferCategory.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            //  ratingBar = (RatingBar) itemLayoutView.findViewById(R.id.ratingBar);
+            rlMain = (CardView) itemLayoutView.findViewById(R.id.rlMain);
             chkImageOffer = (CheckBox) itemLayoutView.findViewById(R.id.chkImageOffer);
+            llOffItem = (LinearLayout) itemLayoutView.findViewById(R.id.llOffItem);
+            txtOfferTypeOrActualPrice = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferTypeOrActualPrice);
+            txtOfferTypeOrActualPrice.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtOfferPercentOrDiscountPrice = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferPercentOrDiscountPrice);
+            txtOfferPercentOrDiscountPrice.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
         }
     }
 
@@ -139,10 +239,28 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
     }
 
     public interface MyClickListener {
-        void onItemClick(int position, CountryModel model);
+        void onOfferItemClick(int position, DetailsList detailsList);
+
+        void onFavoriteClick(int position, DetailsList detailsList);
     }
 
     public void setMyClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        list.clear();
+        if (charText.length() == 0) {
+            list.addAll(shopCategoryListArrayList);
+        } else {
+            for (DetailsList thankFulDetail : shopCategoryListArrayList) {
+                if (thankFulDetail.getOfferBrandDetails().getBrandName().toLowerCase(Locale.getDefault())
+                        .contains(charText)) {
+                    list.add(thankFulDetail);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }

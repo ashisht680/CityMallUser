@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "130538105966",
+    "project_id": "city-malls-1479383383491"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130538105966:android:27d689d63f1b7a06",
+        "android_client_info": {
+          "package_name": "com.google.samples.quickstart.signin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130538105966-8uusqt1dsqv0d67c4ou9h2t3vk8ephpu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.samples.quickstart.signin",
+            "certificate_hash": "EB6D7F215A2398A91E5E86B6B89DB56B44F0D081"
+          }
+        },
+        {
+          "client_id": "130538105966-ib71g18qm8v1bknjt2qeus131vh4s7dq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHeYVZzzfiU_xj7gF5lul7CVOZfYyP5NI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130538105966:android:e8a5583540556877",
+        "android_client_info": {
+          "package_name": "com.javinindia.citymalls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130538105966-2cvl26llkirdg213qp4lor0522itfpbl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.javinindia.citymalls",
+            "certificate_hash": "EB6D7F215A2398A91E5E86B6B89DB56B44F0D081"
+          }
+        },
+        {
+          "client_id": "130538105966-ib71g18qm8v1bknjt2qeus131vh4s7dq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHeYVZzzfiU_xj7gF5lul7CVOZfYyP5NI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

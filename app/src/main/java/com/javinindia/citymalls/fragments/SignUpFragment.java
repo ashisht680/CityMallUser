@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -41,6 +43,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     TextView txtTermCondition;
     private RequestQueue requestQueue;
     private BaseFragment fragment;
+    private CheckBox checkShowPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,10 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         radioButton = (RadioButton) view.findViewById(R.id.radioButton);
         txtTermCondition = (TextView) view.findViewById(R.id.txtTermCondition);
         txtTermCondition.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtTermCondition.setText(Html.fromHtml("<font color=#000000>" + "I Accept the" + "</font>" + "\t" + "<font color=#0d7bbf>" + "Terms and conditions" + "</font>"));
+        txtTermCondition.setText(Html.fromHtml("<font color=#000000>" + "I accept the" + "</font>" + "\t" + "<font color=#0d7bbf>" + "terms and conditions." + "</font>"));
+        checkShowPassword = (CheckBox)view.findViewById(R.id.checkShowPassword);
+        checkShowPassword.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        checkShowPassword.setOnClickListener(this);
         txtTermCondition.setOnClickListener(this);
 
     }
@@ -116,6 +122,13 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             case R.id.txtTermCondition:
                /* BaseFragment termFragment = new TermsFragment();
                 callFragmentMethodDead(termFragment, Constants.OTHER_USER_FEED, R.id.container);*/
+                break;
+            case R.id.checkShowPassword:
+                if (checkShowPassword.isChecked()){
+                    et_password.setInputType(InputType.TYPE_CLASS_TEXT);
+                }else {
+                    et_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
                 break;
         }
     }
@@ -169,7 +182,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String userid = null, msg = null, username = null, password = null, mobile = null, email = null, otp = null;
+        String userid = null, msg = null, username = null, password = null, mobile = null, email = null, otp = null,pic=null;
         int status = 0;
         try {
             jsonObject = new JSONObject(response);
@@ -195,7 +208,9 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
                 mobile = jsonObject.optString("mobile");
             if (jsonObject.has("otp"))
                 otp = jsonObject.optString("otp");
-            saveDataOnPreference(username, mobile, email, userid);
+            if (jsonObject.has("pic"))
+                pic = jsonObject.optString("pic");
+            saveDataOnPreference(username, mobile, email, userid,pic);
             GenrateOtpFragment baseFragment = new GenrateOtpFragment();
 
             Bundle bundle = new Bundle();
@@ -212,11 +227,13 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private void saveDataOnPreference(String username, String phone, String email, String userId) {
+    private void saveDataOnPreference(String username, String phone, String email, String userId,String pic) {
         SharedPreferencesManager.setUsername(activity, username);
         SharedPreferencesManager.setMobile(activity, phone);
         SharedPreferencesManager.setEmail(activity, email);
         SharedPreferencesManager.setUserID(activity, userId);
+        SharedPreferencesManager.setProfileImage(activity,pic);
+        SharedPreferencesManager.setCity(activity,"New Delhi");
     }
 
     private boolean registerValidation(final String number, final String email, final String name, final String password) {
@@ -225,19 +242,19 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             et_Name.requestFocus();
             return false;
         } else if (number.length() != 10) {
-            et_phoneNum.setError("Please enter valid mobile number");
+            et_phoneNum.setError("Mobile number entered is invalid");
             et_phoneNum.requestFocus();
             return false;
         } else if (!Utility.isEmailValid(email)) {
-            et_email.setError("Please enter valid email");
+            et_email.setError("Email id entered is invalid");
             et_email.requestFocus();
             return false;
-        } else if (password.length() < 8) {
-            et_password.setError("Please enter password more than 8 character");
+        } else if (password.length() < 6) {
+            et_password.setError("Password should be more than 6 characters");
             et_password.requestFocus();
             return false;
         }else if (!radioButton.isChecked()){
-            Toast.makeText(activity,"please accept terms and conditions",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity,"You have not accepted the terms and conditions.",Toast.LENGTH_LONG).show();
             return  false;
         }else {
             return true;

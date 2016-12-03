@@ -39,6 +39,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.activity.BaseActivity;
+import com.javinindia.citymalls.activity.LoginActivity;
+import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.volleycustomrequest.CustomJSONObjectRequest;
 import com.javinindia.citymalls.volleycustomrequest.CustomVolleyRequestQueue;
 
@@ -230,6 +232,25 @@ public abstract class BaseFragment extends Fragment implements Response.Listener
         alertDialog.show();
     }
 
+    protected void showNewDialog(String title,String msg){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getActivity());
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder.setMessage(msg);
+
+        alertDialogBuilder.setNegativeButton("Got it!",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
     public void volleyDefaultTimeIncreaseMethod(StringRequest stringRequest) {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(180000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -361,11 +382,13 @@ public abstract class BaseFragment extends Fragment implements Response.Listener
             if (error.getClass().equals(TimeoutError.class)) {
                 registerNetworkListener();
                 errorMessage = "Slow internet connection";
+                showSnackBarMessage(errorMessage);
                 Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show();
                 //showSnackBarMessage(errorMessage);
             } else if (error.getClass().equals(NoConnectionError.class)) {
                 registerNetworkListener();
                 errorMessage = "Check your internet connection";
+                showSnackBarMessage(errorMessage);
                 //showSnackBarMessage(errorMessage);
                 Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show();
             }

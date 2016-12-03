@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:id="@+id/rlMain"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardUseCompatPadding="true"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+        <com.javinindia.citymalls.helper.SquareLayout
+            android:id="@+id/imageHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgCat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/txtCat"
+                    android:src="@mipmap/logo"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtCat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_horizontal"
+                    android:lines="2"
+                    android:text="test"/>
+            </RelativeLayout>
+
+        </com.javinindia.citymalls.helper.SquareLayout>
+</android.support.v7.widget.CardView>

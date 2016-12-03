@@ -17,19 +17,23 @@
 
         <RelativeLayout
             android:id="@+id/rlFavourateMalls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:background="@android:color/black">
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="visible" />
             <ImageView
                 android:id="@+id/imgFavourateMalls"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:src="@drawable/favourite_malls" />
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="2dp"
+                android:background="@drawable/button_border_black"
+                android:src="@drawable/no_image_icon" />
 
-            <android.support.v7.widget.AppCompatTextView
+           <!-- <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtFavourateMalls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,13 +42,12 @@
                 android:padding="2dp"
                 android:text="FAVOURATE\nMALLS"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="10sp" />-->
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/highlight_color">
 
             <CheckBox
@@ -66,7 +69,7 @@
                 android:layout_toLeftOf="@+id/chkImageMall"
                 android:layout_toRightOf="@+id/imgLogo"
                 android:singleLine="true"
-                android:text="Pacific Mall"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -91,15 +94,15 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtRating"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtMallName"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/ratingBar"
                 android:paddingTop="2dp"
-                android:text="Rating:3/5"
-                android:textColor="@color/wow_gray"
+                android:text=""
+                android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -108,8 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ratingBar"
                 android:layout_marginLeft="5dp"
-                android:text="Distance:"
-                android:textColor="@color/wow_gray" />
+                android:text=""
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtOffers"
@@ -120,7 +123,7 @@
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/black"
                 android:padding="3dp"
-                android:text="35 offers"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </RelativeLayout>

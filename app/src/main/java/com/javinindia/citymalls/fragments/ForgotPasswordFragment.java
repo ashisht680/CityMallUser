@@ -3,6 +3,7 @@ package com.javinindia.citymalls.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener {
 
-    private EditText etEmailAddress;
+    private AppCompatEditText etEmailAddress;
     private RequestQueue requestQueue;
     private BaseFragment fragment;
 
@@ -65,7 +66,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         txtForgotdiscription.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         AppCompatButton buttonResetPassword = (AppCompatButton) view.findViewById(R.id.btn_reset_password);
         buttonResetPassword.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        etEmailAddress = (EditText) view.findViewById(R.id.et_email_address);
+        etEmailAddress = (AppCompatEditText) view.findViewById(R.id.et_email_address);
         etEmailAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         buttonResetPassword.setOnClickListener(this);
     }
