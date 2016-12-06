@@ -123,8 +123,8 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
         }else {
             viewHolder.txtOfferAmount.setText("No Offers");
         }
-        if (!TextUtils.isEmpty(shopData.getBanner().trim())){
-            String shopBanner = shopData.getBanner().trim();
+        if (!TextUtils.isEmpty(shopData.getProfilepic().trim())){
+            String shopBanner = shopData.getProfilepic().trim();
             Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoStore, shopBanner);
         }else {
             viewHolder.imgShopLogoStore.setImageResource(R.drawable.no_image_icon);

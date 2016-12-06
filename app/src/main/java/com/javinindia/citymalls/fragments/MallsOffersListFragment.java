@@ -279,7 +279,7 @@ public class MallsOffersListFragment extends BaseFragment implements View.OnClic
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                               // showDialogMethod(msg);
                             }
                         }
                     }

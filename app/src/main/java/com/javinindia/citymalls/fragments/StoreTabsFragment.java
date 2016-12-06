@@ -200,7 +200,7 @@ public class StoreTabsFragment extends BaseFragment {
                             onCallBackShopFavListener.OnCallBackShopFav(position, action);
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                               // showDialogMethod(msg);
                             }
                         }
                     }

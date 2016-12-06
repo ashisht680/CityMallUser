@@ -1,6 +1,7 @@
 package com.javinindia.citymalls.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -325,11 +326,10 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         String mallLat = modal.getMallLat().trim();
         String mallLong = modal.getMallLong().trim();
         String mallName = modal.getMallName().trim();
-        Intent refresh = new Intent(activity, DirectionMapActivity.class);
-        refresh.putExtra("mallLat", mallLat);
-        refresh.putExtra("mallLong", mallLong);
-        refresh.putExtra("mallName", mallName);
-        startActivity(refresh);
+        Log.e("direction",mallLat+"\t"+mallLong);
+        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat),  Double.parseDouble(mallLong),mallName);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        activity.startActivity(intent);
     }
 
     @Override
@@ -401,7 +401,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                              //  showDialogMethod(msg);
                             }
                         }
                     }

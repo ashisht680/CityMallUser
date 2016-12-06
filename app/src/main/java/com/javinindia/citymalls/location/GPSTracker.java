@@ -5,6 +5,7 @@ package com.javinindia.citymalls.location;
  */
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -14,273 +15,242 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.test.mock.MockPackageManager;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.javinindia.citymalls.activity.NavigationActivity;
-import com.javinindia.citymalls.fragments.MallsFragmet;
 
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
 
+    // flag for GPS status
+    boolean isGPSEnabled = false;
 
-    boolean checkGPS = false;
+    // flag for network status
+    boolean isNetworkEnabled = false;
 
-
-    boolean checkNetwork = false;
-
+    // flag for GPS status
     boolean canGetLocation = false;
 
-    Location loc;
-    double latitude;
-    double longitude;
+    Location location; // location
+    double latitude; // latitude
+    double longitude; // longitude
 
+    // The minimum distance to change Updates in meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 50; // 10 meters
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 5; // 1 minute
 
-
-    private static final long MIN_TIME_BW_UPDATES = 10;
+    // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSTracker(Context mContext) {
-        this.mContext = mContext;
+    private static final int REQUEST_CODE_PERMISSION = 2;
+    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+
+    public GPSTracker(Context context) {
+        this.mContext = context;
         getLocation();
     }
 
     public Location getLocation() {
 
         try {
-            locationManager = (LocationManager) mContext
-                    .getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
-            checkGPS = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
             // getting network status
-            checkNetwork = locationManager
+            isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            if (!checkGPS && !checkNetwork) {
+            if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
                 this.canGetLocation = true;
 
-                if (Build.VERSION.SDK_INT >= 23 &&
-                        ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                }
-                if (checkNetwork) {
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    Log.d("Network", "Network Enabled");
-                    if (locationManager != null) {
-                        loc = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (loc != null) {
-                            latitude = loc.getLatitude();
-                            longitude = loc.getLongitude();
-                        }
-                    }
-                }
                 // if GPS Enabled get lat/long using GPS Services
-                if (checkGPS) {
-                    if (loc == null) {
+                if (isGPSEnabled) {
+                    if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 
-                        Log.d("GPS", "GPS Enabled");
+                        Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                            loc = locationManager
+                            location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (loc != null) {
-                                latitude = loc.getLatitude();
-                                longitude = loc.getLongitude();
-                            }else {
-                                Toast.makeText(
-                                        mContext,
-                                        "Location Null", Toast.LENGTH_SHORT).show();
+                            locationManager.removeUpdates(GPSTracker.this);
+
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
                             }
                         }
                     }
                 }
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return loc;
-    }
-    /*private Location getLocation() {
-
-        try {
-            locationManager = (LocationManager) mContext
-                    .getSystemService(LOCATION_SERVICE);
-
-            // getting GPS status
-            checkGPS = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            // getting network status
-            checkNetwork = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (!checkGPS && !checkNetwork) {
-                Toast.makeText(mContext, "No Service Provider Available", Toast.LENGTH_SHORT).show();
-            } else {
-                this.canGetLocation = true;
                 // First get location from Network Provider
-                if (checkNetwork) {
-                    //    Toast.makeText(mContext, "Network", Toast.LENGTH_SHORT).show();
+                if (isNetworkEnabled) {
 
-                    try {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.NETWORK_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
                         Log.d("Network", "Network");
                         if (locationManager != null) {
-                            loc = locationManager
+                            location = locationManager
                                     .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            locationManager.removeUpdates(GPSTracker.this);
 
-                        }
-
-                        if (loc != null) {
-                            latitude = loc.getLatitude();
-                            longitude = loc.getLongitude();
-                        }else {
-
-                        }
-                    } catch (SecurityException e) {
-
-                    }
-                }
-            }
-            // if GPS Enabled get lat/long using GPS Services
-            if (checkGPS) {
-                //  Toast.makeText(mContext, "GPS", Toast.LENGTH_SHORT).show();
-                if (loc == null) {
-                    try {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
-                        if (locationManager != null) {
-                            loc = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (loc != null) {
-                                latitude = loc.getLatitude();
-                                longitude = loc.getLongitude();
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
                             }
                         }
-                    } catch (SecurityException e) {
+                    }else {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.NETWORK_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 
+                        Log.d("Network", "Network");
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            locationManager.removeUpdates(GPSTracker.this);
+
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        }
                     }
+
                 }
+
+
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return loc;
-    }*/
-
-    public double getLongitude() {
-        if (loc != null) {
-            longitude = loc.getLongitude();
-        }
-        return longitude;
+        return location;
     }
 
-    public double getLatitude() {
-        if (loc != null) {
-            latitude = loc.getLatitude();
-        }
-        return latitude;
-    }
-
-    public boolean canGetLocation() {
-        return this.canGetLocation;
-    }
-
-    public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-
-
-        alertDialog.setTitle("GPS Not Enabled");
-
-        alertDialog.setMessage("Do you wants to turn On GPS");
-
-
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                mContext.startActivity(intent);
-
-            }
-        });
-
-
-        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-
-        alertDialog.show();
-    }
+    /**
+     * Stop using GPS listener
+     * Calling this function will stop using GPS in your app
+     */
 
     public void stopUsingGPS() {
         if (locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(this, mPermission)
+                    != PackageManager.PERMISSION_GRANTED) {
 
-            if (Build.VERSION.SDK_INT >= 23 &&
-                    ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
+                ActivityCompat.requestPermissions((Activity) mContext, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+
             }
             locationManager.removeUpdates(GPSTracker.this);
         }
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    /**
+     * Function to get latitude
+     */
+
+    public double getLatitude() {
+        if (location != null) {
+            latitude = location.getLatitude();
+        }
+
+        // return latitude
+        return latitude;
+    }
+
+    /**
+     * Function to get longitude
+     */
+
+    public double getLongitude() {
+        if (location != null) {
+            longitude = location.getLongitude();
+        }
+
+        // return longitude
+        return longitude;
+    }
+
+    /**
+     * Function to check GPS/wifi enabled
+     *
+     * @return boolean
+     */
+
+    public boolean canGetLocation() {
+        return this.canGetLocation;
+    }
+
+    /**
+     * Function to show settings alert dialog
+     * On pressing Settings button will lauch Settings Options
+     */
+
+    public void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS is settings");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                mContext.startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
     }
 
     @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
+    public void onProviderDisabled(String provider) {
     }
 
     @Override
-    public void onProviderEnabled(String s) {
-
+    public void onProviderEnabled(String provider) {
     }
 
     @Override
-    public void onProviderDisabled(String s) {
-
+    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
+    @Override
+    public IBinder onBind(Intent arg0) {
+        return null;
+    }
 }

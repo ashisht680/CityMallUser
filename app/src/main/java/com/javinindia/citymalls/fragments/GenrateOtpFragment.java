@@ -81,7 +81,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
         btn_regester.setOnClickListener(this);
 
         et_mobileNum.setText(mobile);
-        et_otp.setText(otp);
+       // et_otp.setText(otp);
     }
 
 

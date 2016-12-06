@@ -268,7 +268,7 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                                //showDialogMethod(msg);
                             }
                         }
                     }

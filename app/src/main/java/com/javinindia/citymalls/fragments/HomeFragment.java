@@ -89,6 +89,7 @@ public class HomeFragment extends BaseFragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        //Favorite Malls
         adapter.addFragment(new MallsFragmet(), "Favorite Malls");
         adapter.addFragment(new OffersFragment(), "Offers");
        // adapter.addFragment(new EventFragment(), "Event");

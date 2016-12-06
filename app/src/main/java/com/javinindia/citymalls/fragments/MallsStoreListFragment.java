@@ -197,7 +197,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
         String shopId = model.getId().trim();
         SharedPreferencesManager.setShopId(activity, shopId);
         String shopName = model.getStoreName().trim();
-        String shopPic = model.getBanner().trim();
+        String shopPic = model.getProfilepic().trim();
         String shopRating = model.getRating().trim();
         String mallName = model.getMallName().trim();
         int totalOffers = model.getShopOfferCount();
@@ -265,7 +265,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                               // showDialogMethod(msg);
                             }
                         }
                     }

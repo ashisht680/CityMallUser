@@ -258,7 +258,7 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                               // showDialogMethod(msg);
                             }
                         }
                     }

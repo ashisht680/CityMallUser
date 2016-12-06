@@ -202,7 +202,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                              //  showDialogMethod(msg);
                             }
                         }
                     }

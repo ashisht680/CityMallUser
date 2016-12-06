@@ -290,7 +290,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                               // showDialogMethod(msg);
                             }
                         }
                     }

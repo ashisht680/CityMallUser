@@ -1,20 +1,21 @@
 package com.javinindia.citymalls.fragments;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.location.Address;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.test.mock.MockPackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,14 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.activity.DirectionMapActivity;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallDetail;
@@ -46,8 +40,7 @@ import com.javinindia.citymalls.apiparsing.mallListParsing.MallListResponseParsi
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.location.GPSTracker;
-import com.javinindia.citymalls.location.GetCurrentGPSLocation;
-import com.javinindia.citymalls.location.LocationService;
+import com.javinindia.citymalls.location.LocationUtility;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
 
@@ -58,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -73,21 +67,33 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
     private boolean loading = true;
     private RequestQueue requestQueue;
     ArrayList arrayList;
-    //GPSTracker gps;
-    GetCurrentGPSLocation currentGPSLocation;
 
     double latitude = 0.0;
     double longitude = 0.0;
-    private GoogleApiClient googleApiClient;
-    final static int REQUEST_LOCATION = 199;
+    GPSTracker gps;
     AppCompatTextView txtDataNotFound;
 
-    LocationService locationService;
+    private static final int REQUEST_CODE_PERMISSION = 2;
+    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            if (ActivityCompat.checkSelfPermission(activity, mPermission)
+                    != MockPackageManager.PERMISSION_GRANTED) {
 
+                ActivityCompat.requestPermissions(activity, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -103,140 +109,23 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         Log.e("onCreateView", "onCreateView");
         initialize(view);
-        methodLocation();
+        getLocationMethod();
         return view;
     }
 
-    private void methodLocation() {
-        if (!hasGPSDevice(activity)) {
-            Toast.makeText(activity, "Gps not Supported", Toast.LENGTH_SHORT).show();
-        }
-        final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && hasGPSDevice(activity)) {
-            Toast.makeText(activity, "Gps not enabled", Toast.LENGTH_SHORT).show();
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                getLocationMethod();
-            }
-        } else {
-            getLocationMethod();
-        }
-    }
-
-    private void enableLoc() {
-
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(activity)
-                    .addApi(LocationServices.API)
-                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onConnectionSuspended(int i) {
-                            googleApiClient.connect();
-                        }
-                    })
-                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override
-                        public void onConnectionFailed(ConnectionResult connectionResult) {
-
-                            Log.d("Location error", "Location error " + connectionResult.getErrorCode());
-                        }
-                    }).build();
-            googleApiClient.connect();
-
-            LocationRequest locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(30 * 1000);
-            locationRequest.setFastestInterval(5 * 1000);
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest);
-
-            builder.setAlwaysShow(true);
-
-            PendingResult<LocationSettingsResult> result =
-                    LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-                @Override
-                public void onResult(LocationSettingsResult result) {
-                    final Status status = result.getStatus();
-                    switch (status.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                // Show the dialog by calling startResolutionForResult(),
-                                // and check the result in onActivityResult().
-                                status.startResolutionForResult(activity, REQUEST_LOCATION);
-                            } catch (IntentSender.SendIntentException e) {
-                                // Ignore the error.
-                            }
-                            break;
-                    }
-                }
-            });
-        }
-
-    }
-
-    private boolean hasGPSDevice(Context context) {
-        final LocationManager mgr = (LocationManager) activity
-                .getSystemService(Context.LOCATION_SERVICE);
-        if (mgr == null)
-            return false;
-        final List<String> providers = mgr.getAllProviders();
-        if (providers == null)
-            return false;
-        return providers.contains(LocationManager.GPS_PROVIDER);
-    }
-
-
     private void getLocationMethod() {
-        currentGPSLocation = new GetCurrentGPSLocation(activity);
-        longitude = currentGPSLocation.getLatitude();
-        longitude = currentGPSLocation.getLongitude();
-        sendRequestOnMallListFeed(0, 10, latitude, longitude);
-     /*   locationService = new LocationService(activity);
-        latitude  =locationService.getLatitude();
-        longitude= locationService.getLongitude();
-        sendRequestOnMallListFeed(0, 10, latitude, longitude);*/
-     /*   gps = new GPSTracker(activity);
-        if (gps.canGetLocation()) {
-             latitude = gps.getLatitude();
-             longitude = gps.getLongitude();
-            Log.e("gps mall", latitude + "---" + longitude);
-            sendRequestOnMallListFeed(0, 10, latitude, longitude);
-        } else {
-            sendRequestOnMallListFeed(0, 10, latitude, longitude);
-        }*/
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_LOCATION:
-                switch (resultCode) {
-                    case Activity.RESULT_CANCELED: {
-                        getLocationMethod();
-                        // Toast.makeText(getApplicationContext(), "off", Toast.LENGTH_LONG).show();
-                        // methodNext();
-                        // The user was asked to change settings, but chose not to
-                        // finish();
-                        break;
-                    }
-                    case Activity.RESULT_OK: {
-                        //  Toast.makeText(getApplicationContext(), "on", Toast.LENGTH_LONG).show();
-                       getLocationMethod();
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
-                break;
+        gps = new GPSTracker(activity);
+        if (gps.canGetLocation()) {
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+            Log.e("gps mall", latitude + "---" + longitude);
+            sendRequestOnMallListFeed(0, 5, latitude, longitude);
+        } else {
+            sendRequestOnMallListFeed(0, 5, latitude, longitude);
         }
     }
+
 
     @Override
     public void onResume() {
@@ -280,7 +169,7 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
                                         adapter.setData(arrayList);
                                         if (arrayList.size() > 0) {
                                         } else {
-                                            getLocationMethod();
+                                            sendRequestOnMallListFeed(0, 10, latitude, longitude);
                                         }
                                     }
                                 });
@@ -434,12 +323,10 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
         String mallLat = modal.getMallLat().trim();
         String mallLong = modal.getMallLong().trim();
         String mallName = modal.getMallName().trim();
-        Intent refresh = new Intent(activity, DirectionMapActivity.class);
-        Log.e("mall",mallLat+"\t"+mallLong+"\t"+mallName);
-        refresh.putExtra("mallLat", mallLat);
-        refresh.putExtra("mallLong", mallLong);
-        refresh.putExtra("mallName", mallName);
-        startActivity(refresh);
+        Log.e("direction",mallLat+"\t"+mallLong);
+        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat),  Double.parseDouble(mallLong),mallName);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        activity.startActivity(intent);
     }
 
     @Override
@@ -511,7 +398,7 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                              //  showDialogMethod(msg);
                             }
                         }
                     }
@@ -546,6 +433,29 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
         wd.setFavStatus(action);
         adapter.notifyItemChanged(pos);
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+
 
 
     public class mallScrollListener extends RecyclerView.OnScrollListener {

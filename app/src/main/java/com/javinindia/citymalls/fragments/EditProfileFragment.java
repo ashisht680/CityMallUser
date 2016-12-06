@@ -390,18 +390,6 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                         if (status == 1) {
                             onCallBackUpdateProfileListener.OnCallBackUpdateProfile();
                             activity.onBackPressed();
-                          /*  sID = shopViewResponse.getUserid().trim();
-                            sPic = shopViewResponse.getProf_pic().trim();
-                            sName = shopViewResponse.getName().trim();
-                            sEmail = shopViewResponse.getEmail().trim();
-                            sMobileNum = shopViewResponse.getPhone().trim();
-                            sState = shopViewResponse.getState().trim();
-                            sCity = shopViewResponse.getCity().trim();
-                            sAddress = shopViewResponse.getAddress().trim();
-                            gender = shopViewResponse.getGender().trim();
-                            dob = shopViewResponse.getDob().trim();
-
-                            methodSetDate(sPic, sName, sEmail, sMobileNum, sState, sCity, sAddress, gender, dob);*/
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
@@ -447,8 +435,10 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                     byte[] data = bos.toByteArray();
                     String encodedImage = Base64.encodeToString(data, Base64.DEFAULT);
                     params.put("pic", encodedImage + "image/jpeg");
+                    params.put("action","new");
                 } else {
                     params.put("pic",sPic);
+                    params.put("action","old");
                 }
                 return params;
             }

@@ -274,7 +274,7 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
                             onCallBackOfferDetailFavListener.OnCallBackOfferDetailFav(position,action);
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                               // showDialogMethod(msg);
                             }
                         }
                     }

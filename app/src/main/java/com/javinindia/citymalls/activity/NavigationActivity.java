@@ -85,6 +85,10 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
     int iCurrentSelection = 0;
     TextView txtCityName;
 
+    double latitude = 0.0;
+    double longitude = 0.0;
+    GPSTracker gps;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
             Toast.makeText(NavigationActivity.this, "Gps not enabled", Toast.LENGTH_SHORT).show();
             enableLoc();
         } else {
+            getLocationMethod();
             // Toast.makeText(NavigationActivity.this, "Gps already enabled", Toast.LENGTH_SHORT).show();
 
         }
@@ -148,6 +153,17 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
         return providers.contains(LocationManager.GPS_PROVIDER);
     }
 
+    private void getLocationMethod() {
+
+        gps = new GPSTracker(getApplicationContext());
+        if (gps.canGetLocation()) {
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+            Log.e("gps mall", latitude + "---" + longitude);
+            Toast.makeText(getApplicationContext(),latitude+"\t"+longitude+"",Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void enableLoc() {
 
         if (googleApiClient == null) {
@@ -156,7 +172,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
                     .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                         @Override
                         public void onConnected(Bundle bundle) {
-
+                            getLocationMethod();
                         }
 
                         @Override

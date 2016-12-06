@@ -23,8 +23,6 @@ import android.widget.Toast;
 import java.util.List;
 import java.util.Locale;
 
-import static com.google.android.gms.internal.zzip.runOnUiThread;
-
 /**
  * Created by Ashish on 01-12-2016.
  */
@@ -161,5 +159,5 @@ public class GetCurrentGPSLocation extends Service implements LocationListener {
     public IBinder onBind(Intent intent) {
         return null;
     }
-    
+
 }
