@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/toolbar_color"
+    android:background="@android:color/white"
     tools:ignore="NewApi">
 
     <ImageView
         android:id="@+id/wish_zee_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_logo"
         android:layout_centerInParent="true"/>
     <TextView
         android:id="@+id/txt_splash"

@@ -160,7 +160,7 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
             Log.e("gps mall", latitude + "---" + longitude);
-            Toast.makeText(getApplicationContext(),latitude+"\t"+longitude+"",Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),latitude+"\t"+longitude+"",Toast.LENGTH_LONG).show();
         }
     }
 
