@@ -63,9 +63,7 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
                         MasterBrandListResponse responseparsing = new MasterBrandListResponse();
                         responseparsing.responseParseMethod(response);
                         Log.e("res brand", startLimit + "\t" + countLimit + "\t" + response);
-
-                        int status = responseparsing.getStatus();
-                        if (status == 1) {
+                        if (responseparsing.getStatus() == 1) {
                             if (responseparsing.getBrandListArrayList().size() > 0) {
                                 arrayList = responseparsing.getBrandListArrayList();
                                 if (arrayList.size() > 0) {

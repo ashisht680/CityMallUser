@@ -45,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -94,8 +95,8 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
                         responseparsing.responseParseMethod(response);
                         Log.e("request mallId", String.valueOf(response.length()));
                         if (response.length() != 0) {
-                            int status = responseparsing.getStatus();
-                            if (status == 1) {
+                           // int status = responseparsing.getStatus();
+                            if (responseparsing.getStatus() == 1) {
                                 if (responseparsing.getShopDataArrayList().size() > 0) {
                                     arrayList = responseparsing.getShopDataArrayList();
                                     if (arrayList.size() > 0) {
@@ -194,6 +195,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onItemClick(int position, ShopData model) {
+        String address ="";
         String shopId = model.getId().trim();
         SharedPreferencesManager.setShopId(activity, shopId);
         String shopName = model.getStoreName().trim();
@@ -202,6 +204,20 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
         String mallName = model.getMallName().trim();
         int totalOffers = model.getShopOfferCount();
         int favStatus = model.getFavStatus();
+        String shopNo = model.getShopNo().trim();
+        String floor = model.getFloor().trim();
+        final ArrayList<String> data = new ArrayList<>();
+        if (!TextUtils.isEmpty(shopNo)) {
+            data.add(shopNo);
+        }
+        if (!TextUtils.isEmpty(floor)) {
+            data.add(floor);
+        }
+
+        if (data.size() > 0) {
+            String str = Arrays.toString(data.toArray());
+            address = str.replaceAll("[\\[\\](){}]", "");
+        }
         StoreTabsFragment fragment = new StoreTabsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
@@ -212,6 +228,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
         bundle.putString("shopRating", shopRating);
         bundle.putInt("totalOffers", totalOffers);
         bundle.putInt("favStatus", favStatus);
+        bundle.putString("address",address);
         fragment.setArguments(bundle);
         fragment.setMyCallBackShopFavListener(this);
         callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);

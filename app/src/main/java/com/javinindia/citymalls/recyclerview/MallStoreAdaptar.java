@@ -1,7 +1,6 @@
 package com.javinindia.citymalls.recyclerview;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +12,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.apiparsing.CountryModel;
 import com.javinindia.citymalls.apiparsing.storeInMallParsing.ShopData;
 import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
@@ -169,7 +165,7 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
             txtShopName.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
             txtTimingStore = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtTimingStore);
             txtTimingStore.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
-            txtOfferAmount = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferAmount);
+            txtOfferAmount = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferTitle);
             txtOfferAmount.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
            // txtOfferCategory = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferCategory);
             txtViewAllOffers = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtViewAllOffers);

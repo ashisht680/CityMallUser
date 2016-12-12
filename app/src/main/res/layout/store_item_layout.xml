@@ -99,7 +99,7 @@
             android:text="Shubhash nagar,New Delhi"
             android:textSize="12sp" />-->
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtOfferAmount"
+            android:id="@+id/txtOfferTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtTimingStore"
@@ -113,7 +113,7 @@
              android:id="@+id/txtOfferCategory"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_below="@+id/txtOfferAmount"
+             android:layout_below="@+id/txtOfferTitle"
              android:layout_marginLeft="5dp"
              android:layout_toRightOf="@+id/imgShopLogoStore"
              android:text="On clothes"

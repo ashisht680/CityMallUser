@@ -1,29 +1,94 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-       android:layout_margin="8dp"
-        android:background="@color/highlight_color"
-        android:elevation="7dp"
-        app:tabGravity="fill"
-        app:tabIndicatorHeight="60dp"
-        app:tabIndicatorColor="@color/black_transparent_color"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabTextColor="@color/tab_text_color" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/toolbar_color">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/new_logo" />
+
+                <Spinner
+                    android:id="@+id/spinner_nav"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_gravity="left"
+                    android:dropDownVerticalOffset="10dp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/txtCityName"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"/>
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="8dp"
+            android:background="@color/highlight_color"
+            android:elevation="7dp"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="60dp"
+            app:tabIndicatorColor="@color/black_transparent_color"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/tab_text_color" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tabs"
+            android:background="@color/background_color" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@id/tabs"
-        android:background="@color/background_color" />
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black"
+        app:menu="@menu/drawer"
+        app:paddingEnd="5dp"
+        app:paddingStart="5dp" />
 
-</RelativeLayout>
+
+
+
+
+</android.support.v4.widget.DrawerLayout>

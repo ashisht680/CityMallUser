@@ -158,7 +158,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
     private void initialize(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.offer_swipe_refresh_layout);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
-        adapter = new OfferAdaptar(activity);
+        adapter = new OfferAdaptar(activity,0);
         LinearLayoutManager layoutMangerDestination
                 = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layoutMangerDestination);

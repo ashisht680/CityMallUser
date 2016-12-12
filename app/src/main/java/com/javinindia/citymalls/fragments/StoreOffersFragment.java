@@ -83,8 +83,8 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
                         Log.e("request", response);
                         responseparsing.responseParseMethod(response);
 
-                        int status = responseparsing.getStatus();
-                        if (status == 1) {
+                      //  int status = responseparsing.getStatus();
+                        if (responseparsing.getStatus() == 1) {
                             if (responseparsing.getDetailsListArrayList().size() > 0) {
                                 arrayList = responseparsing.getDetailsListArrayList();
                                 if (arrayList.size() > 0) {
@@ -140,7 +140,7 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
 
     private void initialize(View view) {
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
-        adapter = new OfferAdaptar(activity);
+        adapter = new OfferAdaptar(activity,2);
         LinearLayoutManager layoutMangerDestination
                 = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layoutMangerDestination);

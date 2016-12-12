@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -45,14 +49,14 @@ public class MallDetailTabBarFragment extends BaseFragment {
     private ViewPager viewPager;
     int pos;
     String mallId;
-    String mallName;
+    String mallName,address;
     String mallRating;
     double distance;
     String mallPic;
     int favStatus;
     int totalOffer;
 
-    AppCompatTextView txtMallName, txtRating, txtMallDistance, txtOffers;
+    AppCompatTextView txtMallName, txtRating, txtMallAddress, txtOffers;
     ImageView imgFavourateMalls;
     CheckBox chkImageMall;
     ProgressBar progress;
@@ -71,6 +75,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         pos = getArguments().getInt("pos");
         mallId = getArguments().getString("mallId");
         mallName = getArguments().getString("mallName");
@@ -79,6 +84,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
         mallPic = getArguments().getString("mallPic");
         favStatus = getArguments().getInt("favStatus");
         totalOffer = getArguments().getInt("totalOffer");
+        address = getArguments().getString("address");
     }
 
     @Override
@@ -91,12 +97,34 @@ public class MallDetailTabBarFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        initToolbar(view);
+        intialization(view);
+        setDateMethod();
+        return view;
+    }
+
+    private void initToolbar(View view) {
+        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.onBackPressed();
+            }
+        });
+        final ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setTitle(null);
+    }
+
+    private void intialization(View view) {
         txtMallName = (AppCompatTextView) view.findViewById(R.id.txtMallName);
         txtMallName.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
         txtRating = (AppCompatTextView) view.findViewById(R.id.txtRating);
         txtRating.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtMallDistance = (AppCompatTextView) view.findViewById(R.id.txtMallDistance);
-        txtMallDistance.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        txtMallAddress = (AppCompatTextView) view.findViewById(R.id.txtMallAddress);
+        txtMallAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtOffers = (AppCompatTextView) view.findViewById(R.id.txtOffers);
         txtOffers.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         chkImageMall = (CheckBox) view.findViewById(R.id.chkImageMall);
@@ -109,8 +137,14 @@ public class MallDetailTabBarFragment extends BaseFragment {
                 activity.onBackPressed();
             }
         });
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        viewPager.setCurrentItem(Constants.VIEW_PAGER_MALL_CURRENT_POSITION);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 
-
+    private void setDateMethod() {
         if (!TextUtils.isEmpty(mallName)) {
             txtMallName.setText(Html.fromHtml(mallName));
         }
@@ -121,10 +155,10 @@ public class MallDetailTabBarFragment extends BaseFragment {
             txtRating.setText("Rating: 0/5");
             ratingBar.setRating((float) 0.0);
         }
-        if (distance != 0) {
-            txtMallDistance.setText("Distance: " + (int) distance + "km");
+        if (!TextUtils.isEmpty(address)) {
+            txtMallAddress.setText(address);
         } else {
-            txtMallDistance.setText("Distance: Near you");
+            txtMallAddress.setText("");
         }
         if (totalOffer != 0) {
             if (totalOffer == 1) {
@@ -137,7 +171,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
         }
         if (!TextUtils.isEmpty(mallPic)) {
             Utility.imageLoadGlideLibrary(activity, progress, imgFavourateMalls, mallPic);
-        }else {
+        } else {
             imgFavourateMalls.setImageResource(R.drawable.no_image_icon);
         }
         if (favStatus == 1) {
@@ -159,15 +193,6 @@ public class MallDetailTabBarFragment extends BaseFragment {
                 }
             }
         });
-
-
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        viewPager.setCurrentItem(Constants.VIEW_PAGER_MALL_CURRENT_POSITION);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-        return view;
     }
 
     private void favHitOnApi(final String uId, final String mallId, final String yes) {
@@ -202,7 +227,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                              //  showDialogMethod(msg);
+                                //  showDialogMethod(msg);
                             }
                         }
                     }
@@ -252,5 +277,12 @@ public class MallDetailTabBarFragment extends BaseFragment {
         //  adapter.addFragment(new MallEventsListFragment(), "Events");
         viewPager.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu != null)
+            menu.clear();
     }
 }

@@ -19,7 +19,7 @@
             android:id="@+id/etSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="7"
+            android:layout_weight="7.3"
             android:background="@drawable/button_border_black_fill_white"
             android:hint="Search brand"
             android:clickable="true"
@@ -33,7 +33,7 @@
             android:id="@+id/imgSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.7"
             android:background="@android:color/black"
             android:src="@drawable/search_white" />
 

@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -52,11 +55,7 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if ( ContextCompat.checkSelfPermission( activity, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-
-            ActivityCompat.requestPermissions( activity, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },MY_PERMISSION_ACCESS_COURSE_LOCATION );
-        }
+        setHasOptionsMenu(true);
     }
 
     public interface OnCallBackRefreshListener {
@@ -72,9 +71,28 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        initToolbar(view);
         initialize(view);
         methodForHitView();
         return view;
+    }
+
+    private void initToolbar(View view) {
+        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.onBackPressed();
+            }
+        });
+        final ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setTitle(null);
+        AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
+        textView.setText("");
+        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
     private void methodForHitView() {
@@ -90,9 +108,10 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
                         loading.dismiss();
                         UesrParsingResponse shopViewResponse = new UesrParsingResponse();
                         shopViewResponse.responseParseMethod(response);
-                        status = shopViewResponse.getStatus();
-                        msg = shopViewResponse.getMsg().trim();
-                        if (status==1) {
+
+                        if (shopViewResponse.getStatus()==1) {
+                            status = shopViewResponse.getStatus();
+                            msg = shopViewResponse.getMsg().trim();
                             sID = shopViewResponse.getUserid().trim();
                             sPic = shopViewResponse.getProf_pic().trim();
                             sName = shopViewResponse.getName().trim();
@@ -109,8 +128,8 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
                             saveDataOnPreference(sName, sMobileNum, sEmail,sPic);
                             onCallBackRefreshListener.OnCallBackRefresh(sName,sEmail,sPic);
                         } else {
-                            if (!TextUtils.isEmpty(msg)) {
-                                showDialogMethod(msg);
+                            if (!TextUtils.isEmpty(shopViewResponse.getMsg().trim())) {
+                                showDialogMethod(shopViewResponse.getMsg().trim());
                             }
                         }
                     }
@@ -266,5 +285,12 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
     @Override
     public void OnCallBackUpdateProfile() {
         methodForHitView();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu != null)
+            menu.clear();
     }
 }

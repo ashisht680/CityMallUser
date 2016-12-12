@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar_layout" />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txtTitleBrand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Brand"
         android:gravity="center_horizontal"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:text="Search Brand"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/llSearch"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal"
-        android:background="#e3e3e3"
         android:layout_below="@+id/txtTitleBrand"
+        android:background="#e3e3e3"
+        android:orientation="horizontal"
         android:padding="3dp"
-        android:weightSum="7"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:weightSum="7">
+
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/etSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6.3"
+            android:background="@drawable/button_border_black_fill_white"
             android:hint="Search brand"
-            android:textSize="12dp"
-            android:singleLine = "true"
             android:padding="2dp"
-            android:background="@drawable/button_border_black_fill_white"/>
+            android:singleLine="true"
+            android:textSize="12dp" />
+
         <ImageView
             android:id="@+id/imgSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.7"
-            android:src="@drawable/search_white"
-            android:background="@android:color/black"/>
+            android:background="@android:color/black"
+            android:src="@drawable/search_white" />
         <!--  <Spinner
               android:layout_width="0dp"
               android:layout_height="match_parent"
@@ -45,19 +53,21 @@
 
           </Spinner>-->
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewMallOffer"
-        android:layout_below="@+id/llSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llSearch">
 
     </android.support.v7.widget.RecyclerView>
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txtDataNotFound"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Data not found"
         android:gravity="center"
-        android:visibility="gone"/>
+        android:text="Data not found"
+        android:visibility="gone" />
 
-</RelativeLayout>
+</LinearLayout>

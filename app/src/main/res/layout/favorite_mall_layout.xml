@@ -14,26 +14,27 @@
         android:background="#e3e3e3"
         android:orientation="horizontal"
         android:padding="3dp"
+        android:weightSum="7"
         android:visibility="gone">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/etSearch"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5.5"
+            android:layout_weight="6.3"
             android:background="@drawable/button_border_black_fill_white"
             android:hint="Search"
             android:padding="2dp"
             android:textSize="14dp" />
-
-     <!--   <ImageView
+        <ImageView
+            android:id="@+id/imgSearch"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
             android:background="@android:color/black"
-            android:src="@drawable/select" />
+            android:src="@drawable/search_white" />
 
-        <Spinner
+     <!--  <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"

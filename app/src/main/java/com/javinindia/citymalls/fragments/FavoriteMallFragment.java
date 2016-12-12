@@ -112,8 +112,8 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
                         responseparsing.responseParseMethod(response);
                         Log.e("request", response);
                         ArrayList arrayList = responseparsing.getMallDetailsArrayList();
-                        int status = responseparsing.getStatus();
-                        if (status == 1) {
+                       // int status = responseparsing.getStatus();
+                        if (responseparsing.getStatus() == 1) {
                             if (arrayList.size() > 0) {
                                 if (adapter.getData() != null && adapter.getData().size() > 0) {
                                     adapter.getData().addAll(arrayList);
@@ -252,34 +252,6 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onItemClick(int position, MallDetail model) {
-        int pos = position;
-        String mallId = model.getId().trim();
-        String mallName = model.getMallName().trim();
-        String mallRating = model.getRating().trim();
-        double distance = model.getDistance();
-        String mallPic = model.getMallPic().trim();
-        int favStatus = model.getFavStatus();
-        int totalOffer = model.getOfferCount();
-
-        MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("pos", pos);
-        bundle.putString("mallId", mallId);
-        bundle.putString("mallName", mallName);
-        bundle.putString("mallRating", mallRating);
-        bundle.putDouble("distance", distance);
-        bundle.putString("mallPic", mallPic);
-        bundle.putInt("favStatus", favStatus);
-        bundle.putInt("totalOffer", totalOffer);
-        fragment1.setArguments(bundle);
-        SharedPreferencesManager.setMAllId(activity, mallId);
-        fragment1.setMyCallBackMallFavListener(this);
-        Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 1;
-        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
-    }
-
-    @Override
     public void onFavourite(int position, MallDetail modal) {
         int fav = modal.getFavStatus();
         String mallId = modal.getId().trim();
@@ -294,15 +266,31 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onMallNameClick(int position, MallDetail modal) {
+    public void onItemClick(int position, MallDetail model) {
         int pos = position;
-        String mallId = modal.getId().trim();
-        String mallName = modal.getMallName().trim();
-        String mallRating = modal.getRating().trim();
-        double distance = modal.getDistance();
-        String mallPic = modal.getMallPic().trim();
-        int favStatus = modal.getFavStatus();
-        int totalOffer = modal.getOfferCount();
+        String mallId = model.getId().trim();
+        String mallName = model.getMallName().trim();
+        String mallRating = model.getRating().trim();
+        double distance = model.getDistance();
+        String mallPic = model.getMallPic().trim();
+        int favStatus = model.getFavStatus();
+        int totalOffer = model.getOfferCount();
+        String address="";
+
+        String mallLandmark = model.getMallLandmark().trim();
+        String city = model.getCity().trim();
+        final ArrayList<String> data = new ArrayList<>();
+        if (!TextUtils.isEmpty(mallLandmark)) {
+            data.add(mallLandmark);
+        }
+        if (!TextUtils.isEmpty(city)) {
+            data.add(city);
+        }
+
+        if (data.size() > 0) {
+            String str = Arrays.toString(data.toArray());
+            address = str.replaceAll("[\\[\\](){}]", "");
+        }
 
         MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
         Bundle bundle = new Bundle();
@@ -314,6 +302,52 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         bundle.putString("mallPic", mallPic);
         bundle.putInt("favStatus", favStatus);
         bundle.putInt("totalOffer", totalOffer);
+        bundle.putString("address", address);
+        fragment1.setArguments(bundle);
+        SharedPreferencesManager.setMAllId(activity, mallId);
+        fragment1.setMyCallBackMallFavListener(this);
+        Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 1;
+        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+    }
+
+    @Override
+    public void onMallNameClick(int position, MallDetail modal) {
+        int pos = position;
+        String mallId = modal.getId().trim();
+        String mallName = modal.getMallName().trim();
+        String mallRating = modal.getRating().trim();
+        double distance = modal.getDistance();
+        String mallPic = modal.getMallPic().trim();
+        int favStatus = modal.getFavStatus();
+        int totalOffer = modal.getOfferCount();
+        String address="";
+
+        String mallLandmark = modal.getMallLandmark().trim();
+        String city = modal.getCity().trim();
+        final ArrayList<String> data = new ArrayList<>();
+        if (!TextUtils.isEmpty(mallLandmark)) {
+            data.add(mallLandmark);
+        }
+        if (!TextUtils.isEmpty(city)) {
+            data.add(city);
+        }
+
+        if (data.size() > 0) {
+            String str = Arrays.toString(data.toArray());
+            address = str.replaceAll("[\\[\\](){}]", "");
+        }
+
+        MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("pos", pos);
+        bundle.putString("mallId", mallId);
+        bundle.putString("mallName", mallName);
+        bundle.putString("mallRating", mallRating);
+        bundle.putDouble("distance", distance);
+        bundle.putString("mallPic", mallPic);
+        bundle.putInt("favStatus", favStatus);
+        bundle.putInt("totalOffer", totalOffer);
+        bundle.putString("address", address);
         fragment1.setArguments(bundle);
         SharedPreferencesManager.setMAllId(activity, mallId);
         fragment1.setMyCallBackMallFavListener(this);

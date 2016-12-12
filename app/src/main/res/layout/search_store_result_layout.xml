@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color">
+    <include layout="@layout/common_toolbar_layout" />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txtTitleStore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Search store"
         android:gravity="center_horizontal"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:visibility="gone"/>
     <LinearLayout
         android:id="@+id/llSearch"
         android:layout_width="match_parent"
@@ -62,4 +64,4 @@
         android:gravity="center"
         android:visibility="gone"/>
 
-</RelativeLayout>
+</LinearLayout>

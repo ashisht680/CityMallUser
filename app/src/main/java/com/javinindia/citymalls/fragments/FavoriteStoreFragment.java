@@ -80,8 +80,8 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
                         responseparsing.responseParseMethod(response);
                         Log.e("request store", response);
                         if (response.length() != 0) {
-                            int status = responseparsing.getStatus();
-                            if (status == 1) {
+                        //    int status = responseparsing.getStatus();
+                            if (responseparsing.getStatus() == 1) {
                                 if (responseparsing.getShopDataArrayList().size() > 0) {
                                     ArrayList arrayList = responseparsing.getShopDataArrayList();
                                     if (arrayList.size() > 0) {

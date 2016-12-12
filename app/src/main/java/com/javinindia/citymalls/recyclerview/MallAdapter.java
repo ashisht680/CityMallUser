@@ -69,26 +69,26 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
         final MallDetail mallDetail = (MallDetail) list.get(position);
 
         final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(mallDetail.getMallAddress().trim())){
+       /* if (!TextUtils.isEmpty(mallDetail.getMallAddress().trim())){
             String mallAddress = mallDetail.getMallAddress().trim();
             data.add(mallAddress);
-        }
+        }*/
         if (!TextUtils.isEmpty(mallDetail.getMallLandmark().trim())){
             String mallLandmark = mallDetail.getMallLandmark().trim();
             data.add(mallLandmark);
         }
-        if (!TextUtils.isEmpty(mallDetail.getCity().trim())){
+       /* if (!TextUtils.isEmpty(mallDetail.getCity().trim())){
             String city = mallDetail.getCity().trim();
             data.add(city);
-        }
-        if (!TextUtils.isEmpty(mallDetail.getState().trim())){
+        }*/
+       /* if (!TextUtils.isEmpty(mallDetail.getState().trim())){
             String state = mallDetail.getState().trim();
             data.add(state);
-        }
-        if (!TextUtils.isEmpty(mallDetail.getPinCode().trim())){
+        }*/
+       /* if (!TextUtils.isEmpty(mallDetail.getPinCode().trim())){
             String pinCode = mallDetail.getPinCode().trim();
             data.add(pinCode);
-        }
+        }*/
 
         if (!TextUtils.isEmpty(mallDetail.getMallName().trim())) {
             String mallName = mallDetail.getMallName().trim();

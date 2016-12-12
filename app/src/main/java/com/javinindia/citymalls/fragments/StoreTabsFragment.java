@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,13 +47,13 @@ public class StoreTabsFragment extends BaseFragment {
     private RequestQueue requestQueue;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    AppCompatTextView txtStoreName, txtRating, txtStoreMall, txtOffers;
+    AppCompatTextView txtStoreName, txtRating, txtStoreMall, txtOffers,txtStoreAddress;
     ImageView imgStore;
     ProgressBar progress;
     CheckBox chkImageShop;
     RatingBar ratingBar;
     String shopId;
-    String shopName;
+    String shopName,address;
     String shopPic;
     String shopRating;
     String mallName;
@@ -70,6 +74,7 @@ public class StoreTabsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         position = getArguments().getInt("position");
         shopId = getArguments().getString("shopId");
         shopName = getArguments().getString("shopName");
@@ -78,6 +83,7 @@ public class StoreTabsFragment extends BaseFragment {
         shopPic = getArguments().getString("shopPic");
         favStatus = getArguments().getInt("favStatus");
         totalOffers = getArguments().getInt("totalOffers");
+        address = getArguments().getString("address");
     }
 
     @Override
@@ -90,32 +96,38 @@ public class StoreTabsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
-        txtStoreName = (AppCompatTextView) view.findViewById(R.id.txtStoreName);
-        txtStoreName.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
-        txtRating = (AppCompatTextView) view.findViewById(R.id.txtRating);
-        txtRating.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtStoreMall = (AppCompatTextView) view.findViewById(R.id.txtStoreMall);
-        txtStoreMall.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtOffers = (AppCompatTextView) view.findViewById(R.id.txtOffers);
-        txtOffers.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        imgStore = (ImageView) view.findViewById(R.id.imgStore);
-        progress = (ProgressBar) view.findViewById(R.id.progress);
-        chkImageShop = (CheckBox) view.findViewById(R.id.chkImageShop);
-        ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        initToolbar(view);
+        intialize(view);
+        setDateMethod();
+        return view;
+    }
 
-        imgStore.setOnClickListener(new View.OnClickListener() {
+    private void initToolbar(View view) {
+        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 activity.onBackPressed();
             }
         });
+        final ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setTitle(null);
+        AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
+        textView.setText("");
+        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+    }
 
+    private void setDateMethod() {
         if (!TextUtils.isEmpty(shopName)) {
             txtStoreName.setText(Html.fromHtml(shopName));
         }
         if (!TextUtils.isEmpty(shopPic)) {
             Utility.imageLoadGlideLibrary(activity, progress, imgStore, shopPic);
-        }else {
+        } else {
             imgStore.setImageResource(R.drawable.no_image_icon);
         }
         if (!TextUtils.isEmpty(mallName)) {
@@ -124,9 +136,9 @@ public class StoreTabsFragment extends BaseFragment {
             txtStoreMall.setText("No Mall Detail");
         }
         if (totalOffers != 0) {
-            if (totalOffers==1){
+            if (totalOffers == 1) {
                 txtOffers.setText(totalOffers + " offer");
-            }else {
+            } else {
                 txtOffers.setText(totalOffers + " offers");
             }
         } else {
@@ -139,6 +151,10 @@ public class StoreTabsFragment extends BaseFragment {
         } else {
             txtRating.setText("Rating: 0/5");
             ratingBar.setRating((float) 0.0);
+        }
+
+        if (!TextUtils.isEmpty(address)) {
+            txtStoreAddress.setText(Html.fromHtml(address));
         }
         if (favStatus == 1) {
             chkImageShop.setChecked(true);
@@ -159,15 +175,35 @@ public class StoreTabsFragment extends BaseFragment {
                 }
             }
         });
+    }
 
-
+    private void intialize(View view) {
+        txtStoreName = (AppCompatTextView) view.findViewById(R.id.txtStoreName);
+        txtStoreName.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
+        txtRating = (AppCompatTextView) view.findViewById(R.id.txtRating);
+        txtRating.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        txtStoreMall = (AppCompatTextView) view.findViewById(R.id.txtStoreMall);
+        txtStoreMall.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        txtOffers = (AppCompatTextView) view.findViewById(R.id.txtOffers);
+        txtOffers.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        txtStoreAddress = (AppCompatTextView) view.findViewById(R.id.txtStoreAddress);
+        txtStoreAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        imgStore = (ImageView) view.findViewById(R.id.imgStore);
+        progress = (ProgressBar) view.findViewById(R.id.progress);
+        chkImageShop = (CheckBox) view.findViewById(R.id.chkImageShop);
+        ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         //   viewPager.setCurrentItem(Constants.VIEW_PAGER_CURRENT_POSITION);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        return view;
+        imgStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
     }
 
     private void favHitOnApi(final String uId, final String shopId, final String yes) {
@@ -200,7 +236,7 @@ public class StoreTabsFragment extends BaseFragment {
                             onCallBackShopFavListener.OnCallBackShopFav(position, action);
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                               // showDialogMethod(msg);
+                                // showDialogMethod(msg);
                             }
                         }
                     }
@@ -246,8 +282,14 @@ public class StoreTabsFragment extends BaseFragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new StoreOffersFragment(), "Offers");
-      //  adapter.addFragment(new StoreEventsFragment(), "Events");
+        //  adapter.addFragment(new StoreEventsFragment(), "Events");
         viewPager.setAdapter(adapter);
 
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu != null)
+            menu.clear();
     }
 }

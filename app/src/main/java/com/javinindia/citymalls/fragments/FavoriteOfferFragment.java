@@ -75,8 +75,8 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
                         Log.e("request fav off", response);
                         responseparsing.responseParseMethod(response);
 
-                        int status = responseparsing.getStatus();
-                        if(status==1){
+                       // int status = responseparsing.getStatus();
+                        if(responseparsing.getStatus()==1){
                             ArrayList arrayList = responseparsing.getDetailsListArrayList();
                             if(arrayList.size()>0){
                                 txtDataNotFound.setVisibility(View.GONE);
@@ -126,7 +126,7 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
     private void initialize(View view) {
 
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallOffer);
-        adapter = new OfferAdaptar(activity);
+        adapter = new OfferAdaptar(activity,0);
         LinearLayoutManager layoutMangerDestination
                 = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layoutMangerDestination);

@@ -4,150 +4,173 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:orientation="vertical"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="8dp">
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar_layout" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp">
 
-        <RelativeLayout
-            android:id="@+id/rlFavourateMalls"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ProgressBar
-                android:id="@+id/progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/imgStore"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:padding="2dp"
-                android:background="@drawable/button_border_black"
-                android:src="@drawable/no_image_icon" />
-
-           <!-- <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtFavourateMalls"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imgFavourateMalls"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="STORE"
-                android:lines="2"
-                android:textColor="@android:color/white"
-                android:textSize="10sp" />-->
-        </RelativeLayout>
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <RelativeLayout
+                android:id="@+id/rlFavourateMalls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/imgStore"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/button_border_black"
+                    android:padding="2dp"
+                    android:src="@drawable/no_image_icon" />
+
+                <!-- <android.support.v7.widget.AppCompatTextView
+                     android:id="@+id/txtFavourateMalls"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@+id/imgFavourateMalls"
+                     android:gravity="center"
+                     android:padding="2dp"
+                     android:text="STORE"
+                     android:lines="2"
+                     android:textColor="@android:color/white"
+                     android:textSize="10sp" />-->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/highlight_color">
+
+                <CheckBox
+                    android:id="@+id/chkImageShop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:button="@drawable/selector"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:transformPivotX="30dp"
+                    android:transformPivotY="5dp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtStoreName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toLeftOf="@+id/chkImageShop"
+                    android:layout_toRightOf="@+id/imgLogo"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtStoreName"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/imgLogo"
+                    android:backgroundTint="@color/wow_gray"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressTint="@color/yellow_color"
+                    android:secondaryProgressTint="@color/sq_background_blue" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtStoreName"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/ratingBar"
+                    android:paddingTop="2dp"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtStoreMall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
+                    android:textColor="@android:color/white" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtStoreAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtStoreMall"
+                    android:layout_marginLeft="5dp"
+                    android:lines="1"
+                    android:textSize="12sp"
+                    android:layout_marginRight="70dp"
+                    android:text=""
+                    android:textColor="@android:color/white" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtOffers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@android:color/black"
+                    android:padding="3dp"
+                    android:text="35 offers"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@android:color/white"
+            android:elevation="7dp"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@android:color/black"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabTextColor="@color/tab_text_color" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/highlight_color">
-
-            <CheckBox
-                android:id="@+id/chkImageShop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:button="@drawable/selector"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:transformPivotX="30dp"
-                android:transformPivotY="5dp" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtStoreName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toLeftOf="@+id/chkImageShop"
-                android:layout_toRightOf="@+id/imgLogo"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtStoreName"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/imgLogo"
-                android:backgroundTint="@color/wow_gray"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:progressTint="@color/yellow_color"
-                android:secondaryProgressTint="@color/sq_background_blue" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtRating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtStoreName"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/ratingBar"
-                android:paddingTop="2dp"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtStoreMall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ratingBar"
-                android:layout_marginLeft="5dp"
-                android:text=""
-                android:textColor="@android:color/white" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txtOffers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="5dp"
-                android:background="@android:color/black"
-                android:padding="3dp"
-                android:text="35 offers"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-        </RelativeLayout>
+            android:layout_below="@id/tabs"
+            android:background="@android:color/white" />
     </LinearLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@android:color/white"
-        android:elevation="7dp"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/black"
-        app:tabIndicatorHeight="3dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@android:color/black"
-        app:tabTextColor="@color/tab_text_color" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tabs"
-        android:background="@android:color/white" />
 </LinearLayout>
