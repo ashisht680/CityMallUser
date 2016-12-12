@@ -131,7 +131,22 @@
             android:background="@android:color/black"
             android:gravity="center"
             android:padding="5dp"
-            android:text="View All Offers"
+            android:text="View Offers"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="10dp" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtOffersCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/viewLine"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/txtViewAllOffers"
+            android:background="@color/toolbar_color"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="5"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="10dp" />

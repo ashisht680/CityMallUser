@@ -50,7 +50,7 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
 
     @Override
     public MallStoreAdaptar.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                      int viewType) {
+                                                          int viewType) {
         View itemLayoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.store_item_layout, parent, false);
 
@@ -63,73 +63,70 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
         final ShopData shopData = (ShopData) list.get(position);
         final ArrayList<String> data = new ArrayList<>();
 
-        if (!TextUtils.isEmpty(shopData.getShopNo().trim())){
+        if (!TextUtils.isEmpty(shopData.getShopNo().trim())) {
             String shopNumber = shopData.getShopNo().trim();
             data.add(shopNumber);
         }
-        if (!TextUtils.isEmpty(shopData.getFloor().trim())){
+        if (!TextUtils.isEmpty(shopData.getFloor().trim())) {
             String shopFloor = shopData.getFloor().trim();
-            data.add(shopFloor+" floor");
+            data.add(shopFloor + " floor");
         }
-        if (!TextUtils.isEmpty(shopData.getAddress().trim())){
+        if (!TextUtils.isEmpty(shopData.getAddress().trim())) {
             String shopAddress = shopData.getAddress().trim();
             data.add(shopAddress);
         }
-        if (!TextUtils.isEmpty(shopData.getCity().trim())){
+        if (!TextUtils.isEmpty(shopData.getCity().trim())) {
             String shopCity = shopData.getCity().trim();
             data.add(shopCity);
         }
-        if (!TextUtils.isEmpty(shopData.getState().trim())){
+        if (!TextUtils.isEmpty(shopData.getState().trim())) {
             String shopState = shopData.getState().trim();
             data.add(shopState);
         }
 
 
-        if(!TextUtils.isEmpty(shopData.getStoreName().trim())){
+        if (!TextUtils.isEmpty(shopData.getStoreName().trim())) {
             String shopName = shopData.getStoreName().trim();
             viewHolder.txtShopName.setText(Html.fromHtml(shopName));
         }
-        if(!TextUtils.isEmpty(shopData.getMallName().trim())){
+        if (!TextUtils.isEmpty(shopData.getMallName().trim())) {
             String mallName = shopData.getMallName().trim();
             viewHolder.txtMallName.setText(Html.fromHtml(mallName));
-        }else {
+        } else {
             viewHolder.txtMallName.setText("Mall: Not found");
         }
-        if (data.size()>0){
+        if (data.size() > 0) {
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
             viewHolder.txtAddress.setText(Html.fromHtml(test));
-        }else {
+        } else {
             viewHolder.txtAddress.setText("Address: Not found");
         }
-        if(!TextUtils.isEmpty(shopData.getOpenTime().trim()) && !TextUtils.isEmpty(shopData.getCloseTime().trim())){
-            String shopOpenTime =shopData.getOpenTime().trim();
+        if (!TextUtils.isEmpty(shopData.getOpenTime().trim()) && !TextUtils.isEmpty(shopData.getCloseTime().trim())) {
+            String shopOpenTime = shopData.getOpenTime().trim();
             String shopCloseTime = shopData.getCloseTime().trim();
             viewHolder.txtTimingStore.setText(Html.fromHtml("Timings:" + "\t" + "<font color=#000000>" + shopOpenTime + "-" + shopCloseTime + "</font>"));
-        }else {
+        } else {
             viewHolder.txtTimingStore.setText(Html.fromHtml("Timings:" + "\t" + "<font color=#000000>" + "Not found" + "</font>"));
         }
-        if(shopData.getShopOfferCount()!=0){
+
+        if (shopData.getShopOfferCount() != 0) {
             int totalOffer = shopData.getShopOfferCount();
-            if (totalOffer==1){
-                viewHolder.txtOfferAmount.setText(totalOffer+" Offer");
-            }else {
-                viewHolder.txtOfferAmount.setText(totalOffer+" Offers");
-            }
-        }else {
-            viewHolder.txtOfferAmount.setText("No Offers");
+            viewHolder.txtOffersCount.setText(totalOffer+"");
+        } else {
+            viewHolder.txtOffersCount.setText("0");
         }
-        if (!TextUtils.isEmpty(shopData.getProfilepic().trim())){
+        if (!TextUtils.isEmpty(shopData.getProfilepic().trim())) {
             String shopBanner = shopData.getProfilepic().trim();
             Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoStore, shopBanner);
-        }else {
+        } else {
             viewHolder.imgShopLogoStore.setImageResource(R.drawable.no_image_icon);
         }
 
         viewHolder.txtViewAllOffers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClickListener.onItemClick(position,shopData);
+                myClickListener.onItemClick(position, shopData);
             }
         });
 
@@ -142,7 +139,7 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
         viewHolder.chkImageOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClickListener.onShopFavClick(position ,shopData);
+                myClickListener.onShopFavClick(position, shopData);
             }
         });
 
@@ -151,7 +148,7 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView txtShopName,txtTimingStore,txtOfferAmount,txtViewAllOffers,txtMallName,txtAddress;
+        public AppCompatTextView txtShopName, txtTimingStore, txtOfferAmount, txtViewAllOffers, txtMallName, txtAddress, txtOffersCount;
         public CardView rlMain;
         public CheckBox chkImageOffer;
         public ImageView imgShopLogoStore;
@@ -159,7 +156,7 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            rlMain = (CardView)itemLayoutView.findViewById(R.id.rlMain);
+            rlMain = (CardView) itemLayoutView.findViewById(R.id.rlMain);
             progressBar = (ProgressBar) itemLayoutView.findViewById(R.id.progress);
             txtShopName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtShopName);
             txtShopName.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
@@ -167,14 +164,16 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
             txtTimingStore.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtOfferAmount = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferTitle);
             txtOfferAmount.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
-           // txtOfferCategory = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferCategory);
+            // txtOfferCategory = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOfferCategory);
             txtViewAllOffers = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtViewAllOffers);
             txtViewAllOffers.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
+            txtOffersCount = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtOffersCount);
+            txtOffersCount.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             chkImageOffer = (CheckBox) itemLayoutView.findViewById(R.id.chkImageOffer);
-            imgShopLogoStore = (ImageView)itemLayoutView.findViewById(R.id.imgShopLogoStore);
-            txtMallName = (AppCompatTextView)itemLayoutView.findViewById(R.id.txtMallName);
+            imgShopLogoStore = (ImageView) itemLayoutView.findViewById(R.id.imgShopLogoStore);
+            txtMallName = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtMallName);
             txtMallName.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
-            txtAddress = (AppCompatTextView)itemLayoutView.findViewById(R.id.txtAddress);
+            txtAddress = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtAddress);
             txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
         }
     }
@@ -187,7 +186,7 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
     public interface MyClickListener {
         void onItemClick(int position, ShopData model);
 
-        void onShopFavClick(int position ,ShopData model);
+        void onShopFavClick(int position, ShopData model);
     }
 
     public void setMyClickListener(MyClickListener myClickListener) {

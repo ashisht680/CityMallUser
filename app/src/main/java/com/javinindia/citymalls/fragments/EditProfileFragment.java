@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,8 +23,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -56,6 +60,7 @@ import com.javinindia.citymalls.utility.Utility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -77,21 +82,23 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     String stateArray[] = null;
     public ArrayList<String> cityList = new ArrayList<>();
     String cityArray[] = null;
-    ImageView imgProfilePic,imgProfilePicNotFound;
+    ImageView imgProfilePic, imgProfilePicNotFound;
     AppCompatEditText etPersonName, etEmailAddress, etMobile, etGender, etDOB, etState, etCity, etAddress;
-    RelativeLayout rlUpadteImg,rlBack;
+    RelativeLayout  rlBack;
     AppCompatTextView txtUpdate, txtEmailHd, txtMobileHd, txtGenderHd, txtDOBHd, txtStateHd, txtCityHd, txtAddressHd;
 
-    private Uri mImageCaptureUri;
-   // private ImageView mImageView;
+    private Uri mImageCaptureUri = null;
+    // private ImageView mImageView;
     private android.app.AlertDialog dialog;
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
-    Bitmap photo=null;
+    Bitmap photo = null;
     int size = 0;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     String sPic = null;
+
+    private File outPutFile = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +108,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
             // takePictureButton.setEnabled(false);
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CAMERA);
         }
+
     }
 
     private OnCallBackUpdateProfileListener onCallBackUpdateProfileListener;
@@ -118,10 +126,30 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        initToolbar(view);
         initialize(view);
         captureImageInitialization();
         methodForHitView();
+        outPutFile = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
         return view;
+    }
+
+    private void initToolbar(View view) {
+        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.onBackPressed();
+            }
+        });
+        final ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setTitle(null);
+        AppCompatTextView textView = (AppCompatTextView) view.findViewById(R.id.tittle);
+        textView.setText("");
+        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
     private void methodForHitView() {
@@ -183,42 +211,42 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
         if (!TextUtils.isEmpty(sName) && !sName.equals("null")) {
             etPersonName.setText(Html.fromHtml(sName));
         } else {
-         //   etPersonName.setText(" ");
+            //   etPersonName.setText(" ");
         }
         if (!TextUtils.isEmpty(sEmail) && !sEmail.equals("null")) {
             etEmailAddress.setText(Html.fromHtml(sEmail));
         } else {
-         //   etEmailAddress.setText(" ");
+            //   etEmailAddress.setText(" ");
         }
         if (!TextUtils.isEmpty(sMobileNum) && !sMobileNum.equals("null")) {
             etMobile.setText(Html.fromHtml(sMobileNum));
         } else {
-           // etMobile.setText(" ");
+            // etMobile.setText(" ");
         }
         if (!TextUtils.isEmpty(sState) && !sState.equals("null")) {
             etState.setText(Html.fromHtml(sState));
         } else {
-           // etState.setText(" ");
+            // etState.setText(" ");
         }
         if (!TextUtils.isEmpty(sCity) && !sCity.equals("null")) {
             etCity.setText(Html.fromHtml(sCity));
         } else {
-          //  etCity.setText(" ");
+            //  etCity.setText(" ");
         }
         if (!TextUtils.isEmpty(sAddress) && !sAddress.equals("null")) {
             etAddress.setText(Html.fromHtml(sAddress));
         } else {
-          //  etAddress.setText(" ");
+            //  etAddress.setText(" ");
         }
         if (!TextUtils.isEmpty(gender) && !gender.equals("null")) {
             etGender.setText(Html.fromHtml(gender));
         } else {
-          //  etGender.setText(" ");
+            //  etGender.setText(" ");
         }
         if (!TextUtils.isEmpty(dob) && !dob.equals("null")) {
             etDOB.setText(Html.fromHtml(dob));
         } else {
-          //  etDOB.setText(" ");
+            //  etDOB.setText(" ");
         }
         if (!TextUtils.isEmpty(sPic)) {
             Utility.imageLoadGlideLibraryPic(activity, imgProfilePicNotFound, imgProfilePic, sPic);
@@ -226,10 +254,10 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void initialize(View view) {
-        rlBack = (RelativeLayout)view.findViewById(R.id.rlBack);
+        rlBack = (RelativeLayout) view.findViewById(R.id.rlBack);
         imgProfilePicNotFound = (ImageView) view.findViewById(R.id.imgProfilePicNotFound);
         imgProfilePic = (ImageView) view.findViewById(R.id.imgProfilePic);
-        rlUpadteImg = (RelativeLayout) view.findViewById(R.id.rlUpadteImg);
+        //rlUpadteImg = (RelativeLayout) view.findViewById(R.id.rlUpadteImg);
         etPersonName = (AppCompatEditText) view.findViewById(R.id.etPersonName);
         etPersonName.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtEmailHd = (AppCompatTextView) view.findViewById(R.id.txtEmailHd);
@@ -268,7 +296,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
         etState.setOnClickListener(this);
         etCity.setOnClickListener(this);
         txtUpdate.setOnClickListener(this);
-        rlUpadteImg.setOnClickListener(this);
+        //rlUpadteImg.setOnClickListener(this);
         rlBack.setOnClickListener(this);
     }
 
@@ -277,6 +305,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
         super.onActivityCreated(savedInstanceState);
         disableTouchOfBackFragment(savedInstanceState);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != activity.RESULT_OK)
@@ -284,7 +313,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
         switch (requestCode) {
             case PICK_FROM_CAMERA:
-                //After taking a picture, do the crop
+
                 doCrop();
 
                 break;
@@ -293,39 +322,47 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
                 // After selecting image from files, save the selected path
                 mImageCaptureUri = data.getData();
-
                 doCrop();
-
                 break;
 
             case CROP_FROM_CAMERA:
-                Bundle extras = data.getExtras();
+                try {
+                    if (outPutFile.exists()) {
+                        photo = decodeFile(outPutFile.getAbsolutePath());
 
-                //After cropping the image, get the bitmap of the cropped image and
-                // display it on imageview.
-
-                if (extras != null) {
-                    photo = extras.getParcelable("data");
-                    if (photo != null) {
-                        //   mImageView.setVisibility(View.VISIBLE);
                         imgProfilePicNotFound.setImageBitmap(photo);
                         imgProfilePic.setImageBitmap(photo);
+                    } else {
+                        Toast.makeText(activity, "Error while save image", Toast.LENGTH_SHORT).show();
                     }
-
-                } else {
-
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                File f = new File(mImageCaptureUri.getPath());
-
-                // Delete the temporary image
-                if (f.exists())
-                    f.delete();
-
                 break;
 
         }
     }
+
+    public Bitmap decodeFile(String filePath) {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, o);
+        final int REQUIRED_SIZE = 1024;
+        int width_tmp = o.outWidth, height_tmp = o.outHeight;
+        int scale = 1;
+        while (true) {
+            if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE)
+                break;
+            width_tmp /= 2;
+            height_tmp /= 2;
+            scale *= 2;
+        }
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, o2);
+        return bitmap;
+    }
+
     @Override
     protected int getFragmentLayout() {
         return R.layout.edit_profile_layout;
@@ -347,9 +384,6 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
             case R.id.txtUpdate:
                 methodUpadetProfile();
                 break;
-            case R.id.rlUpadteImg:
-                dialog.show();
-                break;
             case R.id.etGender:
                 genderMethod();
                 break;
@@ -367,7 +401,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                 }
                 break;
             case R.id.rlBack:
-                activity.onBackPressed();
+                dialog.show();
                 break;
         }
     }
@@ -419,15 +453,15 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                 sCity = etCity.getText().toString().trim();
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("userid", SharedPreferencesManager.getUserID(activity));
-                params.put("name",sName);
-                params.put("email",sEmail);
-                params.put("phone",sMobileNum );
-                params.put("gender",gender );
-                params.put("dob",dob);
-                params.put("address",sAddress);
+                params.put("name", sName);
+                params.put("email", sEmail);
+                params.put("phone", sMobileNum);
+                params.put("gender", gender);
+                params.put("dob", dob);
+                params.put("address", sAddress);
                 params.put("country", "India");
-                params.put("state",sState);
-                params.put("city",sCity );
+                params.put("state", sState);
+                params.put("city", sCity);
                 params.put("device_token", "device_token");
                 if (photo != null) {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -435,10 +469,10 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                     byte[] data = bos.toByteArray();
                     String encodedImage = Base64.encodeToString(data, Base64.DEFAULT);
                     params.put("pic", encodedImage + "image/jpeg");
-                    params.put("action","new");
+                    params.put("action", "new");
                 } else {
-                    params.put("pic",sPic);
-                    params.put("action","old");
+                    params.put("pic", sPic);
+                    params.put("action", "old");
                 }
                 return params;
             }
@@ -638,28 +672,15 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                 if (item == 0) {
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    mImageCaptureUri = Uri.fromFile(new File(Environment
-                            .getExternalStorageDirectory(), "tmp_avatar_"
-                            + String.valueOf(System.currentTimeMillis())
-                            + ".jpg"));
+                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp1.jpg");
+                    mImageCaptureUri = Uri.fromFile(f);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+                    startActivityForResult(intent, PICK_FROM_CAMERA);
 
-                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-                            mImageCaptureUri);
-
-                    try {
-                        intent.putExtra("return-data", true);
-
-                       startActivityForResult(intent, PICK_FROM_CAMERA);
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }
                 } else {
                     // pick from file
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                   startActivityForResult(Intent.createChooser(intent,
-                            "Complete action using"), PICK_FROM_FILE);
+                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, PICK_FROM_FILE);
                 }
             }
         });
@@ -706,98 +727,78 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     }
 
 
-
     private void doCrop() {
         final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
-        /**
-         * Open image crop app by starting an intent
-         * �com.android.camera.action.CROP�.
-         */
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setType("image/*");
-
-        /**
-         * Check if there is image cropper app installed.
-         */
         List<ResolveInfo> list = activity.getPackageManager().queryIntentActivities(
                 intent, 0);
 
         int size = list.size();
-
-        /**
-         * If there is no image cropper app, display warning message
-         */
         if (size == 0) {
-
             Toast.makeText(activity, "Can not find image crop app",
                     Toast.LENGTH_SHORT).show();
-
             return;
         } else {
-            /**
-             * Specify the image path, crop dimension and scale
-             */
             intent.setData(mImageCaptureUri);
-
-            intent.putExtra("outputX", 200);
-            intent.putExtra("outputY", 200);
+            intent.putExtra("outputX", 512);
+            intent.putExtra("outputY", 512);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
-            //  intent.putExtra("scale", true);
-            intent.putExtra("return-data", true);
-            /**
-             * There is posibility when more than one image cropper app exist,
-             * so we have to check for it first. If there is only one app, open
-             * then app.
-             */
-            for (ResolveInfo res : list) {
-                final CropOption co = new CropOption();
+            intent.putExtra("scale", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outPutFile));
 
-                co.title = activity.getPackageManager().getApplicationLabel(
-                        res.activityInfo.applicationInfo);
-                co.icon = activity.getPackageManager().getApplicationIcon(
-                        res.activityInfo.applicationInfo);
-                co.appIntent = new Intent(intent);
-
-                co.appIntent
-                        .setComponent(new ComponentName(
-                                res.activityInfo.packageName,
-                                res.activityInfo.name));
-
-                cropOptions.add(co);
-                break;
-            }
-
-            CropOptionAdapter adapter = new CropOptionAdapter(
-                    activity, cropOptions);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle("Choose Crop App");
-            builder.setAdapter(adapter,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                           startActivityForResult(
-                                    cropOptions.get(item).appIntent,
-                                    CROP_FROM_CAMERA);
-                        }
-                    });
-
-            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-
-                    if (mImageCaptureUri != null) {
-                        // getContentResolver().delete(mImageCaptureUri, null, null);
-                        mImageCaptureUri = null;
-                    }
+            if (size == 1) {
+                Intent i = new Intent(intent);
+                ResolveInfo res = list.get(0);
+                i.setComponent(new ComponentName(res.activityInfo.packageName,
+                        res.activityInfo.name));
+                startActivityForResult(i, CROP_FROM_CAMERA);
+            } else {
+                for (ResolveInfo res : list) {
+                    final CropOption co = new CropOption();
+                    co.title = activity.getPackageManager().getApplicationLabel(
+                            res.activityInfo.applicationInfo);
+                    co.icon = activity.getPackageManager().getApplicationIcon(
+                            res.activityInfo.applicationInfo);
+                    co.appIntent = new Intent(intent);
+                    co.appIntent
+                            .setComponent(new ComponentName(
+                                    res.activityInfo.packageName,
+                                    res.activityInfo.name));
+                    cropOptions.add(co);
                 }
-            });
 
-            AlertDialog alert = builder.create();
+                CropOptionAdapter adapter = new CropOptionAdapter(
+                        activity, cropOptions);
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
+                builder.setTitle("Choose Crop App");
+                builder.setCancelable(false);
+                builder.setAdapter(adapter,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                startActivityForResult(
+                                        cropOptions.get(item).appIntent,
+                                        CROP_FROM_CAMERA);
+                            }
+                        });
 
-            alert.show();
+                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+
+                        if (mImageCaptureUri != null) {
+                            activity.getContentResolver().delete(mImageCaptureUri, null,
+                                    null);
+                            mImageCaptureUri = null;
+                        }
+                    }
+                });
+
+                android.support.v7.app.AlertDialog alert = builder.create();
+                alert.show();
+            }
         }
-        //}
     }
 
     @Override
