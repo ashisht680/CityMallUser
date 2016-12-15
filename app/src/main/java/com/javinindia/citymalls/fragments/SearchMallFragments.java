@@ -216,10 +216,10 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             adapter.notifyDataSetChanged();
             adapter.setData(arrayList);
             String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(0, 5, latitude, longitude,data);
+            sendRequestOnReplyFeed(0, 500, latitude, longitude,data);
         } else {
             String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(0, 5, latitude, longitude,data);
+            sendRequestOnReplyFeed(0, 500, latitude, longitude,data);
         }
     }
 
