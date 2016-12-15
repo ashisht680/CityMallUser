@@ -116,6 +116,14 @@ public class MallDetailTabBarFragment extends BaseFragment {
         });
         final ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setTitle(null);
+        AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
+        if (!TextUtils.isEmpty(mallName)){
+            textView.setText(mallName);
+        }else {
+            textView.setText("Mall");
+        }
+        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
     private void intialization(View view) {

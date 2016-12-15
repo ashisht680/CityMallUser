@@ -119,8 +119,8 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
                 activity.onBackPressed();
                 break;
             case R.id.txtTermCondition:
-               /* BaseFragment termFragment = new TermsFragment();
-                callFragmentMethodDead(termFragment, Constants.OTHER_USER_FEED, R.id.container);*/
+                BaseFragment termFragment = new TermAndConditionFragment();
+                callFragmentMethod(termFragment, this.getClass().getSimpleName(), R.id.container);
                 break;
             case R.id.checkShowPassword:
                 if (checkShowPassword.isChecked()){

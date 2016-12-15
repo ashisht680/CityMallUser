@@ -217,7 +217,6 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
         if (!TextUtils.isEmpty(SharedPreferencesManager.getProfileImage(activity))) {
             Picasso.with(activity).load(SharedPreferencesManager.getProfileImage(activity)).transform(new CircleTransform()).into(avatar);
         } else {
-            //AVATAR_URL = "http://lorempixel.com/200/200/people/1/";
             Picasso.with(activity).load(R.drawable.no_image_icon).transform(new CircleTransform()).into(avatar);
         }
         if (!TextUtils.isEmpty(SharedPreferencesManager.getUsername(activity))) {
@@ -238,36 +237,23 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
             drawerLayout.closeDrawers();
             NavigationAboutFragment fragment = new NavigationAboutFragment();
             fragment.setMyCallUpdateProfileListener(this);
-            mFragmentManager = activity.getSupportFragmentManager();
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.navigationContainer, fragment).addToBackStack(this.getClass().getSimpleName()).commit();
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
         } else if (title.equals("Favorite")) {
             drawerLayout.closeDrawers();
             BaseFragment fragment = new FavoriteTabBarFragment();
-            mFragmentManager = activity.getSupportFragmentManager();
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.navigationContainer, fragment).addToBackStack(this.getClass().getSimpleName()).commit();
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
         } else if (title.equals("More")) {
             drawerLayout.closeDrawers();
             Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
-            /*BaseFragment fragment = new SignUpAddressFragment();
-            mFragmentManager = getSupportFragmentManager();
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.navigationContainer, fragment).addToBackStack(Constants.NAVIGATION_DETAILS).commit();*/
+
         } else if (title.equals("About App")) {
             drawerLayout.closeDrawers();
-            Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
-            /*BaseFragment fragment = new BrandsFragment();
-            mFragmentManager = getSupportFragmentManager();
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.navigationContainer, fragment).addToBackStack(Constants.NAVIGATION_DETAILS).commit();*/
+            BaseFragment fragment = new AboutAppFragments();
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
         } else if (title.equals("Settings")) {
             drawerLayout.closeDrawers();
             Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
-            /*BaseFragment fragment = new BrandsFragment();
-            mFragmentManager = getSupportFragmentManager();
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.navigationContainer, fragment).addToBackStack(Constants.NAVIGATION_DETAILS).commit();*/
+
         } else if (title.equals("Logout")) {
             drawerLayout.closeDrawers();
             Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
@@ -335,9 +321,12 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
                 return true;
             case R.id.action_change_password:
                 ChangePasswordFragment fragment = new ChangePasswordFragment();
-                mFragmentManager = activity.getSupportFragmentManager();
-                mFragmentManager.beginTransaction()
-                        .replace(R.id.navigationContainer, fragment).addToBackStack(this.getClass().getSimpleName()).commit();
+                callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+                drawerLayout.closeDrawers();
+                return true;
+            case R.id.action_feedBack:
+                FeedbackFragment fragment1 = new FeedbackFragment();
+                callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
                 drawerLayout.closeDrawers();
                 return true;
             default:

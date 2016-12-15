@@ -43,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -180,9 +181,11 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onOfferItemClick(int position, DetailsList detailsList) {
+        String shopNewAddress = "";
         String brandName = detailsList.getOfferBrandDetails().getBrandName().trim();
         String brandPic = detailsList.getOfferBrandDetails().getBrandLogo().trim();
         String shopName = detailsList.getOfferShopDetails().getShopName().trim();
+        String shopPic = detailsList.getOfferShopDetails().getShopProfilePic().trim();
         String mallName = detailsList.getOfferMallDetails().getMallName().trim();
         String offerId = detailsList.getOfferDetails().getOfferId().trim();
         String shopId = detailsList.getOfferShopDetails().getShopId().trim();
@@ -200,12 +203,28 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
         String offerDescription = detailsList.getOfferDetails().getOfferDescription().trim();
         String shopOpenTime = detailsList.getOfferShopDetails().getShopOpenTime().trim();
         String shopCloseTime = detailsList.getOfferShopDetails().getShopCloseTime().trim();
+        String shopNo = detailsList.getOfferShopDetails().getShopNo().trim();
+        String floor = detailsList.getOfferShopDetails().getShopFloorNo().trim();
         int favStatus = detailsList.getFavStatus();
+        final ArrayList<String> data = new ArrayList<>();
+        if (!TextUtils.isEmpty(shopNo)){
+            data.add(shopNo);
+        }
+        if (!TextUtils.isEmpty(floor)){
+            data.add(floor);
+        }
+
+        if (data.size()>0){
+            String str = Arrays.toString(data.toArray());
+            String test = str.replaceAll("[\\[\\](){}]", "");
+            shopNewAddress=test;
+        }
 
         OfferPostFragment fragment1 = new OfferPostFragment();
 
         Bundle bundle = new Bundle();
-        //    bundle.putSerializable("images", postImage);
+        bundle.putString("shopPic",shopPic);
+        bundle.putString("shopNewAddress", shopNewAddress);
         bundle.putString("brandName", brandName);
         bundle.putString("brandPic", brandPic);
         bundle.putString("shopName", shopName);

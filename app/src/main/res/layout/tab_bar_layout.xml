@@ -87,8 +87,4 @@
         app:paddingEnd="5dp"
         app:paddingStart="5dp" />
 
-
-
-
-
 </android.support.v4.widget.DrawerLayout>

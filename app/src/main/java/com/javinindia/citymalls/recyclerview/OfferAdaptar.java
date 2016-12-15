@@ -174,21 +174,23 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             // viewHolder.txtActualPrice.setText(offerType);
             //   viewHolder.txtActualPrice.setPaintFlags(viewHolder.txtActualPrice.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             viewHolder.txtOfferPercent.setText(offerType + "\t" + offerPercent + "% off");
-        } else if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim())) {
+        } else if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
             String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
             String offerDiscountPrice = requestDetail.getOfferDetails().getOfferDiscountedPrice().trim();
             String offerType = requestDetail.getOfferDetails().getOfferPercentageType().trim();
             double actual = Double.parseDouble(offerActualPrice);
             double discount = Double.parseDouble(offerDiscountPrice);
-            int percent =100- (int) ((discount * 100.0f) / actual);
+            int percent = (int) (100 -(discount * 100.0f) / actual);
             viewHolder.txtOfferPercent.setText(offerType + "\t" + percent + "% off");
+        } else if (TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
+            viewHolder.txtOfferPercent.setText(requestDetail.getOfferDetails().getOfferPercentage().trim() + "% off");
         } else {
             if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim())) {
                 String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
                 String offerDiscountPrice = requestDetail.getOfferDetails().getOfferDiscountedPrice().trim();
                 double actual = Double.parseDouble(offerActualPrice);
                 double discount = Double.parseDouble(offerDiscountPrice);
-                int percent = (int) ((discount * 100.0f) / actual);
+                int percent = (int) (100-(discount * 100.0f) / actual);
                 viewHolder.txtOfferPercent.setText(percent + "% off");
             }
 

@@ -27,7 +27,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.apiparsing.offerListparsing.DetailsList;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
@@ -38,7 +37,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -46,15 +44,15 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
     private RequestQueue requestQueue;
     ImageView imgBrand, imgOffer;
     RatingBar ratingBar;
-    AppCompatTextView txtOfferBrandNamePost, txtRating, txtMallNamePost, txtOfferPrice, txtSubcategory,
-            txtOfferDate, txtShopTiming, txtOfferDiscription, txtOfferActualPrice, txtOfferTitle;
+    AppCompatTextView txtOfferBrandNamePost, txtRating, txtMallNamePost, txtOfferPercentage, txtSubcategory,
+            txtOfferDate, txtShopTiming, txtOfferDiscription, txtOfferActualPrice, txtOfferTitle,txtAddress,txtOfferDiscountPrice;
     AppCompatButton btnRate;
     CheckBox chkImageMall;
     ProgressBar progressBar;
 
     String brandName, brandPic, shopName, mallName, offerRating, offerPic, offerTitle, offerCategory, offerSubCategory, offerPercentType,
             offerPercentage, offerActualPrice, offerDiscountPr, offerStartDate, offerCloseDate, offerDescription, shopOpenTime, shopCloseTime
-            ,offerId,shopId;
+            ,offerId,shopId,shopNewAddress,shopPic;
     int favStatus=0,position;
 
 
@@ -73,7 +71,7 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //   images = (ArrayList<PostImage>) getArguments().getSerializable("images");
+        shopPic = getArguments().getString("shopPic");
         brandName = getArguments().getString("brandName");
         brandPic = getArguments().getString("brandPic");
         shopName = getArguments().getString("shopName");
@@ -96,6 +94,7 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
         shopId = getArguments().getString("shopId");
         favStatus= getArguments().getInt("favStatus");
         position =getArguments().getInt("position");
+        shopNewAddress = getArguments().getString("shopNewAddress");
     }
 
     @Nullable
@@ -123,6 +122,16 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
         });
         final ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setTitle(null);
+        AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
+        if (!TextUtils.isEmpty(shopName)){
+            textView.setText(shopName);
+        }else if (!TextUtils.isEmpty(brandName)){
+            textView.setText(brandName);
+        }else {
+            textView.setText("Offer");
+        }
+        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
     private void hitViewApi(final String uid, final String offerId, final String shopId) {
@@ -196,21 +205,33 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
             ratingBar.setRating(Float.valueOf(offerRating));
 
         if (!TextUtils.isEmpty(mallName))
-            txtMallNamePost.setText(Html.fromHtml(mallName) + "\n" + Html.fromHtml(shopName));
+            txtMallNamePost.setText(Html.fromHtml(mallName) + ",\t" + Html.fromHtml(shopName));
 
         if (!TextUtils.isEmpty(offerTitle))
             txtOfferTitle.setText(Html.fromHtml(offerTitle));
 
         if (!TextUtils.isEmpty(offerPercentType) && !TextUtils.isEmpty(offerPercentage)) {
-            txtOfferActualPrice.setVisibility(View.GONE);
-            txtOfferPrice.setText(offerPercentType + " " + offerPercentage + "% off");
-        } else {
+            txtOfferPercentage.setText(offerPercentType + " " + offerPercentage + "% off");
+        } else if (!TextUtils.isEmpty(offerPercentType) && !TextUtils.isEmpty(offerActualPrice) && !TextUtils.isEmpty(offerDiscountPr) && TextUtils.isEmpty(offerPercentage)) {
+            double actual = Double.parseDouble(offerActualPrice);
+            double discount = Double.parseDouble(offerDiscountPr);
+            int percent = (int) (100 - (discount * 100.0f) / actual);
+            txtOfferPercentage.setText(offerPercentType + "\t" + percent + "% off");
+        } else if (TextUtils.isEmpty(offerPercentType) && TextUtils.isEmpty(offerPercentage)) {
             if (!TextUtils.isEmpty(offerActualPrice) && !TextUtils.isEmpty(offerDiscountPr)) {
-                txtOfferActualPrice.setVisibility(View.VISIBLE);
-                txtOfferActualPrice.setText("Price " + offerActualPrice + " Rs");
-                txtOfferActualPrice.setPaintFlags(txtOfferActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                txtOfferPrice.setText("Discount Price " + offerDiscountPr + " Rs");
+                double actual = Double.parseDouble(offerActualPrice);
+                double discount = Double.parseDouble(offerDiscountPr);
+                int percent = (int) (100 - (discount * 100.0f) / actual);
+                txtOfferPercentage.setText(percent + "% off");
             }
+        } else if (TextUtils.isEmpty(offerPercentType) && !TextUtils.isEmpty(offerPercentage)) {
+            txtOfferPercentage.setText(offerPercentage + "% off");
+        }
+
+        if (!TextUtils.isEmpty(offerActualPrice) && !TextUtils.isEmpty(offerDiscountPr)) {
+            txtOfferActualPrice.setText(Html.fromHtml("\u20B9" + offerActualPrice + "/-"));
+            txtOfferActualPrice.setPaintFlags(txtOfferActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            txtOfferDiscountPrice.setText(Html.fromHtml("\u20B9" + offerDiscountPr + "/-"));
         }
 
         if (!TextUtils.isEmpty(offerCategory))
@@ -233,10 +254,16 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
             imgOffer.setImageResource(R.drawable.no_image_icon);
         }
 
-        if (!TextUtils.isEmpty(brandPic)) {
+        if (!TextUtils.isEmpty(shopPic)) {
+            Utility.imageLoadGlideLibrary(activity, progressBar, imgBrand, shopPic);
+        } else if (!TextUtils.isEmpty(brandPic)){
             Utility.imageLoadGlideLibrary(activity, progressBar, imgBrand, brandPic);
         }else {
             imgBrand.setImageResource(R.drawable.no_image_icon);
+        }
+
+        if (!TextUtils.isEmpty(shopNewAddress)){
+            txtAddress.setText(shopNewAddress);
         }
 
         if (favStatus == 1) {
@@ -333,8 +360,10 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
         txtRating.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtMallNamePost = (AppCompatTextView) view.findViewById(R.id.txtMallNamePost);
         txtMallNamePost.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtOfferPrice = (AppCompatTextView) view.findViewById(R.id.txtOfferPrice);
-        txtOfferPrice.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
+        txtAddress = (AppCompatTextView) view.findViewById(R.id.txtAddress);
+        txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        txtOfferPercentage = (AppCompatTextView) view.findViewById(R.id.txtOfferPercentage);
+        txtOfferPercentage.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
         txtSubcategory = (AppCompatTextView) view.findViewById(R.id.txtSubcategory);
         txtSubcategory.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtOfferDate = (AppCompatTextView) view.findViewById(R.id.txtOfferDate);
@@ -347,6 +376,8 @@ public class OfferPostFragment extends BaseFragment implements View.OnClickListe
         btnRate.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtOfferActualPrice = (AppCompatTextView) view.findViewById(R.id.txtOfferActualPrice);
         txtOfferActualPrice.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        txtOfferDiscountPrice = (AppCompatTextView) view.findViewById(R.id.txtOfferDiscountPrice);
+        txtOfferDiscountPrice.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
         txtOfferTitle = (AppCompatTextView) view.findViewById(R.id.txtOfferTitle);
         txtOfferTitle.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
 
