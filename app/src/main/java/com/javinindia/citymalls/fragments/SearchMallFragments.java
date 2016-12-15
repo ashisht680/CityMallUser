@@ -92,9 +92,9 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
             Log.e("gps mall", latitude + "---" + longitude);
-            sendRequestOnReplyFeed(0, 500, latitude, longitude);
+            sendRequestOnReplyFeed(0, 500, latitude, longitude,mall);
         } else {
-            sendRequestOnReplyFeed(0, 500, latitude, longitude);
+            sendRequestOnReplyFeed(0, 500, latitude, longitude,mall);
         }
     }
 
@@ -133,7 +133,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
         imgSearch.setOnClickListener(this);
     }
 
-    private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit, final double Alatitude, final double Alongitude) {
+    private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit, final double Alatitude, final double Alongitude,final String name) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SEARCH_MALL_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -176,7 +176,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
                 params.put("userid", SharedPreferencesManager.getUserID(activity));
                 params.put("startlimit", String.valueOf(AstartLimit));
                 params.put("countlimit", String.valueOf(AcountLimit));
-                params.put("name", mall);
+                params.put("name", name);
                 params.put("lat", String.valueOf(Alatitude));
                 params.put("long", String.valueOf(Alongitude));
                 return params;
@@ -216,10 +216,10 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             adapter.notifyDataSetChanged();
             adapter.setData(arrayList);
             String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(0, 5, latitude, longitude);
+            sendRequestOnReplyFeed(0, 5, latitude, longitude,data);
         } else {
             String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(0, 5, latitude, longitude);
+            sendRequestOnReplyFeed(0, 5, latitude, longitude,data);
         }
     }
 
