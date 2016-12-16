@@ -8,7 +8,7 @@ public class Constants {
     public static final String SIGN_UP_URL = Constants.NEW_BASE_URL + "signupuser.php";
     public static final String VERIFY_OTP_URL = Constants.NEW_BASE_URL + "verifyOtp.php";
     public static final String FORGET_PASSWORD_URL = Constants.NEW_BASE_URL + "forgetpassword.php";
-    //  public static final String STATE_URL = Constants.TEST_URL + "countryMaster.php";
+    public static final String CHANGE_PASSWORD_URL = Constants.NEW_BASE_URL + "changepassword.php";
     public static final String MALL_LIST_URL = Constants.NEW_BASE_URL + "user_mall_favorite.php";
     // public static final String SHOP_IN_MALL_LIST_URL = Constants.NEW_BASE_URL + "shopByMall.php";
     public static final String SHOP_IN_MALL_LIST_URL = Constants.NEW_BASE_URL + "shopByMallTest.php";
@@ -35,6 +35,8 @@ public class Constants {
 
     public static final String MASTER_CATEGORY_LIST_URL = Constants.NEW_BASE_URL + "MasterCategoryList.php";
     public static final String MASTER_BRAND_LIST_URL = Constants.NEW_BASE_URL + "MasterBrandList.php";
+
+    public static final String FEEDBACK_URL = Constants.NEW_BASE_URL + "feedback.php";
 
     public static final String APP_SETTINGS = "APP_SETTINGS";
     public static final String USERNAME = "username";

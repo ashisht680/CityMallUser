@@ -59,11 +59,11 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     }
 
     private void initialize(View view) {
-        ImageView imgBack=(ImageView)view.findViewById(R.id.imgBack);
+        ImageView imgBack = (ImageView) view.findViewById(R.id.imgBack);
         imgBack.setOnClickListener(this);
-        TextView txtForgot = (TextView)view.findViewById(R.id.txtForgot);
+        TextView txtForgot = (TextView) view.findViewById(R.id.txtForgot);
         txtForgot.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        TextView txtForgotdiscription = (TextView)view.findViewById(R.id.txtForgotdiscription);
+        TextView txtForgotdiscription = (TextView) view.findViewById(R.id.txtForgotdiscription);
         txtForgotdiscription.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         AppCompatButton buttonResetPassword = (AppCompatButton) view.findViewById(R.id.btn_reset_password);
         buttonResetPassword.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
@@ -142,7 +142,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String  msg = null;
+        String msg = null;
         int status = 0;
         try {
             jsonObject = new JSONObject(response);
@@ -153,10 +153,9 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (status==1) {
-            fragment = new LoginFragment();
-            showDialogMethod(msg);
-            callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.container);
+        if (status == 1) {
+            Toast.makeText(activity, "New password has sent to your registered mail/mobile number.", Toast.LENGTH_LONG).show();
+            activity.onBackPressed();
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);

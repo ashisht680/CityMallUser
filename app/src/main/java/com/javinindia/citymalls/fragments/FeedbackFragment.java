@@ -8,14 +8,30 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
+import com.javinindia.citymalls.preference.SharedPreferencesManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -25,6 +41,7 @@ import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 public class FeedbackFragment extends BaseFragment {
     AppCompatEditText etFeedback;
     AppCompatButton btnFeedback;
+    private RequestQueue requestQueue;
 
 
     @Nullable
@@ -33,15 +50,26 @@ public class FeedbackFragment extends BaseFragment {
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initToolbar(view);
-        AppCompatTextView txtFeedback,txtTitle,txtPoints;
-        txtFeedback = (AppCompatTextView)view.findViewById(R.id.txtFeedback);
+        AppCompatTextView txtFeedback, txtTitle, txtPoints;
+        txtFeedback = (AppCompatTextView) view.findViewById(R.id.txtFeedback);
         txtFeedback.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
-        txtTitle = (AppCompatTextView)view.findViewById(R.id.txtTitle);
+        txtTitle = (AppCompatTextView) view.findViewById(R.id.txtTitle);
         txtTitle.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        etFeedback = (AppCompatEditText)view.findViewById(R.id.etFeedback);
+        etFeedback = (AppCompatEditText) view.findViewById(R.id.etFeedback);
         etFeedback.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        btnFeedback = (AppCompatButton)view.findViewById(R.id.btnFeedback);
+        btnFeedback = (AppCompatButton) view.findViewById(R.id.btnFeedback);
         btnFeedback.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+        btnFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!etFeedback.getText().toString().trim().equals("")) {
+                    String feed = etFeedback.getText().toString().trim();
+                    methodHit(feed);
+                } else {
+                    Toast.makeText(activity, "You are not entered Feedback", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         return view;
     }
 
@@ -61,6 +89,60 @@ public class FeedbackFragment extends BaseFragment {
         textView.setText("Feedback");
         textView.setTextColor(Color.parseColor("#ffffff"));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
+    }
+
+    private void methodHit(final String feed) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FEEDBACK_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        responseImplement(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        volleyErrorHandle(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", SharedPreferencesManager.getUserID(activity));
+                params.put("feed", feed);
+                params.put("type", "user");
+                return params;
+            }
+
+        };
+        stringRequest.setTag(this.getClass().getSimpleName());
+        requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
+    }
+
+    private void responseImplement(String response) {
+        JSONObject jsonObject = null;
+        String msg = null;
+        int status = 0;
+        try {
+            jsonObject = new JSONObject(response);
+            if (jsonObject.has("status"))
+                status = jsonObject.optInt("status");
+            if (jsonObject.has("msg"))
+                msg = jsonObject.optString("msg");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (status == 1) {
+            Toast.makeText(activity,"Your feedback successfully submitted.",Toast.LENGTH_LONG).show();
+            activity.onBackPressed();
+        } else {
+            if (!TextUtils.isEmpty(msg)) {
+                showDialogMethod(msg);
+            }
+        }
     }
 
     @Override

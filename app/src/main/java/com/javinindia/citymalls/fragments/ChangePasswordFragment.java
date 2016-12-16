@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
+import com.javinindia.citymalls.preference.SharedPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,7 +134,7 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
                         et_new_password.setError("Enter your new password");
                         et_new_password.requestFocus();
                     }else {
-                        //  sendDataOnForgetPasswordApi(email);
+                        sendDataOnForgetPasswordApi(oldPass, newPass);
                     }
                 }
 
@@ -152,26 +154,29 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private void sendDataOnForgetPasswordApi(final String email) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FORGET_PASSWORD_URL,
+    private void sendDataOnForgetPasswordApi(final String old, final String newP) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.CHANGE_PASSWORD_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        hideLoader();
+
                         responseImplement(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        hideLoader();
+
                         volleyErrorHandle(error);
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("uname", email);
+                params.put("id", SharedPreferencesManager.getUserID(activity));
+                params.put("type", "user");
+                params.put("pold", old);
+                params.put("pnew", newP);
                 return params;
             }
 
@@ -181,9 +186,10 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
         requestQueue.add(stringRequest);
     }
 
+
     private void responseImplement(String response) {
         JSONObject jsonObject = null;
-        String  msg = null;
+        String msg = null;
         int status = 0;
         try {
             jsonObject = new JSONObject(response);
@@ -194,10 +200,9 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (status==1) {
-            fragment = new LoginFragment();
-            showDialogMethod(msg);
-            callFragmentMethod(fragment, this.getClass().getSimpleName(),R.id.container);
+        if (status == 1) {
+            Toast.makeText(activity, "Your password successfully changed", Toast.LENGTH_LONG).show();
+            activity.onBackPressed();
         } else {
             if (!TextUtils.isEmpty(msg)) {
                 showDialogMethod(msg);
