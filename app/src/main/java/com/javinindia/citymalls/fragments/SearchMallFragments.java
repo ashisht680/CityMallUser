@@ -27,18 +27,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.activity.DirectionMapActivity;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallDetail;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallListResponseParsing;
-import com.javinindia.citymalls.apiparsing.offerListparsing.DetailsList;
-import com.javinindia.citymalls.apiparsing.offerListparsing.OfferListResponseparsing;
 import com.javinindia.citymalls.constant.Constants;
-import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
-import com.javinindia.citymalls.location.GPSTracker;
+import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
-import com.javinindia.citymalls.recyclerview.OfferAdaptar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,14 +54,12 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
     private RequestQueue requestQueue;
     private MallAdapter adapter;
     ArrayList<MallDetail> arrayList = new ArrayList<MallDetail>();
-    AppCompatTextView txtDataNotFound, txtTitleBrand;
+    AppCompatTextView txtDataNotFound;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
     ImageView imgSearch;
-    private int startLimit = 0;
-    private int countLimit = 500;
     String mall = "";
-    GPSTracker gps;
+    NewLoc gps;
     double latitude = 0.0;
     double longitude = 0.0;
 
@@ -82,20 +75,16 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             mall = "New Delhi";
         }
         getLocationMethod();
-       // sendRequestOnReplyFeed(mall);
         return view;
     }
 
     private void getLocationMethod() {
-        gps = new GPSTracker(activity);
-        if (gps.canGetLocation()) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-            Log.e("gps mall", latitude + "---" + longitude);
-            sendRequestOnReplyFeed(0, 500, latitude, longitude,mall);
-        } else {
-            sendRequestOnReplyFeed(0, 500, latitude, longitude,mall);
-        }
+
+        gps = new NewLoc(activity);
+        latitude = gps.getLatitude();
+        longitude = gps.getLongitude();
+        Log.e("gps mall", latitude + "---" + longitude);
+        sendRequestOnReplyFeed(0, 500, latitude, longitude,mall);
     }
 
     @Override
@@ -140,7 +129,6 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
                     public void onResponse(String response) {
                         MallListResponseParsing responseparsing = new MallListResponseParsing();
                         responseparsing.responseParseMethod(response);
-                        Log.e("request search", response);
                         int status = responseparsing.getStatus();
                         if (status == 1) {
                             if (responseparsing.getMallDetailsArrayList().size()>0){
@@ -171,7 +159,6 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                //userid=1&name=p&startlimit=0&countlimit=500&lat=3.5&long=2.7
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("userid", SharedPreferencesManager.getUserID(activity));
                 params.put("startlimit", String.valueOf(AstartLimit));
@@ -193,7 +180,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgSearch:
-                //  showDialogMethod("Updating database please try after some time");
+
                 break;
         }
     }

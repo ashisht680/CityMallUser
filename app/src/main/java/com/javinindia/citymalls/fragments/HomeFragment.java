@@ -3,6 +3,7 @@ package com.javinindia.citymalls.fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -51,15 +52,10 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Spinner spinner_nav;
-    int iCurrentSelection = 0;
     TextView txtCityName;
-
-    private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -242,19 +238,23 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
             drawerLayout.closeDrawers();
             BaseFragment fragment = new FavoriteTabBarFragment();
             callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
-        } else if (title.equals("More")) {
+        } else if (title.equals("Rate us")) {
             drawerLayout.closeDrawers();
-            Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
-
+            final String appPackageName = activity.getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         } else if (title.equals("About App")) {
             drawerLayout.closeDrawers();
             BaseFragment fragment = new AboutAppFragments();
             callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
-        } else if (title.equals("Settings")) {
+        }/* else if (title.equals("Settings")) {
             drawerLayout.closeDrawers();
             Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
 
-        } else if (title.equals("Logout")) {
+        }*/ else if (title.equals("Logout")) {
             drawerLayout.closeDrawers();
             Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
             dialogBox();
@@ -348,7 +348,6 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        //Favorite Malls
         adapter.addFragment(new MallsFragmet(), "Favorite Malls");
         adapter.addFragment(new OffersFragment(), "Offers");
         // adapter.addFragment(new EventFragment(), "Event");
@@ -365,7 +364,6 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
         if (!TextUtils.isEmpty(SharedPreferencesManager.getProfileImage(activity))) {
             Picasso.with(activity).load(SharedPreferencesManager.getProfileImage(activity)).transform(new CircleTransform()).into(avatar);
         } else {
-            // AVATAR_URL = "http://lorempixel.com/200/200/people/1/";
             Picasso.with(activity).load(R.drawable.no_image_icon).transform(new CircleTransform()).into(avatar);
         }
         if (!TextUtils.isEmpty(SharedPreferencesManager.getUsername(activity))) {

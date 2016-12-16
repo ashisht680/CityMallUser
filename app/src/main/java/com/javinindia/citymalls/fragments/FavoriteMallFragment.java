@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,12 +24,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.activity.DirectionMapActivity;
-import com.javinindia.citymalls.activity.NavigationActivity;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallDetail;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallListResponseParsing;
 import com.javinindia.citymalls.constant.Constants;
-import com.javinindia.citymalls.location.GPSTracker;
+import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
 
@@ -52,12 +48,12 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     private MallAdapter adapter;
     private RecyclerView recyclerview;
     private int startLimit = 0;
-    private int countLimit = 5;
+    private int countLimit = 10;
     private boolean loading = true;
     private RequestQueue requestQueue;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
-    GPSTracker gps;
+    NewLoc gps;
     double latitude = 0.0;
     double longitude = 0.0;
 
@@ -80,20 +76,16 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize(view);
         getLocationMethod();
-      //  sendRequestOnMallListFeed(startLimit, countLimit);
         return view;
     }
 
     private void getLocationMethod() {
-        gps = new GPSTracker(activity);
-        if (gps.canGetLocation()) {
-             latitude = gps.getLatitude();
-             longitude = gps.getLongitude();
-            Log.e("gps mall", latitude + "---" + longitude);
-            sendRequestOnMallListFeed(0, 5, latitude, longitude);
-        } else {
-            sendRequestOnMallListFeed(0, 5, latitude, longitude);
-        }
+
+        gps = new NewLoc(activity);
+        latitude = gps.getLatitude();
+        longitude = gps.getLongitude();
+        Log.e("gps mall", latitude + "---" + longitude);
+        sendRequestOnMallListFeed(0, 10, latitude, longitude);
     }
 
     @Override
@@ -107,12 +99,9 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("limits", AstartLimit + "" + AcountLimit + " lat " + latitude + " long " + longitude);
                         MallListResponseParsing responseparsing = new MallListResponseParsing();
                         responseparsing.responseParseMethod(response);
-                        Log.e("request", response);
                         ArrayList arrayList = responseparsing.getMallDetailsArrayList();
-                       // int status = responseparsing.getStatus();
                         if (responseparsing.getStatus() == 1) {
                             if (arrayList.size() > 0) {
                                 if (adapter.getData() != null && adapter.getData().size() > 0) {
@@ -135,68 +124,12 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                //userid=3&startlimit=0&countlimit=10&lat=3.5&long=2.7
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("userid", SharedPreferencesManager.getUserID(activity));
                 params.put("startlimit", String.valueOf(AstartLimit));
                 params.put("countlimit", String.valueOf(AcountLimit));
                 params.put("lat", String.valueOf(latitude));
                 params.put("long", String.valueOf(longitude));
-                return params;
-            }
-
-        };
-        stringRequest.setTag(this.getClass().getSimpleName());
-        volleyDefaultTimeIncreaseMethod(stringRequest);
-        requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
-    }
-
-    private void sendRequestOnMallListFeed(final int AstartLimit, final int AcountLimit) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FAVORITE_MALL_LIST_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("limits", AstartLimit + "" + AcountLimit);
-                        MallListResponseParsing responseparsing = new MallListResponseParsing();
-                        responseparsing.responseParseMethod(response);
-                        Log.e("request mall", response);
-                        if (response.length() != 0) {
-                            int status = responseparsing.getStatus();
-                            if (status == 1) {
-                                ArrayList arrayList = responseparsing.getMallDetailsArrayList();
-                                if (arrayList.size() > 0) {
-                                    //  txtDataNotFound.setVisibility(View.GONE);
-                                    llSearch.setVisibility(View.VISIBLE);
-                                   /* if (adapter.getData() != null && adapter.getData().size() > 0) {
-                                        adapter.getData().addAll(arrayList);
-                                        adapter.notifyDataSetChanged();
-                                    } else {*/
-                                    adapter.setData(arrayList);
-                                    adapter.notifyDataSetChanged();
-
-                                    //  }
-                                }
-                            } else {
-                                llSearch.setVisibility(View.GONE);
-                            }
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        volleyErrorHandle(error);
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //userid=3&startlimit=0&countlimit=10&lat=3.5&long=2.7
-                params.put("userid", SharedPreferencesManager.getUserID(activity));
-                params.put("startlimit", String.valueOf(AstartLimit));
-                params.put("countlimit", String.valueOf(AcountLimit));
                 return params;
             }
 

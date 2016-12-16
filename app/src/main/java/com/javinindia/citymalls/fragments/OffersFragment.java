@@ -30,7 +30,6 @@ import com.javinindia.citymalls.apiparsing.offerListparsing.OfferListResponsepar
 import com.javinindia.citymalls.apiparsing.storeInMallParsing.ShopData;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
-import com.javinindia.citymalls.location.GPSTracker;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.OfferAdaptar;
 
@@ -41,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -58,9 +56,6 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
     private OfferAdaptar adapter;
     ArrayList arrayList;
     AppCompatTextView txtDataNotFound;
-   /* GPSTracker gps;
-    double latitude = 0.0;
-    double longitude = 0.0;*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,8 +84,6 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("request offer", response);
-                      //  Log.e("limits offer", AstartLimit + "" + AcountLimit);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
                         responseparsing.responseParseMethod(response);
                         int status = responseparsing.getStatus();
@@ -114,7 +107,6 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
                                         adapter.setData(arrayList);
                                         if (arrayList.size() > 0) {
                                         } else {
-                                            // getLocationMethod();
                                             sendRequestOnReplyFeed(0, 5);
                                         }
                                     }
@@ -139,8 +131,6 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
                 Map<String, String> params = new HashMap<String, String>();
                 String uid = SharedPreferencesManager.getUserID(activity);
                 String search = SharedPreferencesManager.getCity(activity);
-                Log.e("ofer search",uid+"\t"+search);
-                //uid=1&startlimit=0&countlimit=10&search=New%20Delhi
                 params.put("uid", uid);
                 params.put("startlimit", String.valueOf(AstartLimit));
                 params.put("countlimit", String.valueOf(AcountLimit));

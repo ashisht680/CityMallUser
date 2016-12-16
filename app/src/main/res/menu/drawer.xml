@@ -38,21 +38,21 @@
             android:title="Favorite"/>
 
         <item
-            android:id="@+id/drawer_more"
-            android:checkable="false"
-            android:icon="@drawable/ic_more_black"
-            android:title="More"/>
-        <item
             android:id="@+id/drawer_About"
             android:checkable="false"
             android:icon="@drawable/ic_info_black"
             android:title="About App"/>
 
-        <item
+        <!--<item
             android:id="@+id/drawer_settings"
             android:checkable="false"
             android:icon="@drawable/ic_settings_black"
-            android:title="Settings"/>
+            android:title="Settings"/>-->
+        <item
+            android:id="@+id/drawer_rate"
+            android:checkable="false"
+            android:icon="@drawable/ic_star_rate_black"
+            android:title="Rate us"/>
 
         <item
             android:id="@+id/drawer_favourite"

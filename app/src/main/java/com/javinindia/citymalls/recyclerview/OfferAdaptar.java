@@ -43,11 +43,6 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         this.value = value;
     }
 
-    /*public OfferAdaptar(Context context) {
-        this.context = context;
-    }*/
-
-
     public void setData(List<DetailsList> list) {
         this.list = list;
         this.shopCategoryListArrayList = new ArrayList<>();
@@ -73,8 +68,6 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         final VolleySingleTon volleySingleTon = VolleySingleTon.getInstance(context);
         final DetailsList requestDetail = (DetailsList) list.get(position);
-
-        //txtShopName,txtMallName,txtAddress
 
         if (!TextUtils.isEmpty(requestDetail.getOfferShopDetails().getShopName().trim())) {
             String shopName = requestDetail.getOfferShopDetails().getShopName().trim();
@@ -170,10 +163,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
             String offerType = requestDetail.getOfferDetails().getOfferPercentageType().trim();
             String offerPercent = requestDetail.getOfferDetails().getOfferPercentage().trim();
-            // viewHolder.llOffItem.setBackgroundColor(Color.parseColor("#b94115"));
-            // viewHolder.txtActualPrice.setText(offerType);
-            //   viewHolder.txtActualPrice.setPaintFlags(viewHolder.txtActualPrice.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            viewHolder.txtOfferPercent.setText(offerType + "\t" + offerPercent + "% off");
+            viewHolder.txtOfferPercent.setText(offerType + "\n" + offerPercent + "% off");
         } else if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
             String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
             String offerDiscountPrice = requestDetail.getOfferDetails().getOfferDiscountedPrice().trim();
@@ -181,9 +171,9 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             double actual = Double.parseDouble(offerActualPrice);
             double discount = Double.parseDouble(offerDiscountPrice);
             int percent = (int) (100 -(discount * 100.0f) / actual);
-            viewHolder.txtOfferPercent.setText(offerType + "\t" + percent + "% off");
+            viewHolder.txtOfferPercent.setText(offerType + "\n" + percent + "% off");
         } else if (TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
-            viewHolder.txtOfferPercent.setText(requestDetail.getOfferDetails().getOfferPercentage().trim() + "% off");
+            viewHolder.txtOfferPercent.setText("UPTO\n"+requestDetail.getOfferDetails().getOfferPercentage().trim() + "% off");
         } else {
             if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim())) {
                 String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
@@ -191,7 +181,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
                 double actual = Double.parseDouble(offerActualPrice);
                 double discount = Double.parseDouble(offerDiscountPrice);
                 int percent = (int) (100-(discount * 100.0f) / actual);
-                viewHolder.txtOfferPercent.setText(percent + "% off");
+                viewHolder.txtOfferPercent.setText("UPTO\n"+percent + "% off");
             }
 
         }
@@ -201,7 +191,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             //  viewHolder.llOffItem.setBackgroundColor(Color.parseColor("#1da6b9"));
             viewHolder.txtActualPrice.setText(Html.fromHtml("\u20B9" + offerActualPrice + "/-"));
             viewHolder.txtActualPrice.setPaintFlags(viewHolder.txtActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            viewHolder.txtDiscountPrice.setText(Html.fromHtml("\u20B9" + offerDiscountPrice + "/-"));
+            viewHolder.txtDiscountPrice.setText(Html.fromHtml("OFFER\t\t\t\n \u20B9" + offerDiscountPrice + "/-"));
         }
 
         if (requestDetail.getFavStatus() == 1) {
@@ -251,8 +241,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView txtShopName, txtAddress, txtTimingOffer, txtOfferTitle, txtOfferCategory, txtMallName, txtActualPrice, txtDiscountPrice, txtOfferPercent;
-        // public RatingBar ratingBar;
+        public AppCompatTextView txtShopName, txtAddress, txtTimingOffer, txtOfferTitle, txtOfferCategory, txtMallName, txtActualPrice, txtDiscountPrice, txtOfferPercent,txtMRP;
         public CardView rlMain;
         public CheckBox chkImageOffer;
         ImageView imgShopLogoOffer;
@@ -280,6 +269,8 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             rlMain = (CardView) itemLayoutView.findViewById(R.id.rlMain);
             chkImageOffer = (CheckBox) itemLayoutView.findViewById(R.id.chkImageOffer);
             llOffItem = (LinearLayout) itemLayoutView.findViewById(R.id.llOffItem);
+            txtMRP = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtMRP);
+            txtMRP.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtActualPrice = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtActualPrice);
             txtActualPrice.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             txtDiscountPrice = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtDiscountPrice);

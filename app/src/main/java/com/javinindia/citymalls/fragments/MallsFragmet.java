@@ -32,7 +32,7 @@ import com.javinindia.citymalls.apiparsing.mallListParsing.MallDetail;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallListResponseParsing;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
-import com.javinindia.citymalls.location.GPSTracker;
+import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
 
@@ -62,16 +62,12 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
 
     double latitude = 0.0;
     double longitude = 0.0;
-    GPSTracker gps;
+    NewLoc gps;
     AppCompatTextView txtDataNotFound;
 
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
 
-    /**
-     * Represents a geographical location.
-     */
-    protected Location mLastLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,7 +95,6 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Log.e("onCreateView", "onCreateView");
         initialize(view);
         getLocationMethod();
         return view;
@@ -107,15 +102,11 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
 
     private void getLocationMethod() {
 
-        gps = new GPSTracker(activity);
-        if (gps.canGetLocation()) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-            Log.e("gps mall", latitude + "---" + longitude);
-            sendRequestOnMallListFeed(0, 5, latitude, longitude);
-        } else {
-            sendRequestOnMallListFeed(0, 5, latitude, longitude);
-        }
+        gps = new NewLoc(activity);
+        latitude = gps.getLatitude();
+        longitude = gps.getLongitude();
+        Log.e("gps mall", latitude + "---" + longitude);
+        sendRequestOnMallListFeed(0, 10, latitude, longitude);
     }
 
 
@@ -135,12 +126,9 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("limits mall", AstartLimit + "" + AcountLimit + " lat " + latitude + " long " + longitude);
                         MallListResponseParsing responseparsing = new MallListResponseParsing();
                         responseparsing.responseParseMethod(response);
-                        Log.e("request mall", response);
 
-                        //int status = responseparsing.getStatus();
                         if (responseparsing.getStatus() == 1) {
                             arrayList = responseparsing.getMallDetailsArrayList();
                             if (arrayList.size() > 0) {
@@ -386,7 +374,6 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
             String test = str.replaceAll("[\\[\\](){}]", "");
             showNewDialog(mallName, test);
         } else {
-            // viewHolder.txtAddress.setText("Address: Not found");
         }
     }
 
@@ -469,20 +456,6 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
             return;
         }
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-
-
 
     public class mallScrollListener extends RecyclerView.OnScrollListener {
         @Override
