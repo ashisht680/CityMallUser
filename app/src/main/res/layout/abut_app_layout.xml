@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="What is the mobile app about?"
+                android:text="Visit your favorite mall without actually visiting it! Check out hot offers &amp; happening events.\n"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"/>
 
@@ -47,14 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="City Malls makes shopping in mall easy by bringing every shop in the hands of the mall visitor.\n\nOn the City Malls Mobile app Mall Visitors can:" />
+                android:text="We understand your time is super precious and shopping can sometimes mean whole day and nothing bought or nothing decided was bought. Can you relate?\n" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtPoints"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="◎	 Decide which mall to visit by browsing newest\n     offers\n◎	 Plan shopping trip and events\n◎	 Use the offer to get attractive discounts\n◎	 Favorite the offers or shops or brands\n◎	 Get updates about recent offers" />
+                android:text="That is why we bring to you- City Malls, a simple app that brings all your favorite malls to your hands. Shops, Brands, Food outlets, Food Joints, Food Trolleys, Pop Shops or even Weekend Melas whatever you want to know about- City Malls has all the best updates about it. Hint- offers! With City Malls you can plan the shopping trip by browsing all the stores, shops, eating places, fun activities before hand and get the best shopping experience by picking and choosing offers that appeal the most to you.\n\nYou can browse the shops &amp; brands checking out the exclusive offers they have published on the City Malls app, or search an offer for any product that has caught your fancy recently, or simply get the quickest real time directions to the mall that you and your folks are dying to go, all this- just for you!\n\nOh and City Malls does not only save your time but also your money. One plus one offers, discounted rates, offers till stocks last, offers that are most popular- City Malls has it all! Basically if you are going shopping at a mall without checking out City Malls you just might lose out on something big! Call it money, call it time or call it experience, simply install City Malls and all three will be by your side to gift you the best day possible.\n\nAlso, if you are not sure whether the store you love sells the products of your favorite brand… City Mall has come to your rescue. It will provide you the correct information regarding where your favorite brand products can be purchased from. Or if you don’t know which store/mall/brand to go for, simply check out the rating that City Malls provides gathered with the help of the users.\n\nAll this awesomeness in one simple app! Download City Malls app today!\n" />
         </LinearLayout>
 
     </ScrollView>

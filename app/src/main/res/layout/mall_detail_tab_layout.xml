@@ -118,6 +118,7 @@
                     android:layout_below="@+id/ratingBar"
                     android:layout_marginLeft="5dp"
                     android:text=""
+                    android:maxLines="2"
                     android:textColor="@android:color/white" />
 
                 <android.support.v7.widget.AppCompatTextView

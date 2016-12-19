@@ -49,6 +49,7 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
     RelativeLayout rlEdit,rlBack;
     ProgressBar progressBar;
     int MY_PERMISSION_ACCESS_COURSE_LOCATION=0;
+    String sAddress="";
 
     private OnCallBackRefreshListener onCallBackRefreshListener;
 
@@ -103,7 +104,7 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
                     public void onResponse(String response) {
                         Log.e("response", response);
                         String sID = null, msg = null, sPic = null, gender=null,dob=null;
-                        String sName, sEmail, sMobileNum, sState, sCity, sAddress;
+                        String sName, sEmail, sMobileNum, sState, sCity;
                         int status =0;
                         loading.dismiss();
                         UesrParsingResponse shopViewResponse = new UesrParsingResponse();
@@ -245,6 +246,7 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
         txtAddress.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         rlEdit.setOnClickListener(this);
         rlBack.setOnClickListener(this);
+        txtAddress.setOnClickListener(this);
     }
 
     @Override
@@ -278,6 +280,13 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.rlBack:
                 activity.onBackPressed();
+                break;
+            case R.id.txtAddress:
+                if(!TextUtils.isEmpty(sAddress) && !sAddress.equals("null")){
+                    showNewDialog("Address",sAddress);
+                }else {
+                    showDialogMethod("Address not found");
+                }
                 break;
         }
     }

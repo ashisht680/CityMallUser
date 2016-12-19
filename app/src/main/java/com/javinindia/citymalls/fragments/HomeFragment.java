@@ -175,7 +175,7 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
     private void setupTabIcons() {
 
         TextView tabOne = (TextView) LayoutInflater.from(activity).inflate(R.layout.custom_tab, null);
-        tabOne.setText("Favourate\nmalls");
+        tabOne.setText("malls");
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.favourite_malls, 0, 0);
         tabLayout.getTabAt(0).setCustomView(tabOne);
 
@@ -191,7 +191,7 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
         TextView tabFour = (TextView) LayoutInflater.from(activity).inflate(R.layout.custom_tab, null);
         tabFour.setText("Search");
-        tabFour.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.offers, 0, 0);
+        tabFour.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.search_white, 0, 0);
         tabLayout.getTabAt(2).setCustomView(tabFour);
     }
 
@@ -256,7 +256,6 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
         }*/ else if (title.equals("Logout")) {
             drawerLayout.closeDrawers();
-            Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
             dialogBox();
         }
 
@@ -348,7 +347,7 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new MallsFragmet(), "Favorite Malls");
+        adapter.addFragment(new MallsFragmet(), "Malls");
         adapter.addFragment(new OffersFragment(), "Offers");
         // adapter.addFragment(new EventFragment(), "Event");
         adapter.addFragment(new SearchTabFragment(), "Search");

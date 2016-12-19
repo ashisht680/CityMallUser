@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +50,7 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     private int countLimit = 20;
     private boolean loading = true;
     ArrayList<CategoryList> arrayList = new ArrayList<CategoryList>();
+    AppCompatEditText etSearch;
 
 
     @Nullable
@@ -128,7 +131,7 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
         adapter.setMyClickListener(SearchStoreFragment.this);
 
         LinearLayout llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
-        AppCompatEditText etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
+        etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
         etSearch.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         ImageView imgSearch = (ImageView) view.findViewById(R.id.imgSearch);
         AppCompatTextView txtTitle = (AppCompatTextView) view.findViewById(R.id.txtTitle);
@@ -156,27 +159,19 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.llSearch:
-                BaseFragment fragment1 = new SearchStoreResultFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("catName", "");
-                fragment1.setArguments(bundle);
-                callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
-                break;
-            case R.id.etSearch:
-                BaseFragment fragment2 = new SearchStoreResultFragment();
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("catName", "");
-                fragment2.setArguments(bundle2);
-                callFragmentMethod(fragment2, this.getClass().getSimpleName(), R.id.navigationContainer);
-                break;
             case R.id.imgSearch:
-                BaseFragment fragment3 = new SearchStoreResultFragment();
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("catName", "");
-                fragment3.setArguments(bundle3);
-                callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
-                break;
+                String cat_edit = etSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(cat_edit)) {
+                    BaseFragment fragment3 = new SearchStoreResultFragment();
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("catName", "");
+                    fragment3.setArguments(bundle3);
+                    callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
+                    break;
+                } else {
+                    Toast.makeText(activity, "Error! You have not entered any text", Toast.LENGTH_LONG).show();
+                }
+
         }
     }
 

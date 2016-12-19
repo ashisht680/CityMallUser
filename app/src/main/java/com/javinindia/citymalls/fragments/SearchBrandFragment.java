@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,6 +45,8 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
     private int countLimit = 20;
     private boolean loading = true;
     ArrayList<BrandList> arrayList = new ArrayList<BrandList>();
+    AppCompatEditText etSearch;
+    String brand_edit = "";
 
 
     @Nullable
@@ -123,13 +127,11 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
         adapter.setMyClickListener(SearchBrandFragment.this);
 
         LinearLayout llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
-        AppCompatEditText etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
+        etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
         etSearch.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         ImageView imgSearch = (ImageView) view.findViewById(R.id.imgSearch);
         AppCompatTextView txtTitle = (AppCompatTextView) view.findViewById(R.id.txtTitle);
         txtTitle.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        llSearch.setOnClickListener(this);
-        etSearch.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
     }
 
@@ -151,26 +153,17 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.llSearch:
-                BaseFragment fragment1 = new SearchBrandResultFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("brand", "");
-                fragment1.setArguments(bundle);
-                callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
-                break;
-            case R.id.etSearch:
-                BaseFragment fragment2 = new SearchBrandResultFragment();
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("brand", "");
-                fragment2.setArguments(bundle2);
-                callFragmentMethod(fragment2, this.getClass().getSimpleName(), R.id.navigationContainer);
-                break;
             case R.id.imgSearch:
-                BaseFragment fragment3 = new SearchBrandResultFragment();
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("brand", "");
-                fragment3.setArguments(bundle3);
-                callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
+                brand_edit = etSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(brand_edit)) {
+                    BaseFragment fragment3 = new SearchBrandResultFragment();
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("brand", brand_edit);
+                    fragment3.setArguments(bundle3);
+                    callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
+                } else {
+                    Toast.makeText(activity, "Error! You have not entered any text", Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }

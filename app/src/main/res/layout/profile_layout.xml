@@ -84,16 +84,17 @@
 
                         <ImageView
                             android:id="@+id/imgEdit"
-                            android:layout_width="15dp"
+                            android:layout_width="30dp"
                             android:layout_height="15dp"
                             android:layout_centerHorizontal="true"
                             android:src="@drawable/events" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/txtEdit"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/imgEdit"
+                            android:gravity="center"
                             android:text="Edit"
                             android:textColor="@android:color/white"
                             android:textSize="10dp" />
@@ -150,7 +151,8 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/ic_launcher"
+                        android:visibility="gone"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -208,7 +210,8 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/ic_launcher"
+                        android:visibility="gone"/>
 
                     <View
                         android:layout_width="match_parent"

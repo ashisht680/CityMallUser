@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/tab"
     android:text="test"
-    android:lines="2"
+    android:lines="1"
     android:textAllCaps="true"
     android:gravity="center_horizontal"
     android:textColor="@android:color/white"

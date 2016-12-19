@@ -7,7 +7,7 @@ public class Constants {
     public static final String LOGIN_URL = Constants.NEW_BASE_URL + "login.php";
     public static final String SIGN_UP_URL = Constants.NEW_BASE_URL + "signupuser.php";
     public static final String VERIFY_OTP_URL = Constants.NEW_BASE_URL + "verifyOtp.php";
-    public static final String FORGET_PASSWORD_URL = Constants.NEW_BASE_URL + "forgetpassword.php";
+    public static final String FORGET_PASSWORD_URL = Constants.NEW_BASE_URL + "forget_mallusers.php";
     public static final String CHANGE_PASSWORD_URL = Constants.NEW_BASE_URL + "changepassword.php";
     public static final String MALL_LIST_URL = Constants.NEW_BASE_URL + "user_mall_favorite.php";
     // public static final String SHOP_IN_MALL_LIST_URL = Constants.NEW_BASE_URL + "shopByMall.php";
