@@ -26,6 +26,10 @@ public class Constants {
     public static final String FAVORITE_SHOP_LIST_URL = Constants.NEW_BASE_URL + "favoriteShopByUser.php";
     public static final String FAVORITE_OFFER_LIST_URL = Constants.NEW_BASE_URL + "favoriteOfferByUser.php";
 
+    public static final String SINGLE_MALL_URL = Constants.NEW_BASE_URL + "";
+    public static final String SINGLE_SHOP_URL = Constants.NEW_BASE_URL + "singleShop.php";
+    public static final String SINGLE_OFFER_URL = Constants.NEW_BASE_URL + "";
+
     public static final String USER_DETAIL_URL = Constants.NEW_BASE_URL + "viewProfile.php";
     public static final String UPDATE_USER_DETAIL_URL = Constants.NEW_BASE_URL + "updateProfile.php";
 

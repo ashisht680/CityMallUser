@@ -41,6 +41,7 @@
                 android:id="@+id/imgShopLogoOffer"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:scaleType="centerCrop"
                 android:background="@drawable/button_border_black"
                 android:padding="1dp"
                 android:src="@drawable/no_image_icon" />
@@ -188,7 +189,7 @@
                 android:gravity="center"
                 android:padding="3dp"
                 android:text=""
-                android:textColor="@android:color/black" />
+                android:textColor="@color/offer_green_color" />
 
 
         </LinearLayout>

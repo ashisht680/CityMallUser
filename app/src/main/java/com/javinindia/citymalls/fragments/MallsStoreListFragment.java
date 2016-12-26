@@ -220,6 +220,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
         }
         StoreTabsFragment fragment = new StoreTabsFragment();
         Bundle bundle = new Bundle();
+        bundle.putInt("click",1);
         bundle.putInt("position", position);
         bundle.putString("shopId", shopId);
         bundle.putString("shopName", shopName);

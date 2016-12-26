@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,7 +46,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 08-09-2016.
  */
-public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClickListener, OfferPostFragment.OnCallBackOfferDetailFavListener {
+public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClickListener, OfferPostFragment.OnCallBackOfferDetailFavListener,StoreTabsFragment.OnCallBackShopFavListener {
 
     private RecyclerView recyclerview;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -77,6 +78,12 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
         initialize(view);
         sendRequestOnReplyFeed(0, 10);
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startLimit=0;
     }
 
     private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit) {
@@ -265,6 +272,26 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
         }
     }
 
+    @Override
+    public void onShopClick(int position, DetailsList detailsList) {
+        Toast.makeText(activity,detailsList.getOfferShopDetails().getShopName().trim(),Toast.LENGTH_LONG).show();
+        String shopId = detailsList.getOfferShopDetails().getShopId().trim();
+        SharedPreferencesManager.setShopId(activity, shopId);
+        StoreTabsFragment fragment = new StoreTabsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("click",0);
+        bundle.putInt("position", position);
+        bundle.putString("shopId", shopId);
+        fragment.setArguments(bundle);
+        fragment.setMyCallBackShopFavListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+    }
+
+    @Override
+    public void onMallClick(int position, DetailsList detailsList) {
+
+    }
+
     private void favHitOnApi(final String uId, final String offerId, final String yes, final int position) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_FAVORITE_OFFER_URL,
                 new Response.Listener<String>() {
@@ -334,6 +361,12 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
         wd.setFavStatus(action);
         adapter.notifyItemChanged(pos);
     }
+
+    @Override
+    public void OnCallBackShopFav(int pos, int action) {
+
+    }
+
 
     public class replyScrollListener extends RecyclerView.OnScrollListener {
         @Override

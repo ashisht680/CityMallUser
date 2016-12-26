@@ -251,6 +251,16 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
         }
     }
 
+    @Override
+    public void onShopClick(int position, DetailsList detailsList) {
+
+    }
+
+    @Override
+    public void onMallClick(int position, DetailsList detailsList) {
+
+    }
+
     private void favHitOnApi(final String uId, final String offerId, final String yes, final int position) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_FAVORITE_OFFER_URL,
                 new Response.Listener<String>() {

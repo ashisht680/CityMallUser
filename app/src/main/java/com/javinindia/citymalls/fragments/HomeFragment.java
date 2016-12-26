@@ -270,13 +270,13 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        Toast.makeText(activity, "Logout", Toast.LENGTH_LONG).show();
                         SharedPreferencesManager.setUserID(activity, null);
                         SharedPreferencesManager.setUsername(activity, null);
                         SharedPreferencesManager.setPassword(activity, null);
                         SharedPreferencesManager.setEmail(activity, null);
                         SharedPreferencesManager.setLocation(activity, null);
                         SharedPreferencesManager.setProfileImage(activity, null);
+                      //  SharedPreferencesManager.setDeviceToken(activity,null);
                         Intent refresh = new Intent(activity, LoginActivity.class);
                         startActivity(refresh);//Start the same Activity
                         activity.finish();

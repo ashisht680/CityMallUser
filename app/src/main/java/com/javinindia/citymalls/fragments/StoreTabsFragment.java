@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
+import com.javinindia.citymalls.apiparsing.Singles.SingleShopResponse;
+import com.javinindia.citymalls.apiparsing.offerListparsing.OfferListResponseparsing;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
@@ -60,6 +63,7 @@ public class StoreTabsFragment extends BaseFragment {
     int totalOffers = 0;
     int favStatus = 0;
     int position;
+    int click =0;
 
     private OnCallBackShopFavListener onCallBackShopFavListener;
 
@@ -75,6 +79,7 @@ public class StoreTabsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        click = getArguments().getInt("click");
         position = getArguments().getInt("position");
         shopId = getArguments().getString("shopId");
         shopName = getArguments().getString("shopName");
@@ -99,8 +104,110 @@ public class StoreTabsFragment extends BaseFragment {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initToolbar(view);
         intialize(view);
-        setDateMethod();
+        if (click==1){
+            setDateMethod();
+        }else {
+            hitShopApiMethod(shopId);
+        }
         return view;
+    }
+
+    private void hitShopApiMethod(final String shopId) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SINGLE_SHOP_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SingleShopResponse responseparsing = new SingleShopResponse();
+                        responseparsing.responseParseMethod(response);
+                        int status = responseparsing.getStatus();
+                        if (status == 1) {
+
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getStoreName().trim())) {
+                                shopName=responseparsing.getDetailsListArrayList().get(0).getStoreName().trim();
+                                txtStoreName.setText(Html.fromHtml(shopName));
+                            }
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getProfilepic().trim())) {
+                                shopPic=responseparsing.getDetailsListArrayList().get(0).getProfilepic().trim();
+                                Utility.imageLoadGlideLibrary(activity, progress, imgStore, shopPic);
+                            } else {
+                                imgStore.setImageResource(R.drawable.no_image_icon);
+                            }
+                            if (!TextUtils.isEmpty(mallName)) {
+                                mallName=responseparsing.getDetailsListArrayList().get(0).getMallName().trim();
+                                txtStoreMall.setText(Html.fromHtml(mallName));
+                            } else {
+                                txtStoreMall.setText("No Mall Detail");
+                            }
+                            if (responseparsing.getDetailsListArrayList().get(0).getShopOfferCount() != 0) {
+                                totalOffers = responseparsing.getDetailsListArrayList().get(0).getShopOfferCount();
+                                if (totalOffers == 1) {
+                                    txtOffers.setText(totalOffers + " offer");
+                                } else {
+                                    txtOffers.setText(totalOffers + " offers");
+                                }
+                            } else {
+                                txtOffers.setText("No offers");
+                            }
+
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getRating().trim())) {
+                                shopRating=responseparsing.getDetailsListArrayList().get(0).getRating().trim();
+                                txtRating.setText("Rating: " + shopRating + "/5");
+                                ratingBar.setRating(Float.parseFloat(shopRating));
+                            } else {
+                                txtRating.setText("Rating: 0/5");
+                                ratingBar.setRating((float) 0.0);
+                            }
+
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getAddress().trim())) {
+                                address=responseparsing.getDetailsListArrayList().get(0).getAddress().trim();
+                                txtStoreAddress.setText(Html.fromHtml(address));
+                            }
+                            if (responseparsing.getDetailsListArrayList().get(0).getFavStatus() == 1) {
+                                favStatus=responseparsing.getDetailsListArrayList().get(0).getFavStatus();
+                                chkImageShop.setChecked(true);
+                            } else {
+                                chkImageShop.setChecked(false);
+                            }
+
+                            chkImageShop.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String uId = SharedPreferencesManager.getUserID(activity);
+                                    if (favStatus == 0) {
+                                        String Yes = "1";
+                                        favHitOnApi(uId, shopId, Yes);
+                                    } else {
+                                        String No = "0";
+                                        favHitOnApi(uId, shopId, No);
+                                    }
+                                }
+                            });
+
+                        } else {
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        noInternetToast(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                String uid = SharedPreferencesManager.getUserID(activity);
+                params.put("uid", uid);
+                params.put("shopid",shopId);
+                return params;
+            }
+
+        };
+        stringRequest.setTag(this.getClass().getSimpleName());
+        volleyDefaultTimeIncreaseMethod(stringRequest);
+        requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
     }
 
     private void initToolbar(View view) {

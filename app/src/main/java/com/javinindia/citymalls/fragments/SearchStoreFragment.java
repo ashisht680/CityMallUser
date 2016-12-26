@@ -52,7 +52,6 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     ArrayList<CategoryList> arrayList = new ArrayList<CategoryList>();
     AppCompatEditText etSearch;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -119,6 +118,12 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
         disableTouchOfBackFragment(savedInstanceState);
 
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startLimit = 0;
     }
 
     private void initialize(View view) {

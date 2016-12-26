@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.fragments.BaseFragment;
 import com.javinindia.citymalls.fragments.LoginFragment;
+import com.javinindia.citymalls.notification.MyAndroidFirebaseInstanceIdService;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 
 

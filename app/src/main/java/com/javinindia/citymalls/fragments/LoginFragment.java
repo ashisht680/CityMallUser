@@ -124,8 +124,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         etUsername.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         etPassword = (EditText) view.findViewById(R.id.et_password);
         etPassword.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        etUsername.setText(SharedPreferencesManager.getEmail(activity));
-        etPassword.setText(SharedPreferencesManager.getPassword(activity));
         AppCompatButton txtRegistration = (AppCompatButton) view.findViewById(R.id.txtRegistration);
         txtRegistration.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         checkShowPassword = (CheckBox) view.findViewById(R.id.checkShowPassword);
@@ -367,8 +365,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 params.put("email", email);
                 params.put("password", pword);
                 params.put("username",name);
-                String deviceToken = SharedPreferencesManager.getDeviceToken(activity);
-                params.put("deviceToken", "hello");
+                if (!TextUtils.isEmpty(SharedPreferencesManager.getDeviceToken(activity))){
+                    params.put("deviceToken",SharedPreferencesManager.getDeviceToken(activity));
+                }else {
+                    params.put("deviceToken","deviceToken");
+                }
                 params.put("type",type);
                 params.put("authid",authid);
                 params.put("gender",gender);
@@ -421,8 +422,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 params.put("email", username);
                 params.put("password", password);
                 params.put("username","test");
-                String deviceToken = SharedPreferencesManager.getDeviceToken(activity);
-                params.put("deviceToken", "hello");
+                if (!TextUtils.isEmpty(SharedPreferencesManager.getDeviceToken(activity))){
+                    params.put("deviceToken",SharedPreferencesManager.getDeviceToken(activity));
+                }else {
+                    params.put("deviceToken","deviceToken");
+                }
                 params.put("type","manual");
                 params.put("authid","manual");
                 params.put("gender","MALE");

@@ -8,22 +8,21 @@
 
     <ImageView
         android:id="@+id/wish_zee_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/splash_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/new_logo"
         android:layout_centerInParent="true"/>
     <TextView
         android:id="@+id/txt_splash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wish_zee_logo"
-        android:text="Welcome to\n Wishzee"
-        android:layout_marginTop="20dp"
+        android:text="City Stores"
         android:gravity="center"
         android:textColor="#1b2d5e"
         android:textStyle="italic"
         android:textSize="24dp"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </RelativeLayout>

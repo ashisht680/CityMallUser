@@ -118,7 +118,7 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("onPause", "onPause");
+        startLimit=0;
     }
 
     private void sendRequestOnMallListFeed(final int AstartLimit, final int AcountLimit, final double Alatitude, final double Alongitude) {
@@ -202,6 +202,8 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
         txtDataNotFound = (AppCompatTextView) view.findViewById(R.id.txtDataNotFound);
         txtDataNotFound.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
+
+
 
 
     @Override

@@ -176,6 +176,8 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
         requestQueue.add(stringRequest);
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

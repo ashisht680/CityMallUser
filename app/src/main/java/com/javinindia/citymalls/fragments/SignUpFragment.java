@@ -168,7 +168,11 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
                 params.put("phone", number);
                 params.put("name", name);
                 params.put("password", password);
-                params.put("token", "hello");
+                if (!TextUtils.isEmpty(SharedPreferencesManager.getDeviceToken(activity))){
+                    params.put("token",SharedPreferencesManager.getDeviceToken(activity));
+                }else {
+                    params.put("token","deviceToken");
+                }
                 return params;
             }
 

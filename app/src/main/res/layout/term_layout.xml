@@ -45,13 +45,13 @@
                 android:id="@+id/txtOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This is an agreement between City Malls mobile app, a product of Javinindia, an Internet services company, the City Malls software (collectively, including all content provided by City Malls through the apps, and you ('you' or 'You'), a user of the City Malls app.\n\nBY USING THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE AGREED TO ALL THESE TERMS OF SERVICE, AND also to City Malls' PRIVACY POLICY, WHICH CAN BE FOUND AT [---]\n\nIf you choose not to agree with any of the terms mentioned, you may NOT USE THE CITY MALLS APP.\n\nPLEASE NOTE CITY MALLS DOES NOT AUTHORISE OR VALIDATE ANY OFFER PUBLISHED ON THE APP AND ANY DISCREPANCY OR REFUSAL TO COMMIT BY TO IT BY ANY PARTY IS NOT THE RESPONSIBILITY OF THE CITY MALLS MOBILE APP."/>
+                android:text="This is an agreement between City Stores mobile app, a product of Javinindia, an Internet services company, the City Stores software (collectively, including all content provided by City Stores through the apps, and you ('you' or 'You'), a user of the City Stores app.\n\nBY USING THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE AGREED TO ALL THESE TERMS OF SERVICE, AND also to City Stores' PRIVACY POLICY, WHICH CAN BE FOUND AT [---]\n\nIf you choose not to agree with any of the terms mentioned, you may NOT USE THE City Stores APP.\n\nPLEASE NOTE City Stores DOES NOT AUTHORISE OR VALIDATE ANY OFFER PUBLISHED ON THE APP AND ANY DISCREPANCY OR REFUSAL TO COMMIT BY TO IT BY ANY PARTY IS NOT THE RESPONSIBILITY OF THE City Stores MOBILE APP."/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="•	City Malls Mobile App Services"
+                android:text="•	City Stores Mobile App Services"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="5dp" />
@@ -60,12 +60,12 @@
                 android:id="@+id/txtTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please note that these Terms of Service apply to all registered users of the City Malls App.\n\nInformation provided by our registered Shops/Brands may contain third party links to websites that are not owned or controlled by City Malls.\n\nCity Malls takes no responsibility for the third party websites."/>
+                android:text="Please note that these Terms of Service apply to all registered users of the City Stores App.\n\nInformation provided by our registered Shops/Brands may contain third party links to websites that are not owned or controlled by City Stores.\n\nCity Stores takes no responsibility for the third party websites."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="•	City Malls Access"
+                android:text="•	City Stores Access"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="5dp"/>
@@ -73,7 +73,7 @@
                 android:id="@+id/txtThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1.	Once agreed for City Malls T&amp;Cs give permission to utilise its services to registered users, provided that:\ni.	It is solely for personal use, and not for reselling or any other activity that shall demean the City Malls app.\nii.	Duplication or transfer of offer codes or content to any party not registered with the City Malls app without prior permission shall be considered as a breach of trust.\niii.	Compliance to all T&amp;Cs shall be adhered to strictly.\n\n2.	You are providing correct and accurate information because you understand for accessing &amp; usage of the City Malls registered users have to provide their mobile number and other private details as asked by the app. Furthermore, registered users (you) explicitly agree that, City Malls may access your contact list and/or address book on your mobile device as required by it.\n\n3.	City Malls collects the mobile phone numbers, email addresses, favourites selection and most favourite offers of all users for improvement of the City Malls app and also for promotion. Please notify City Malls for any change in any of the private details collected from you in case of any loss or any such mishappening."/>
+                android:text="1.	Once agreed for City Stores T&amp;Cs give permission to utilise its services to registered users, provided that:\ni.	It is solely for personal use, and not for reselling or any other activity that shall demean the City Stores app.\nii.	Duplication or transfer of offer codes or content to any party not registered with the City Stores app without prior permission shall be considered as a breach of trust.\niii.	Compliance to all T&amp;Cs shall be adhered to strictly.\n\n2.	You are providing correct and accurate information because you understand for accessing &amp; usage of the City Stores registered users have to provide their mobile number and other private details as asked by the app. Furthermore, registered users (you) explicitly agree that, City Stores may access your contact list and/or address book on your mobile device as required by it.\n\n3.	City Stores collects the mobile phone numbers, email addresses, favourites selection and most favourite offers of all users for improvement of the City Stores app and also for promotion. Please notify City Stores for any change in any of the private details collected from you in case of any loss or any such mishappening."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtPolicy"
                 android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                 android:id="@+id/txtHead4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="•	What kind of Private Information does City Malls mobile app collect?"
+                android:text="•	What kind of Private Information does City Stores mobile app collect?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="5dp"/>
@@ -115,7 +115,7 @@
                 android:id="@+id/txtFive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="a)	Your City malls account is associated to the City Malls app with the help of your mobile number. All vital functions such as browsing the app, checking out offers, customize search to be more useful to you and similar functions are reliant on the location the app receives thanks to your private details and mobile number.\n\nb)	 Furthermore the required information is used to enhance City Malls team’s research activities for the purpose of increasing the effectiveness of our network and related Services, which then help us in developing new features for the City Malls community to make shopping a pleasurable experience.c)	Also the contact information provided by you shall be used by City Malls to send you relevant app upgrade notices and sponsored promotions.\n\nd)	Please note that your acceptance to this privacy policy implies you give City Malls every right to contact you by SMS or e-mail for any such promotions or as required for the purpose improving the City Malls app or as needed\n\ne)	Effectiveness of mall and offer search as per the requirements of the user depends upon this information.\n\nf)	 Required contact information is collected for availing offers and shall be used for future feature updates."/>
+                android:text="a)	Your City Stores account is associated to the City Stores app with the help of your mobile number. All vital functions such as browsing the app, checking out offers, customize search to be more useful to you and similar functions are reliant on the location the app receives thanks to your private details and mobile number.\n\nb)	 Furthermore the required information is used to enhance City Stores team’s research activities for the purpose of increasing the effectiveness of our network and related Services, which then help us in developing new features for the City Stores community to make shopping a pleasurable experience.c)	Also the contact information provided by you shall be used by City Stores to send you relevant app upgrade notices and sponsored promotions.\n\nd)	Please note that your acceptance to this privacy policy implies you give City Stores every right to contact you by SMS or e-mail for any such promotions or as required for the purpose improving the City Stores app or as needed\n\ne)	Effectiveness of mall and offer search as per the requirements of the user depends upon this information.\n\nf)	 Required contact information is collected for availing offers and shall be used for future feature updates."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead6"
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                 android:id="@+id/txtSix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No. We don’t share private information with third parties except those affiliated with the City Malls app and that too for promotion related activities."/>
+                android:text="No. We don’t share private information with third parties except those affiliated with the City Stores app and that too for promotion related activities."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead7"
                 android:layout_width="match_parent"
@@ -141,12 +141,12 @@
                 android:id="@+id/txtSeven"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Our Services are reliant on the location you provide, so in order for City malls to provide you the best offers that are nearest to you we need to know your location.\n\nWhenever you use the City Malls app the location information you provide or let us pick from your mobile device or browser (latitude &amp; longitude details) is used to customize the mall shopping experience with respect to your current location (i.e., we'll show you a list of nearby malls, brands and shops).\n\nCity Malls app further uses your mobile device's ‘background location to provide notification updates about recent offers in malls or shops or brands that you have explicitly chosen as your favourite."/>
+                android:text="Our Services are reliant on the location you provide, so in order for City Stores to provide you the best offers that are nearest to you we need to know your location.\n\nWhenever you use the City Stores app the location information you provide or let us pick from your mobile device or browser (latitude &amp; longitude details) is used to customize the mall shopping experience with respect to your current location (i.e., we'll show you a list of nearby malls, brands and shops).\n\nCity Stores app further uses your mobile device's ‘background location to provide notification updates about recent offers in malls or shops or brands that you have explicitly chosen as your favourite."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="•	Location Sharing on the City Malls app"
+                android:text="•	Location Sharing on the City Stores app"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="5dp"/>
@@ -154,7 +154,7 @@
                 android:id="@+id/txtEight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please be assured that your mobile’s real-time location is not shared with any mall/shop/brand or anyone on the City Malls app in a way to specifically identify you.\n\nThe location data is shared ONLY when you self decide to 'purchase'' an offer or book an offer from any of the shops/brands on the City Malls app who are all registered and verified merchants of the City Malls app hence nothing to worry about."/>
+                android:text="Please be assured that your mobile’s real-time location is not shared with any mall/shop/brand or anyone on the City Stores app in a way to specifically identify you.\n\nThe location data is shared ONLY when you self decide to 'purchase'' an offer or book an offer from any of the shops/brands on the City Stores app who are all registered and verified merchants of the City Stores app hence nothing to worry about."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead9"
                 android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                 android:id="@+id/txtNine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="City Malls App stores location history of your device to provide best offers at your beck and call. This information is critically private to the City Malls app and is never under any circumstances whatsoever shared with anybody."/>
+                android:text="City Stores App stores location history of your device to provide best offers at your beck and call. This information is critically private to the City Stores app and is never under any circumstances whatsoever shared with anybody."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtProperty"
                 android:layout_width="match_parent"
@@ -189,12 +189,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="The design of the City Malls Mobile app along with all associated properties(whatsoever), are owned by or licensed to Javinindia, subject to copyright and other intellectual property rights under Indian Law."/>
+                android:text="The design of the City Stores Mobile app along with all associated properties(whatsoever), are owned by or licensed to Javinindia, subject to copyright and other intellectual property rights under Indian Law."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="'City Malls reserves the right to discontinue any aspect of the City Malls mobile app with respect to any service at any time without prior notice.'"
+                android:text="'City Stores reserves the right to discontinue any aspect of the City Stores mobile app with respect to any service at any time without prior notice.'"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="5dp"/>

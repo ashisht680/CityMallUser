@@ -3,12 +3,16 @@ package com.javinindia.citymalls.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,6 +32,9 @@ import com.javinindia.citymalls.fragments.HomeFragment;
 import com.javinindia.citymalls.fragments.LocationSearchFragment;
 import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 
@@ -187,7 +194,6 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
         startActivity(refresh);//Start the same Activity
         finish();
     }
-
 
 
 }

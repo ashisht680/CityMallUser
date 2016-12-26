@@ -330,6 +330,16 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
+    public void onShopClick(int position, DetailsList detailsList) {
+
+    }
+
+    @Override
+    public void onMallClick(int position, DetailsList detailsList) {
+
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }

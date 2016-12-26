@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">City Malls</string>
+    <string name="app_name">City Stores</string>
     <string name="action_search">search</string>
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
@@ -9,7 +9,7 @@
     <string name="Fashion">Fashion &amp; Festive</string>
     <string name="Home">Home &amp; Living</string>
     <string name="Kitchen">Kitchen &amp; Bath</string>
-    <string name="API_KEY">AIzaSyB7iHcG60njE7W4SXlwewY15spQFTrvGyw</string>
+    <string name="API_KEY">AIzaSyCWom7wGPE7WH6HpAyBoKYyZj4YihLMcFM</string>
     <string name="facebook_app_id">809667202509521</string>
 
     <!--    Permissions    -->

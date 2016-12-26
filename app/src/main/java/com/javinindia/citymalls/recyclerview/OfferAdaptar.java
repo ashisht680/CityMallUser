@@ -69,6 +69,13 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         final VolleySingleTon volleySingleTon = VolleySingleTon.getInstance(context);
         final DetailsList requestDetail = (DetailsList) list.get(position);
 
+        viewHolder.txtShopName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myClickListener.onShopClick(position,requestDetail);
+            }
+        });
+
         if (!TextUtils.isEmpty(requestDetail.getOfferShopDetails().getShopName().trim())) {
             String shopName = requestDetail.getOfferShopDetails().getShopName().trim();
             viewHolder.txtShopName.setText(Html.fromHtml(shopName));
@@ -85,6 +92,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             viewHolder.txtShopName.setText(Html.fromHtml("Shop not found"));
         }
 
+
         if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallName().trim())) {
             String mallName = requestDetail.getOfferMallDetails().getMallName().trim();
             viewHolder.txtMallName.setText(Html.fromHtml(mallName));
@@ -100,6 +108,14 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         } else {
             viewHolder.txtMallName.setText(Html.fromHtml("Mall not found"));
         }
+
+        /*viewHolder.txtMallName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myClickListener.onMallClick(position,requestDetail);
+            }
+        });*/
+
         if (!TextUtils.isEmpty(requestDetail.getOfferBrandDetails().getBrandName().trim())) {
             String brandName = requestDetail.getOfferBrandDetails().getBrandName().trim();
         }
@@ -170,18 +186,18 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             String offerType = requestDetail.getOfferDetails().getOfferPercentageType().trim();
             double actual = Double.parseDouble(offerActualPrice);
             double discount = Double.parseDouble(offerDiscountPrice);
-            int percent = (int) (100 -(discount * 100.0f) / actual);
+            int percent = (int) (100 - (discount * 100.0f) / actual);
             viewHolder.txtOfferPercent.setText(offerType + "\n" + percent + "% off");
         } else if (TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentageType().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferPercentage().trim())) {
-            viewHolder.txtOfferPercent.setText("UPTO\n"+requestDetail.getOfferDetails().getOfferPercentage().trim() + "% off");
+            viewHolder.txtOfferPercent.setText("UPTO\n" + requestDetail.getOfferDetails().getOfferPercentage().trim() + "% off");
         } else {
             if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferActualPrice().trim()) && !TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferDiscountedPrice().trim())) {
                 String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
                 String offerDiscountPrice = requestDetail.getOfferDetails().getOfferDiscountedPrice().trim();
                 double actual = Double.parseDouble(offerActualPrice);
                 double discount = Double.parseDouble(offerDiscountPrice);
-                int percent = (int) (100-(discount * 100.0f) / actual);
-                viewHolder.txtOfferPercent.setText("UPTO\n"+percent + "% off");
+                int percent = (int) (100 - (discount * 100.0f) / actual);
+                viewHolder.txtOfferPercent.setText("UPTO\n" + percent + "% off");
             }
 
         }
@@ -199,9 +215,16 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         } else {
             viewHolder.chkImageOffer.setChecked(false);
         }
-        if (!TextUtils.isEmpty(requestDetail.getOfferBrandDetails().getBrandLogo().trim())) {
-            String brandPic = requestDetail.getOfferBrandDetails().getBrandLogo().trim();
-            Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoOffer, brandPic);
+
+        if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferBanner().trim())) {
+            String offerBanner = requestDetail.getOfferDetails().getOfferBanner().trim();
+            Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoOffer, offerBanner);
+        } else if (!TextUtils.isEmpty(requestDetail.getOfferBrandDetails().getBrandLogo().trim())) {
+            String brandLogo = requestDetail.getOfferBrandDetails().getBrandLogo().trim();
+            Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoOffer, brandLogo);
+        } else if (!TextUtils.isEmpty(requestDetail.getOfferShopDetails().getShopProfilePic().trim())) {
+            String shopLogo = requestDetail.getOfferShopDetails().getShopProfilePic().trim();
+            Utility.imageLoadGlideLibrary(context, viewHolder.progressBar, viewHolder.imgShopLogoOffer, shopLogo);
         } else {
             viewHolder.imgShopLogoOffer.setImageResource(R.drawable.no_image_icon);
         }
@@ -210,7 +233,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             String category = requestDetail.getOfferDetails().getOfferCategory().trim();
             viewHolder.txtOfferCategory.setText("on " + Html.fromHtml(category));
         } else {
-            viewHolder.txtOfferCategory.setText("on " + Html.fromHtml("Category not found"));
+            //  viewHolder.txtOfferCategory.setText(Html.fromHtml("Category not found"));
         }
 
         viewHolder.rlMain.setOnClickListener(new View.OnClickListener() {
@@ -229,19 +252,13 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
         //   viewHolder.ratingBar.setRating(Float.parseFloat("2.0"));
 
-        viewHolder.txtShopName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView txtShopName, txtAddress, txtTimingOffer, txtOfferTitle, txtOfferCategory, txtMallName, txtActualPrice, txtDiscountPrice, txtOfferPercent,txtMRP;
+        public AppCompatTextView txtShopName, txtAddress, txtTimingOffer, txtOfferTitle, txtOfferCategory, txtMallName, txtActualPrice, txtDiscountPrice, txtOfferPercent, txtMRP;
         public CardView rlMain;
         public CheckBox chkImageOffer;
         ImageView imgShopLogoOffer;
@@ -289,6 +306,10 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         void onOfferItemClick(int position, DetailsList detailsList);
 
         void onFavoriteClick(int position, DetailsList detailsList);
+
+        void onShopClick(int position, DetailsList detailsList);
+
+        void onMallClick(int position, DetailsList detailsList);
     }
 
     public void setMyClickListener(MyClickListener myClickListener) {

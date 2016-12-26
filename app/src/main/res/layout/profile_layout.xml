@@ -179,7 +179,7 @@
                         android:layout_height="30dp"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
-                        android:text="Phone"
+                        android:text="Mobile no."
                         android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
                         android:textSize="12dp"  />

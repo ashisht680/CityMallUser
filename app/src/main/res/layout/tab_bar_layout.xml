@@ -33,10 +33,10 @@
 
                 <Spinner
                     android:id="@+id/spinner_nav"
-                    android:layout_width="80dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:layout_gravity="left"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="start"
                     android:dropDownVerticalOffset="10dp"
                     android:visibility="gone"/>
                 <TextView

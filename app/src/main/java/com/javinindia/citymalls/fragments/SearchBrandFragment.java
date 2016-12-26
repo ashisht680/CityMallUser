@@ -121,11 +121,10 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
         brandRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewBrand);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 3);
         brandRecyclerView.setLayoutManager(gridLayoutManager);
-        brandRecyclerView.addOnScrollListener(new brandScrollListener());
         adapter = new MasterBrandAdapter(activity);
         brandRecyclerView.setAdapter(adapter);
         adapter.setMyClickListener(SearchBrandFragment.this);
-
+        brandRecyclerView.addOnScrollListener(new brandScrollListener());
         LinearLayout llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
         etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
         etSearch.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
@@ -133,6 +132,17 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
         AppCompatTextView txtTitle = (AppCompatTextView) view.findViewById(R.id.txtTitle);
         txtTitle.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         imgSearch.setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+            startLimit=0;
     }
 
     @Override
@@ -182,6 +192,7 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
     public class brandScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            Log.e("scroll brand","scroll");
             LinearLayoutManager recyclerLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             int visibleItemCount = recyclerView.getChildCount();
             int totalItemCount = recyclerLayoutManager.getItemCount();
