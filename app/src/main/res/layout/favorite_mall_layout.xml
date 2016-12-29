@@ -51,6 +51,13 @@
         android:padding="10dp">
 
     </android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtDataNotFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You have not chosen any favorite."
+        android:gravity="center"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -27,6 +28,7 @@ import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallDetail;
 import com.javinindia.citymalls.apiparsing.mallListParsing.MallListResponseParsing;
 import com.javinindia.citymalls.constant.Constants;
+import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
@@ -56,6 +58,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     NewLoc gps;
     double latitude = 0.0;
     double longitude = 0.0;
+    AppCompatTextView txtDataNotFound;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +107,8 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
                         ArrayList arrayList = responseparsing.getMallDetailsArrayList();
                         if (responseparsing.getStatus() == 1) {
                             if (arrayList.size() > 0) {
+                                txtDataNotFound.setVisibility(View.GONE);
+                                llSearch.setVisibility(View.VISIBLE);
                                 if (adapter.getData() != null && adapter.getData().size() > 0) {
                                     adapter.getData().addAll(arrayList);
                                     adapter.notifyDataSetChanged();
@@ -113,6 +118,9 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
 
                                 }
                             }
+                        } else {
+                            txtDataNotFound.setVisibility(View.VISIBLE);
+                            llSearch.setVisibility(View.GONE);
                         }
                     }
                 },
@@ -153,6 +161,8 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         recyclerview.setAdapter(adapter);
         adapter.setMyClickListener(FavoriteMallFragment.this);
 
+        txtDataNotFound = (AppCompatTextView) view.findViewById(R.id.txtDataNotFound);
+        txtDataNotFound.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
 
         etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
@@ -208,7 +218,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         String mallPic = model.getMallPic().trim();
         int favStatus = model.getFavStatus();
         int totalOffer = model.getOfferCount();
-        String address="";
+        String address = "";
 
         String mallLandmark = model.getMallLandmark().trim();
         String city = model.getCity().trim();
@@ -253,7 +263,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         String mallPic = modal.getMallPic().trim();
         int favStatus = modal.getFavStatus();
         int totalOffer = modal.getOfferCount();
-        String address="";
+        String address = "";
 
         String mallLandmark = modal.getMallLandmark().trim();
         String city = modal.getCity().trim();
@@ -293,8 +303,8 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         String mallLat = modal.getMallLat().trim();
         String mallLong = modal.getMallLong().trim();
         String mallName = modal.getMallName().trim();
-        Log.e("direction",mallLat+"\t"+mallLong);
-        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat),  Double.parseDouble(mallLong),mallName);
+        Log.e("direction", mallLat + "\t" + mallLong);
+        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat), Double.parseDouble(mallLong), mallName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         activity.startActivity(intent);
     }
@@ -309,27 +319,27 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         String pinCode = mallDetail.getPinCode().trim();
         double distance = mallDetail.getDistance();
         final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(mallAddress)){
+        if (!TextUtils.isEmpty(mallAddress)) {
             data.add(mallAddress);
         }
-        if (!TextUtils.isEmpty(mallLandmark)){
+        if (!TextUtils.isEmpty(mallLandmark)) {
             data.add(mallLandmark);
         }
-        if (!TextUtils.isEmpty(city)){
+        if (!TextUtils.isEmpty(city)) {
             data.add(city);
         }
-        if (!TextUtils.isEmpty(state)){
+        if (!TextUtils.isEmpty(state)) {
             data.add(state);
         }
-        if (!TextUtils.isEmpty(pinCode)){
+        if (!TextUtils.isEmpty(pinCode)) {
             data.add(pinCode);
         }
 
-        if (data.size()>0){
+        if (data.size() > 0) {
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
             showNewDialog(mallName, test);
-        }else {
+        } else {
             // viewHolder.txtAddress.setText("Address: Not found");
         }
     }
@@ -368,7 +378,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                              //  showDialogMethod(msg);
+                                //  showDialogMethod(msg);
                             }
                         }
                     }
@@ -460,6 +470,6 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     public void onPause() {
         super.onPause();
         etSearch.setText("");
-        Log.e("onPause mall","onPause");
+        Log.e("onPause mall", "onPause");
     }
 }

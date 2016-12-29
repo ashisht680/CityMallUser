@@ -60,7 +60,7 @@
         android:id="@+id/txtDataNotFound"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Date not found"
+        android:text="There are no stores under this category."
         android:gravity="center"
         android:visibility="gone"/>
 

@@ -135,13 +135,13 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
                                 arrayList = responseparsing.getMallDetailsArrayList();
                                 if (arrayList.size() > 0) {
                                     txtDataNotFound.setVisibility(View.GONE);
-                                    if (adapter.getData() != null && adapter.getData().size() > 0) {
+                                   /* if (adapter.getData() != null && adapter.getData().size() > 0) {
                                         adapter.getData().addAll(arrayList);
                                         adapter.notifyDataSetChanged();
-                                    } else {
+                                    } else {*/
                                         adapter.setData(arrayList);
                                         adapter.notifyDataSetChanged();
-                                    }
+                                   // }
 
                                 } else {
                                     txtDataNotFound.setVisibility(View.VISIBLE);
@@ -200,7 +200,12 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
     @Override
     public void afterTextChanged(Editable s) {
         String text = s.toString().toLowerCase(Locale.getDefault());
-        if (arrayList.size() > 0) {
+        arrayList.removeAll(arrayList);
+        adapter.notifyDataSetChanged();
+        adapter.setData(arrayList);
+        String data = etSearch.getText().toString().trim();
+        sendRequestOnReplyFeed(0, 500, latitude, longitude,data);
+      /*  if (arrayList.size() > 0) {
             arrayList.removeAll(arrayList);
             adapter.notifyDataSetChanged();
             adapter.setData(arrayList);
@@ -209,7 +214,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
         } else {
             String data = etSearch.getText().toString().trim();
             sendRequestOnReplyFeed(0, 500, latitude, longitude,data);
-        }
+        }*/
     }
 
     @Override
