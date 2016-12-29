@@ -32,6 +32,7 @@ import com.javinindia.citymalls.fragments.HomeFragment;
 import com.javinindia.citymalls.fragments.LocationSearchFragment;
 import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * Created by Ashish on 12-09-2016.
  */
-public class NavigationActivity extends BaseActivity implements LocationSearchFragment.OnCallBackListener {
+public class NavigationActivity extends BaseActivity implements LocationSearchFragment.OnCallBackListener,CheckConnectionFragment.OnCallBackInternetListener {
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
     protected Context context;
@@ -51,23 +52,6 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
     double longitude = 0.0;
     NewLoc gps;
 
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,17 +61,21 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
         String username = SharedPreferencesManager.getUsername(getApplicationContext());
         Log.e("username", username);
 
-        if (haveNetworkConnection()) {
+        if (CheckConnection.haveNetworkConnection(this)) {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
             mFragmentTransaction.replace(R.id.navigationContainer, new HomeFragment()).commit();
-
         } else {
-            mFragmentManager = getSupportFragmentManager();
-            mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
-            mFragmentTransaction.replace(R.id.navigationContainer, new CheckConnectionFragment()).commit();
+            methodCallCheckInternet();
         }
+    }
 
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
+        mFragmentTransaction.replace(R.id.navigationContainer, fragment).commit();
     }
 
     private void methodLocation() {
@@ -188,7 +176,6 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
 
     @Override
     public void onCallBack(String a) {
-        Toast.makeText(getApplication(), a, Toast.LENGTH_LONG).show();
         SharedPreferencesManager.setLocation(getApplicationContext(), a);
         Intent refresh = new Intent(this, NavigationActivity.class);
         startActivity(refresh);//Start the same Activity
@@ -196,4 +183,10 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
     }
 
 
+    @Override
+    public void OnCallBackInternet() {
+        Intent refresh = new Intent(this, LoginActivity.class);
+        startActivity(refresh);//Start the same Activity
+        finish();
+    }
 }
