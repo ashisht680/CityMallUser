@@ -43,7 +43,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 11-11-2016.
  */
-public class FavoriteOfferFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener, TextWatcher , OfferPostFragment.OnCallBackOfferDetailFavListener{
+public class FavoriteOfferFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener, TextWatcher, OfferPostFragment.OnCallBackOfferDetailFavListener {
 
     private RecyclerView recyclerview;
     private int startLimit = 0;
@@ -71,27 +71,17 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("limits",AstartLimit+""+AcountLimit);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
-                        Log.e("request fav off", response);
                         responseparsing.responseParseMethod(response);
-
-                       // int status = responseparsing.getStatus();
-                        if(responseparsing.getStatus()==1){
+                        if (responseparsing.getStatus() == 1) {
                             ArrayList arrayList = responseparsing.getDetailsListArrayList();
-                            if(arrayList.size()>0){
+                            if (arrayList.size() > 0) {
                                 txtDataNotFound.setVisibility(View.GONE);
                                 llSearch.setVisibility(View.VISIBLE);
-                              /*  if (adapter.getData() != null && adapter.getData().size() > 0) {
-                                    adapter.getData().addAll(arrayList);
-                                    adapter.notifyDataSetChanged();
-                                } else {*/
-                                    adapter.setData(arrayList);
-                                    adapter.notifyDataSetChanged();
-
-                               // }
+                                adapter.setData(arrayList);
+                                adapter.notifyDataSetChanged();
                             }
-                        }else {
+                        } else {
                             txtDataNotFound.setVisibility(View.VISIBLE);
                             llSearch.setVisibility(View.GONE);
                         }
@@ -124,10 +114,11 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
         super.onActivityCreated(savedInstanceState);
         disableTouchOfBackFragment(savedInstanceState);
     }
+
     private void initialize(View view) {
 
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallOffer);
-        adapter = new OfferAdaptar(activity,0);
+        adapter = new OfferAdaptar(activity, 0);
         LinearLayoutManager layoutMangerDestination
                 = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layoutMangerDestination);
@@ -135,14 +126,15 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
         recyclerview.setAdapter(adapter);
         adapter.setMyClickListener(FavoriteOfferFragment.this);
 
-        txtDataNotFound = (AppCompatTextView)view.findViewById(R.id.txtDataNotFound);
+        txtDataNotFound = (AppCompatTextView) view.findViewById(R.id.txtDataNotFound);
         txtDataNotFound.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        llSearch = (LinearLayout)view.findViewById(R.id.llSearch);
+        llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
 
-        etSearch = (AppCompatEditText)view.findViewById(R.id.etSearch);
+        etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
         etSearch.addTextChangedListener(this);
 
     }
+
     @Override
     protected int getFragmentLayout() {
         return R.layout.favorite_offer_layout;
@@ -192,23 +184,23 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
         String floor = detailsList.getOfferShopDetails().getShopFloorNo().trim();
         int favStatus = detailsList.getFavStatus();
         final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(shopNo)){
+        if (!TextUtils.isEmpty(shopNo)) {
             data.add(shopNo);
         }
-        if (!TextUtils.isEmpty(floor)){
+        if (!TextUtils.isEmpty(floor)) {
             data.add(floor);
         }
 
-        if (data.size()>0){
+        if (data.size() > 0) {
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
-            shopNewAddress=test;
+            shopNewAddress = test;
         }
 
         OfferPostFragment fragment1 = new OfferPostFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("shopPic",shopPic);
+        bundle.putString("shopPic", shopPic);
         bundle.putString("shopNewAddress", shopNewAddress);
         bundle.putString("brandName", brandName);
         bundle.putString("brandPic", brandPic);
@@ -266,7 +258,6 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -295,7 +286,7 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                               // showDialogMethod(msg);
+                                // showDialogMethod(msg);
                             }
                         }
                     }
@@ -386,6 +377,5 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
     public void onPause() {
         super.onPause();
         etSearch.setText("");
-        Log.e("onPause offer","onPause");
     }
 }

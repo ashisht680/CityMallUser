@@ -103,12 +103,6 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-      /*  if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // takePictureButton.setEnabled(false);
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CAMERA);
-        }*/
-
     }
 
     private OnCallBackUpdateProfileListener onCallBackUpdateProfileListener;
@@ -148,7 +142,6 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
         actionBar.setTitle(null);
         AppCompatTextView textView = (AppCompatTextView) view.findViewById(R.id.tittle);
         textView.setText("");
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
@@ -209,42 +202,42 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
     private void methodSetDate(String sPic, String sName, String sEmail, String sMobileNum, String sState, String sCity, String sAddress, String gender, String dob) {
         if (!TextUtils.isEmpty(sName) && !sName.equals("null")) {
-            etPersonName.setText(Html.fromHtml(sName));
+            etPersonName.setText(Utility.fromHtml(sName));
         } else {
             //   etPersonName.setText(" ");
         }
         if (!TextUtils.isEmpty(sEmail) && !sEmail.equals("null")) {
-            etEmailAddress.setText(Html.fromHtml(sEmail));
+            etEmailAddress.setText(Utility.fromHtml(sEmail));
         } else {
             //   etEmailAddress.setText(" ");
         }
         if (!TextUtils.isEmpty(sMobileNum) && !sMobileNum.equals("null")) {
-            etMobile.setText(Html.fromHtml(sMobileNum));
+            etMobile.setText(Utility.fromHtml(sMobileNum));
         } else {
             // etMobile.setText(" ");
         }
         if (!TextUtils.isEmpty(sState) && !sState.equals("null")) {
-            etState.setText(Html.fromHtml(sState));
+            etState.setText(Utility.fromHtml(sState));
         } else {
             // etState.setText(" ");
         }
         if (!TextUtils.isEmpty(sCity) && !sCity.equals("null")) {
-            etCity.setText(Html.fromHtml(sCity));
+            etCity.setText(Utility.fromHtml(sCity));
         } else {
             //  etCity.setText(" ");
         }
         if (!TextUtils.isEmpty(sAddress) && !sAddress.equals("null")) {
-            etAddress.setText(Html.fromHtml(sAddress));
+            etAddress.setText(Utility.fromHtml(sAddress));
         } else {
             //  etAddress.setText(" ");
         }
         if (!TextUtils.isEmpty(gender) && !gender.equals("null")) {
-            etGender.setText(Html.fromHtml(gender));
+            etGender.setText(Utility.fromHtml(gender));
         } else {
             //  etGender.setText(" ");
         }
         if (!TextUtils.isEmpty(dob) && !dob.equals("null")) {
-            etDOB.setText(Html.fromHtml(dob));
+            etDOB.setText(Utility.fromHtml(dob));
         } else {
             //  etDOB.setText(" ");
         }
@@ -416,7 +409,6 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("response", response);
                         String sID = null, msg = null, sPic = null, gender = null, dob = null;
                         String sName, sEmail, sMobileNum, sState, sCity, sAddress;
                         int status = 0;
@@ -542,13 +534,12 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onResponse(String response) {
                         loading.dismiss();
-                        Log.e("MasterTags", response);
                         hideLoader();
                         CountryMasterApiParsing countryMasterApiParsing = new CountryMasterApiParsing();
                         countryMasterApiParsing.responseParseMethod(response);
                         if (countryMasterApiParsing.getCountryDetails().getStateDetailsArrayList().size() > 0) {
                             for (int i = 0; i < countryMasterApiParsing.getCountryDetails().getStateDetailsArrayList().size(); i++) {
-                                stateList.add(countryMasterApiParsing.getCountryDetails().getStateDetailsArrayList().get(i).getState());
+                                stateList.add(countryMasterApiParsing.getCountryDetails().getStateDetailsArrayList().get(i).getState().trim());
                             }
                             if (stateList.size() > 0) {
                                 stateArray = new String[stateList.size()];
@@ -610,13 +601,11 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onResponse(String response) {
                         loading.dismiss();
-                        //  progressDialog.dismiss();
-                        Log.e("MasterTags", response);
                         hideLoader();
                         CityMasterParsing cityMasterParsing = new CityMasterParsing();
                         cityMasterParsing.responseParseMethod(response);
                         for (int i = 0; i < cityMasterParsing.getCountryDetails().getCityDetails().size(); i++) {
-                            cityList.add(cityMasterParsing.getCountryDetails().getCityDetails().get(i).getCity());
+                            cityList.add(cityMasterParsing.getCountryDetails().getCityDetails().get(i).getCity().trim());
                         }
                         if (cityList.size() > 0) {
                             cityArray = new String[cityList.size()];

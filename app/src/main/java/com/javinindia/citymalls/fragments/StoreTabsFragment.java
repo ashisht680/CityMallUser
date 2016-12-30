@@ -40,6 +40,8 @@ import com.javinindia.citymalls.utility.Utility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,20 +52,20 @@ public class StoreTabsFragment extends BaseFragment {
     private RequestQueue requestQueue;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    AppCompatTextView txtStoreName, txtRating, txtStoreMall, txtOffers,txtStoreAddress;
+    AppCompatTextView txtStoreName, txtRating, txtStoreMall, txtOffers, txtStoreAddress;
     ImageView imgStore;
     ProgressBar progress;
     CheckBox chkImageShop;
     RatingBar ratingBar;
     String shopId;
-    String shopName,address;
+    String shopName, address;
     String shopPic;
     String shopRating;
     String mallName;
     int totalOffers = 0;
     int favStatus = 0;
     int position;
-    int click =0;
+    int click = 0;
 
     private OnCallBackShopFavListener onCallBackShopFavListener;
 
@@ -89,6 +91,7 @@ public class StoreTabsFragment extends BaseFragment {
         favStatus = getArguments().getInt("favStatus");
         totalOffers = getArguments().getInt("totalOffers");
         address = getArguments().getString("address");
+        SharedPreferencesManager.setShopId(activity, shopId);
     }
 
     @Override
@@ -104,10 +107,10 @@ public class StoreTabsFragment extends BaseFragment {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initToolbar(view);
         intialize(view);
-        if (click==1){
-            setDateMethod();
-        }else {
+        if (click == 0) {
             hitShopApiMethod(shopId);
+        } else {
+            setDateMethod();
         }
         return view;
     }
@@ -123,18 +126,18 @@ public class StoreTabsFragment extends BaseFragment {
                         if (status == 1) {
 
                             if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getStoreName().trim())) {
-                                shopName=responseparsing.getDetailsListArrayList().get(0).getStoreName().trim();
-                                txtStoreName.setText(Html.fromHtml(shopName));
+                                shopName = responseparsing.getDetailsListArrayList().get(0).getStoreName().trim();
+                                txtStoreName.setText(Utility.fromHtml(shopName));
                             }
                             if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getProfilepic().trim())) {
-                                shopPic=responseparsing.getDetailsListArrayList().get(0).getProfilepic().trim();
+                                shopPic = responseparsing.getDetailsListArrayList().get(0).getProfilepic().trim();
                                 Utility.imageLoadGlideLibrary(activity, progress, imgStore, shopPic);
                             } else {
                                 imgStore.setImageResource(R.drawable.no_image_icon);
                             }
-                            if (!TextUtils.isEmpty(mallName)) {
-                                mallName=responseparsing.getDetailsListArrayList().get(0).getMallName().trim();
-                                txtStoreMall.setText(Html.fromHtml(mallName));
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getMallName().trim())) {
+                                mallName = responseparsing.getDetailsListArrayList().get(0).getMallName().trim();
+                                txtStoreMall.setText(Utility.fromHtml(mallName));
                             } else {
                                 txtStoreMall.setText("No Mall Detail");
                             }
@@ -150,7 +153,7 @@ public class StoreTabsFragment extends BaseFragment {
                             }
 
                             if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getRating().trim())) {
-                                shopRating=responseparsing.getDetailsListArrayList().get(0).getRating().trim();
+                                shopRating = responseparsing.getDetailsListArrayList().get(0).getRating().trim();
                                 txtRating.setText("Rating: " + shopRating + "/5");
                                 ratingBar.setRating(Float.parseFloat(shopRating));
                             } else {
@@ -158,12 +161,23 @@ public class StoreTabsFragment extends BaseFragment {
                                 ratingBar.setRating((float) 0.0);
                             }
 
-                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getAddress().trim())) {
-                                address=responseparsing.getDetailsListArrayList().get(0).getAddress().trim();
-                                txtStoreAddress.setText(Html.fromHtml(address));
+                            final ArrayList<String> data = new ArrayList<>();
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getShopNo().trim())) {
+                                data.add(responseparsing.getDetailsListArrayList().get(0).getShopNo().trim());
+                            }
+                            if (!TextUtils.isEmpty(responseparsing.getDetailsListArrayList().get(0).getFloor().trim())) {
+                                data.add(responseparsing.getDetailsListArrayList().get(0).getFloor().trim());
+                            }
+
+                            if (data.size() > 0) {
+                                String str = Arrays.toString(data.toArray());
+                                address = str.replaceAll("[\\[\\](){}]", "");
+                            }
+                            if (!TextUtils.isEmpty(address)) {
+                                txtStoreAddress.setText(Utility.fromHtml(address));
                             }
                             if (responseparsing.getDetailsListArrayList().get(0).getFavStatus() == 1) {
-                                favStatus=responseparsing.getDetailsListArrayList().get(0).getFavStatus();
+                                favStatus = responseparsing.getDetailsListArrayList().get(0).getFavStatus();
                                 chkImageShop.setChecked(true);
                             } else {
                                 chkImageShop.setChecked(false);
@@ -199,7 +213,7 @@ public class StoreTabsFragment extends BaseFragment {
                 Map<String, String> params = new HashMap<String, String>();
                 String uid = SharedPreferencesManager.getUserID(activity);
                 params.put("uid", uid);
-                params.put("shopid",shopId);
+                params.put("shopid", shopId);
                 return params;
             }
 
@@ -222,13 +236,12 @@ public class StoreTabsFragment extends BaseFragment {
         });
         final ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setTitle(null);
-        AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
-        if (!TextUtils.isEmpty(shopName)){
+        AppCompatTextView textView = (AppCompatTextView) view.findViewById(R.id.tittle);
+        if (!TextUtils.isEmpty(shopName)) {
             textView.setText(shopName);
-        }else {
+        } else {
             textView.setText("Store");
         }
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
@@ -322,7 +335,6 @@ public class StoreTabsFragment extends BaseFragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -397,6 +409,7 @@ public class StoreTabsFragment extends BaseFragment {
         viewPager.setAdapter(adapter);
 
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);

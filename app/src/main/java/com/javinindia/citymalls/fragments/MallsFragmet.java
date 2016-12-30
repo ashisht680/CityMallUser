@@ -35,6 +35,7 @@ import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.location.NewLoc;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +51,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 08-09-2016.
  */
-public class MallsFragmet extends BaseFragment implements View.OnClickListener, MallAdapter.MyClickListener, MallDetailTabBarFragment.OnCallBackMallFavListener {
+public class MallsFragmet extends BaseFragment implements View.OnClickListener, MallAdapter.MyClickListener, MallDetailTabBarFragment.OnCallBackMallFavListener,CheckConnectionFragment.OnCallBackInternetListener {
     private MallAdapter adapter;
     private RecyclerView recyclerview;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -230,94 +231,108 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
 
     }
 
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+    }
+
     @Override
     public void onItemClick(int position, MallDetail model) {
-        int pos = position;
-        String mallId = model.getId().trim();
-        String mallName = model.getMallName().trim();
-        String mallRating = model.getRating().trim();
-        double distance = model.getDistance();
-        String mallPic = model.getMallPic().trim();
-        int favStatus = model.getFavStatus();
-        int totalOffer = model.getOfferCount();
-        String address="";
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            int pos = position;
+            String mallId = model.getId().trim();
+            String mallName = model.getMallName().trim();
+            String mallRating = model.getRating().trim();
+            double distance = model.getDistance();
+            String mallPic = model.getMallPic().trim();
+            int favStatus = model.getFavStatus();
+            int totalOffer = model.getOfferCount();
+            String address="";
 
-        String mallLandmark = model.getMallLandmark().trim();
-        String city = model.getCity().trim();
-        final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(mallLandmark)) {
-            data.add(mallLandmark);
-        }
-        if (!TextUtils.isEmpty(city)) {
-            data.add(city);
-        }
+            String mallLandmark = model.getMallLandmark().trim();
+            String city = model.getCity().trim();
+            final ArrayList<String> data = new ArrayList<>();
+            if (!TextUtils.isEmpty(mallLandmark)) {
+                data.add(mallLandmark);
+            }
+            if (!TextUtils.isEmpty(city)) {
+                data.add(city);
+            }
 
-        if (data.size() > 0) {
-            String str = Arrays.toString(data.toArray());
-            address = str.replaceAll("[\\[\\](){}]", "");
-        }
+            if (data.size() > 0) {
+                String str = Arrays.toString(data.toArray());
+                address = str.replaceAll("[\\[\\](){}]", "");
+            }
 
-        MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("pos", pos);
-        bundle.putString("mallId", mallId);
-        bundle.putString("mallName", mallName);
-        bundle.putString("mallRating", mallRating);
-        bundle.putDouble("distance", distance);
-        bundle.putString("mallPic", mallPic);
-        bundle.putInt("favStatus", favStatus);
-        bundle.putInt("totalOffer", totalOffer);
-        bundle.putString("address", address);
-        fragment1.setArguments(bundle);
-        SharedPreferencesManager.setMAllId(activity, mallId);
-        fragment1.setMyCallBackMallFavListener(this);
-        Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 1;
-        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+            MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("pos", pos);
+            bundle.putString("mallId", mallId);
+            bundle.putString("mallName", mallName);
+            bundle.putString("mallRating", mallRating);
+            bundle.putDouble("distance", distance);
+            bundle.putString("mallPic", mallPic);
+            bundle.putInt("favStatus", favStatus);
+            bundle.putInt("totalOffer", totalOffer);
+            bundle.putString("address", address);
+            fragment1.setArguments(bundle);
+            SharedPreferencesManager.setMAllId(activity, mallId);
+            fragment1.setMyCallBackMallFavListener(this);
+            Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 1;
+            callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+        }else {
+            methodCallCheckInternet();
+        }
     }
 
     @Override
     public void onMallNameClick(int position, MallDetail modal) {
-        int pos = position;
-        String mallId = modal.getId().trim();
-        String mallName = modal.getMallName().trim();
-        String mallRating = modal.getRating().trim();
-        double distance = modal.getDistance();
-        String mallPic = modal.getMallPic().trim();
-        int favStatus = modal.getFavStatus();
-        int totalOffer = modal.getOfferCount();
-        String address="";
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            int pos = position;
+            String mallId = modal.getId().trim();
+            String mallName = modal.getMallName().trim();
+            String mallRating = modal.getRating().trim();
+            double distance = modal.getDistance();
+            String mallPic = modal.getMallPic().trim();
+            int favStatus = modal.getFavStatus();
+            int totalOffer = modal.getOfferCount();
+            String address="";
 
-        String mallLandmark = modal.getMallLandmark().trim();
-        String city = modal.getCity().trim();
-        final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(mallLandmark)) {
-            data.add(mallLandmark);
-        }
-        if (!TextUtils.isEmpty(city)) {
-            data.add(city);
-        }
+            String mallLandmark = modal.getMallLandmark().trim();
+            String city = modal.getCity().trim();
+            final ArrayList<String> data = new ArrayList<>();
+            if (!TextUtils.isEmpty(mallLandmark)) {
+                data.add(mallLandmark);
+            }
+            if (!TextUtils.isEmpty(city)) {
+                data.add(city);
+            }
 
-        if (data.size() > 0) {
-            String str = Arrays.toString(data.toArray());
-            address = str.replaceAll("[\\[\\](){}]", "");
-        }
+            if (data.size() > 0) {
+                String str = Arrays.toString(data.toArray());
+                address = str.replaceAll("[\\[\\](){}]", "");
+            }
 
-        MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("pos", pos);
-        bundle.putString("mallId", mallId);
-        bundle.putString("mallName", mallName);
-        bundle.putString("mallRating", mallRating);
-        bundle.putDouble("distance", distance);
-        bundle.putString("mallPic", mallPic);
-        bundle.putInt("favStatus", favStatus);
-        bundle.putInt("totalOffer", totalOffer);
-        bundle.putString("address", address);
-        fragment1.setArguments(bundle);
-        SharedPreferencesManager.setMAllId(activity, mallId);
-        fragment1.setMyCallBackMallFavListener(this);
-        Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 0;
-        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+            MallDetailTabBarFragment fragment1 = new MallDetailTabBarFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("pos", pos);
+            bundle.putString("mallId", mallId);
+            bundle.putString("mallName", mallName);
+            bundle.putString("mallRating", mallRating);
+            bundle.putDouble("distance", distance);
+            bundle.putString("mallPic", mallPic);
+            bundle.putInt("favStatus", favStatus);
+            bundle.putInt("totalOffer", totalOffer);
+            bundle.putString("address", address);
+            fragment1.setArguments(bundle);
+            SharedPreferencesManager.setMAllId(activity, mallId);
+            fragment1.setMyCallBackMallFavListener(this);
+            Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 0;
+            callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+        }else {
+            methodCallCheckInternet();
+        }
     }
 
     @Override
@@ -339,7 +354,6 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
         String mallLat = modal.getMallLat().trim();
         String mallLong = modal.getMallLong().trim();
         String mallName = modal.getMallName().trim();
-        Log.e("direction",mallLat+"\t"+mallLong);
         String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat),  Double.parseDouble(mallLong),mallName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         activity.startActivity(intent);
@@ -384,7 +398,6 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -457,6 +470,11 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
 
             return;
         }
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+      activity.onBackPressed();
     }
 
     public class mallScrollListener extends RecyclerView.OnScrollListener {

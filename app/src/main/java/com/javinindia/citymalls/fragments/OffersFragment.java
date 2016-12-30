@@ -33,6 +33,7 @@ import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.OfferAdaptar;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 08-09-2016.
  */
-public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClickListener, OfferPostFragment.OnCallBackOfferDetailFavListener,StoreTabsFragment.OnCallBackShopFavListener {
+public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClickListener, OfferPostFragment.OnCallBackOfferDetailFavListener,StoreTabsFragment.OnCallBackShopFavListener,CheckConnectionFragment.OnCallBackInternetListener {
 
     private RecyclerView recyclerview;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -274,16 +275,33 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
 
     @Override
     public void onShopClick(int position, DetailsList detailsList) {
-        Toast.makeText(activity,detailsList.getOfferShopDetails().getShopName().trim(),Toast.LENGTH_LONG).show();
-        String shopId = detailsList.getOfferShopDetails().getShopId().trim();
-        SharedPreferencesManager.setShopId(activity, shopId);
-        StoreTabsFragment fragment = new StoreTabsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("click",0);
-        bundle.putInt("position", position);
-        bundle.putString("shopId", shopId);
-        fragment.setArguments(bundle);
-        fragment.setMyCallBackShopFavListener(this);
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String shopId = detailsList.getOfferShopDetails().getShopId().trim();
+            String mallId = detailsList.getOfferMallDetails().getMallid().trim();
+            SharedPreferencesManager.setMAllId(activity,mallId);
+            SharedPreferencesManager.setShopId(activity, shopId);
+            StoreTabsFragment fragment = new StoreTabsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("click",0);
+            bundle.putInt("position", position);
+            bundle.putString("shopId", shopId);
+            bundle.putString("shopName", "");
+            bundle.putString("shopPic", "");
+            bundle.putString("mallName", "");
+            bundle.putString("shopRating", "");
+            bundle.putInt("totalOffers", 0);
+            bundle.putInt("favStatus", 0);
+            bundle.putString("address","");
+            fragment.setArguments(bundle);
+            fragment.setMyCallBackShopFavListener(this);
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+        }else {
+            methodCallCheckInternet();
+        }
+    }
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
         callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
 
@@ -297,7 +315,6 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -365,6 +382,11 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
     @Override
     public void OnCallBackShopFav(int pos, int action) {
 
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 
 

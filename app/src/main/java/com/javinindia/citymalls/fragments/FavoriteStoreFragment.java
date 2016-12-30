@@ -75,10 +75,8 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("limits", AstartLimit + "" + AcountLimit);
                         StoreInMallResponse responseparsing = new StoreInMallResponse();
                         responseparsing.responseParseMethod(response);
-                        Log.e("request store", response);
                         if (response.length() != 0) {
                         //    int status = responseparsing.getStatus();
                             if (responseparsing.getStatus() == 1) {
@@ -220,7 +218,6 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -307,6 +304,5 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
     public void onPause() {
         super.onPause();
         etSearch.setText("");
-        Log.e("onPause store", "onPause");
     }
 }

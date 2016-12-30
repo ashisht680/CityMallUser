@@ -79,12 +79,8 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("limits", AstartLimit + "" + AcountLimit);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
-                        Log.e("request", response);
                         responseparsing.responseParseMethod(response);
-
-                      //  int status = responseparsing.getStatus();
                         if (responseparsing.getStatus() == 1) {
                             if (responseparsing.getDetailsListArrayList().size() > 0) {
                                 arrayList = responseparsing.getDetailsListArrayList();
@@ -97,7 +93,6 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
                                     } else {
                                         adapter.setData(arrayList);
                                         adapter.notifyDataSetChanged();
-
                                     }
                                 } else {
                                     txtDataNotFound.setVisibility(View.VISIBLE);
@@ -257,7 +252,6 @@ public class StoreOffersFragment extends BaseFragment implements View.OnClickLis
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;

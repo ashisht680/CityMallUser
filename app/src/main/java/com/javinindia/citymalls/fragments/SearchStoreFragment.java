@@ -34,6 +34,7 @@ import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
 import com.javinindia.citymalls.recyclerview.MasterCatAdaptar;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 10-10-2016.
  */
-public class SearchStoreFragment extends BaseFragment implements View.OnClickListener, MasterCatAdaptar.MyClickListener {
+public class SearchStoreFragment extends BaseFragment implements View.OnClickListener, MasterCatAdaptar.MyClickListener, CheckConnectionFragment.OnCallBackInternetListener {
     RecyclerView catRecyclerView;
     private RequestQueue requestQueue;
     private MasterCatAdaptar adapter;
@@ -69,8 +70,6 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
                     public void onResponse(String response) {
                         MasterCategoryListResponse responseparsing = new MasterCategoryListResponse();
                         responseparsing.responseParseMethod(response);
-                        Log.e("res store", startLimit + "\t" + countLimit + "\t" + response);
-
                         int status = responseparsing.getStatus();
                         if (status == 1) {
                             if (responseparsing.getCategoryListArrayList().size() > 0) {
@@ -165,29 +164,50 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgSearch:
-                String cat_edit = etSearch.getText().toString().trim();
-                if (!TextUtils.isEmpty(cat_edit)) {
-                    BaseFragment fragment3 = new SearchStoreResultFragment();
-                    Bundle bundle3 = new Bundle();
-                    bundle3.putString("catName", "");
-                    fragment3.setArguments(bundle3);
-                    callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
-                    break;
+                if (CheckConnection.haveNetworkConnection(activity)) {
+                    String cat_edit = etSearch.getText().toString().trim();
+                    if (!TextUtils.isEmpty(cat_edit)) {
+                        BaseFragment fragment3 = new SearchStoreResultFragment();
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putString("catName", "");
+                        fragment3.setArguments(bundle3);
+                        callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
+                    } else {
+                        Toast.makeText(activity, "Error! You have not entered any text", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(activity, "Error! You have not entered any text", Toast.LENGTH_LONG).show();
+                    methodCallCheckInternet();
                 }
+                break;
 
         }
     }
 
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+    }
+
     @Override
     public void onItemClick(int position, CategoryList model) {
-        String catName = model.getCategory().trim();
-        BaseFragment fragment1 = new SearchStoreResultFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("catName", catName);
-        fragment1.setArguments(bundle);
-        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String cat_edit = etSearch.getText().toString().trim();
+            String catName = model.getCategory().trim();
+            BaseFragment fragment1 = new SearchStoreResultFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("catName", catName);
+            fragment1.setArguments(bundle);
+            callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+        } else {
+            methodCallCheckInternet();
+        }
+
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 
     public class catScrollListener extends RecyclerView.OnScrollListener {

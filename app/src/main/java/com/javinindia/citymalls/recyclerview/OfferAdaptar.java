@@ -78,7 +78,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
         if (!TextUtils.isEmpty(requestDetail.getOfferShopDetails().getShopName().trim())) {
             String shopName = requestDetail.getOfferShopDetails().getShopName().trim();
-            viewHolder.txtShopName.setText(Html.fromHtml(shopName));
+            viewHolder.txtShopName.setText(Utility.fromHtml(shopName));
             if (value == 0) {
                 viewHolder.txtShopName.setVisibility(View.VISIBLE);
             } else if (value == 1) {
@@ -89,13 +89,13 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
                 viewHolder.txtShopName.setVisibility(View.GONE);
             }
         } else {
-            viewHolder.txtShopName.setText(Html.fromHtml("Shop not found"));
+            viewHolder.txtShopName.setText(Utility.fromHtml("Shop not found"));
         }
 
 
         if (!TextUtils.isEmpty(requestDetail.getOfferMallDetails().getMallName().trim())) {
             String mallName = requestDetail.getOfferMallDetails().getMallName().trim();
-            viewHolder.txtMallName.setText(Html.fromHtml(mallName));
+            viewHolder.txtMallName.setText(Utility.fromHtml(mallName));
             if (value == 0) {
                 viewHolder.txtMallName.setVisibility(View.VISIBLE);
             } else if (value == 1) {
@@ -106,7 +106,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
                 viewHolder.txtMallName.setVisibility(View.GONE);
             }
         } else {
-            viewHolder.txtMallName.setText(Html.fromHtml("Mall not found"));
+            viewHolder.txtMallName.setText(Utility.fromHtml("Mall not found"));
         }
 
         /*viewHolder.txtMallName.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
         if (data.size() > 0) {
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
-            viewHolder.txtAddress.setText(Html.fromHtml(test));
+            viewHolder.txtAddress.setText(Utility.fromHtml(test));
             if (value == 0) {
                 viewHolder.txtAddress.setVisibility(View.VISIBLE);
             } else if (value == 1) {
@@ -162,9 +162,9 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
         if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferTitle().trim())) {
             String offerTitle = requestDetail.getOfferDetails().getOfferTitle().trim();
-            viewHolder.txtOfferTitle.setText(Html.fromHtml(offerTitle));
+            viewHolder.txtOfferTitle.setText(Utility.fromHtml(offerTitle));
         } else {
-            viewHolder.txtOfferTitle.setText(Html.fromHtml("Offer not found"));
+            viewHolder.txtOfferTitle.setText(Utility.fromHtml("Offer not found"));
         }
 
 
@@ -209,9 +209,9 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
             String offerActualPrice = requestDetail.getOfferDetails().getOfferActualPrice().trim();
             String offerDiscountPrice = requestDetail.getOfferDetails().getOfferDiscountedPrice().trim();
             //  viewHolder.llOffItem.setBackgroundColor(Color.parseColor("#1da6b9"));
-            viewHolder.txtActualPrice.setText(Html.fromHtml("\u20B9" + offerActualPrice + "/-"));
+            viewHolder.txtActualPrice.setText(Utility.fromHtml("\u20B9" + offerActualPrice + "/-"));
             viewHolder.txtActualPrice.setPaintFlags(viewHolder.txtActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            viewHolder.txtDiscountPrice.setText(Html.fromHtml("\u20B9" + offerDiscountPrice + "/-"));
+            viewHolder.txtDiscountPrice.setText(Utility.fromHtml("\u20B9" + offerDiscountPrice + "/-"));
         }
 
         if (requestDetail.getFavStatus() == 1) {
@@ -235,7 +235,7 @@ public class OfferAdaptar extends RecyclerView.Adapter<OfferAdaptar.ViewHolder> 
 
         if (!TextUtils.isEmpty(requestDetail.getOfferDetails().getOfferCategory().trim())) {
             String category = requestDetail.getOfferDetails().getOfferCategory().trim();
-            viewHolder.txtOfferCategory.setText("on " + Html.fromHtml(category));
+            viewHolder.txtOfferCategory.setText("on " + Utility.fromHtml(category));
         } else {
             //  viewHolder.txtOfferCategory.setText(Html.fromHtml("Category not found"));
         }

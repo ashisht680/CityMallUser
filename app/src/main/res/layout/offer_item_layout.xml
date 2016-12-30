@@ -41,9 +41,9 @@
                 android:id="@+id/imgShopLogoOffer"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="centerCrop"
                 android:background="@drawable/button_border_black"
                 android:padding="1dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/no_image_icon" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -89,8 +89,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtAddress"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/imgShopLogoOffer"
                 android:lines="1"
                 android:text=""
@@ -108,7 +108,7 @@
                 android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtTimingOffer"
@@ -131,13 +131,19 @@
                 android:visibility="invisible"></View>
         </RelativeLayout>
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rlItem"
+            android:background="@color/background_color" />
+
         <LinearLayout
             android:id="@+id/llOffItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlItem"
+            android:layout_below="@+id/view"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:weightSum="3">
@@ -145,7 +151,6 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -166,14 +171,13 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingBottom="3dp"
-                    android:text="fff"
+                    android:text=""
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -184,7 +188,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingTop="3dp"
-                    android:text="UPTO"
+                    android:text=""
                     android:textColor="@android:color/black" />
 
                 <android.support.v7.widget.AppCompatTextView
@@ -194,14 +198,13 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingBottom="3dp"
-                    android:text="fff"
+                    android:text=""
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -222,7 +225,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingBottom="3dp"
-                    android:text="fff"
+                    android:text=""
                     android:textColor="@color/offer_green_color" />
             </LinearLayout>
 

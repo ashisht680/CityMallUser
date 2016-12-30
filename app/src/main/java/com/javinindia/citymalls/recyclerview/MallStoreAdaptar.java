@@ -87,27 +87,27 @@ public class MallStoreAdaptar extends RecyclerView.Adapter<MallStoreAdaptar.View
 
         if (!TextUtils.isEmpty(shopData.getStoreName().trim())) {
             String shopName = shopData.getStoreName().trim();
-            viewHolder.txtShopName.setText(Html.fromHtml(shopName));
+            viewHolder.txtShopName.setText(Utility.fromHtml(shopName));
         }
         if (!TextUtils.isEmpty(shopData.getMallName().trim())) {
             String mallName = shopData.getMallName().trim();
-            viewHolder.txtMallName.setText(Html.fromHtml(mallName));
+            viewHolder.txtMallName.setText(Utility.fromHtml(mallName));
         } else {
             viewHolder.txtMallName.setText("Mall: Not found");
         }
         if (data.size() > 0) {
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
-            viewHolder.txtAddress.setText(Html.fromHtml(test));
+            viewHolder.txtAddress.setText(Utility.fromHtml(test));
         } else {
             viewHolder.txtAddress.setText("Address: Not found");
         }
         if (!TextUtils.isEmpty(shopData.getOpenTime().trim()) && !TextUtils.isEmpty(shopData.getCloseTime().trim())) {
             String shopOpenTime = shopData.getOpenTime().trim();
             String shopCloseTime = shopData.getCloseTime().trim();
-            viewHolder.txtTimingStore.setText(Html.fromHtml("Timings:" + "\t" + "<font color=#000000>" + shopOpenTime + "-" + shopCloseTime + "</font>"));
+            viewHolder.txtTimingStore.setText(Utility.fromHtml("Timings:" + "\t" + "<font color=#000000>" + shopOpenTime + "-" + shopCloseTime + "</font>"));
         } else {
-            viewHolder.txtTimingStore.setText(Html.fromHtml("Timings:" + "\t" + "<font color=#000000>" + "Not found" + "</font>"));
+            viewHolder.txtTimingStore.setText(Utility.fromHtml("Timings:" + "\t" + "<font color=#000000>" + "Not found" + "</font>"));
         }
 
         if (shopData.getShopOfferCount() != 0) {

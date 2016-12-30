@@ -92,12 +92,12 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
 
         if (!TextUtils.isEmpty(mallDetail.getMallName().trim())) {
             String mallName = mallDetail.getMallName().trim();
-            viewHolder.txtMallName.setText(Html.fromHtml(mallName));
+            viewHolder.txtMallName.setText(Utility.fromHtml(mallName));
         }
         if (data.size()>0){
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
-            viewHolder.txtAddress.setText(Html.fromHtml(test));
+            viewHolder.txtAddress.setText(Utility.fromHtml(test));
         }else {
             viewHolder.txtAddress.setText("Address: Not found");
         }
@@ -105,15 +105,15 @@ public class MallAdapter extends RecyclerView.Adapter<MallAdapter.ViewHolder> {
         if (!TextUtils.isEmpty(mallDetail.getOpenTime().trim()) && !TextUtils.isEmpty(mallDetail.getCloseTime().trim())) {
             String openTime = mallDetail.getOpenTime().trim();
             String closeTime = mallDetail.getCloseTime().trim();
-            viewHolder.txtTiming.setText(Html.fromHtml("Timing:" + "\t" + "<font color=#000000>" + openTime + "-" + closeTime + "</font>"));
+            viewHolder.txtTiming.setText(Utility.fromHtml("Timing:" + "\t" + "<font color=#000000>" + openTime + "-" + closeTime + "</font>"));
         }else {
-            viewHolder.txtTiming.setText(Html.fromHtml("Timing:" + "\t" + "<font color=#000000>" + "Not found" + "</font>"));
+            viewHolder.txtTiming.setText(Utility.fromHtml("Timing:" + "\t" + "<font color=#000000>" + "Not found" + "</font>"));
         }
         if (mallDetail.getDistance() != 0.0) {
             double distance = mallDetail.getDistance();
-            viewHolder.txtDistance.setText(Html.fromHtml("Distance:" + "\t" + "<font color=#000000>" + distance + " km" + "</font>"));
+            viewHolder.txtDistance.setText(Utility.fromHtml("Distance:" + "\t" + "<font color=#000000>" + distance + " km" + "</font>"));
         } else {
-            viewHolder.txtDistance.setText(Html.fromHtml("Distance:" + "\t" + "<font color=#000000>" + "Enable your Location" + "</font>"));
+            viewHolder.txtDistance.setText(Utility.fromHtml("Distance:" + "\t" + "<font color=#000000>" + "Enable your Location" + "</font>"));
         }
         if (!TextUtils.isEmpty(mallDetail.getRating().trim()) && !mallDetail.getRating().trim().equals("0")) {
             String rating = mallDetail.getRating().trim();

@@ -64,7 +64,7 @@ public class MasterBrandAdapter extends RecyclerView.Adapter<MasterBrandAdapter.
 
         if (!TextUtils.isEmpty(brandList.getName().trim())) {
             String catName = brandList.getName().trim();
-            viewHolder.txtBrand.setText(Html.fromHtml(catName));
+            viewHolder.txtBrand.setText(Utility.fromHtml(catName));
         }
         if (!TextUtils.isEmpty(brandList.getLogo().trim())) {
             String pic = brandList.getLogo().trim();

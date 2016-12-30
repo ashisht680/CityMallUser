@@ -83,11 +83,9 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void getLocationMethod() {
-
         gps = new NewLoc(activity);
         latitude = gps.getLatitude();
         longitude = gps.getLongitude();
-        Log.e("gps mall", latitude + "---" + longitude);
         sendRequestOnMallListFeed(0, 10, latitude, longitude);
     }
 
@@ -303,7 +301,6 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
         String mallLat = modal.getMallLat().trim();
         String mallLong = modal.getMallLong().trim();
         String mallName = modal.getMallName().trim();
-        Log.e("direction", mallLat + "\t" + mallLong);
         String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat), Double.parseDouble(mallLong), mallName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         activity.startActivity(intent);
@@ -349,7 +346,6 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -470,6 +466,5 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     public void onPause() {
         super.onPause();
         etSearch.setText("");
-        Log.e("onPause mall", "onPause");
     }
 }

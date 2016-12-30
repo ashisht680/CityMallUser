@@ -40,6 +40,7 @@ import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallAdapter;
 import com.javinindia.citymalls.recyclerview.MallStoreAdaptar;
 import com.javinindia.citymalls.recyclerview.OfferAdaptar;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +55,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 10-10-2016.
  */
-public class MallsStoreListFragment extends BaseFragment implements View.OnClickListener, MallStoreAdaptar.MyClickListener, StoreTabsFragment.OnCallBackShopFavListener, TextWatcher {
+public class MallsStoreListFragment extends BaseFragment implements View.OnClickListener, MallStoreAdaptar.MyClickListener, StoreTabsFragment.OnCallBackShopFavListener, TextWatcher,CheckConnectionFragment.OnCallBackInternetListener {
 
     private MallStoreAdaptar adapter;
     private RecyclerView recyclerview;
@@ -195,43 +196,53 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onItemClick(int position, ShopData model) {
-        String address ="";
-        String shopId = model.getId().trim();
-        SharedPreferencesManager.setShopId(activity, shopId);
-        String shopName = model.getStoreName().trim();
-        String shopPic = model.getProfilepic().trim();
-        String shopRating = model.getRating().trim();
-        String mallName = model.getMallName().trim();
-        int totalOffers = model.getShopOfferCount();
-        int favStatus = model.getFavStatus();
-        String shopNo = model.getShopNo().trim();
-        String floor = model.getFloor().trim();
-        final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(shopNo)) {
-            data.add(shopNo);
-        }
-        if (!TextUtils.isEmpty(floor)) {
-            data.add(floor);
-        }
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String address ="";
+            String shopId = model.getId().trim();
+            SharedPreferencesManager.setShopId(activity, shopId);
+            String shopName = model.getStoreName().trim();
+            String shopPic = model.getProfilepic().trim();
+            String shopRating = model.getRating().trim();
+            String mallName = model.getMallName().trim();
+            int totalOffers = model.getShopOfferCount();
+            int favStatus = model.getFavStatus();
+            String shopNo = model.getShopNo().trim();
+            String floor = model.getFloor().trim();
+            final ArrayList<String> data = new ArrayList<>();
+            if (!TextUtils.isEmpty(shopNo)) {
+                data.add(shopNo);
+            }
+            if (!TextUtils.isEmpty(floor)) {
+                data.add(floor);
+            }
 
-        if (data.size() > 0) {
-            String str = Arrays.toString(data.toArray());
-            address = str.replaceAll("[\\[\\](){}]", "");
+            if (data.size() > 0) {
+                String str = Arrays.toString(data.toArray());
+                address = str.replaceAll("[\\[\\](){}]", "");
+            }
+            StoreTabsFragment fragment = new StoreTabsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("click",1);
+            bundle.putInt("position", position);
+            bundle.putString("shopId", shopId);
+            bundle.putString("shopName", shopName);
+            bundle.putString("shopPic", shopPic);
+            bundle.putString("mallName", mallName);
+            bundle.putString("shopRating", shopRating);
+            bundle.putInt("totalOffers", totalOffers);
+            bundle.putInt("favStatus", favStatus);
+            bundle.putString("address",address);
+            fragment.setArguments(bundle);
+            fragment.setMyCallBackShopFavListener(this);
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+        }else {
+            methodCallCheckInternet();
         }
-        StoreTabsFragment fragment = new StoreTabsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("click",1);
-        bundle.putInt("position", position);
-        bundle.putString("shopId", shopId);
-        bundle.putString("shopName", shopName);
-        bundle.putString("shopPic", shopPic);
-        bundle.putString("mallName", mallName);
-        bundle.putString("shopRating", shopRating);
-        bundle.putInt("totalOffers", totalOffers);
-        bundle.putInt("favStatus", favStatus);
-        bundle.putString("address",address);
-        fragment.setArguments(bundle);
-        fragment.setMyCallBackShopFavListener(this);
+    }
+
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
         callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
 
@@ -254,7 +265,6 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -335,5 +345,10 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
         if (etSearch.getText().toString().length() > 0) {
             adapter.filter(text);
         }
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 }

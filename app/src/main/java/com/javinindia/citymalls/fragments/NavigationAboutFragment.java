@@ -33,6 +33,7 @@ import com.javinindia.citymalls.apiparsing.userParsing.UesrParsingResponse;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
+import com.javinindia.citymalls.utility.CheckConnection;
 import com.javinindia.citymalls.utility.Utility;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 09-09-2016.
  */
-public class NavigationAboutFragment extends BaseFragment implements View.OnClickListener,EditProfileFragment.OnCallBackUpdateProfileListener {
+public class NavigationAboutFragment extends BaseFragment implements View.OnClickListener,EditProfileFragment.OnCallBackUpdateProfileListener ,CheckConnectionFragment.OnCallBackInternetListener{
     private RequestQueue requestQueue;
     ImageView imgProfilePic;
     AppCompatTextView personName,txtEmailHd,txtEmailAddress,txtMobileHd,txtMobile,txtGenderHd,txtGender,txtDOBHd,txtDOB,
@@ -57,6 +58,11 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 
     public interface OnCallBackRefreshListener {
@@ -92,7 +98,6 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
         actionBar.setTitle(null);
         AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
         textView.setText("Profile");
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
@@ -102,7 +107,6 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("response", response);
                         String sID = null, msg = null, sPic = null, gender=null,dob=null;
                         String sName, sEmail, sMobileNum, sState, sCity;
                         int status =0;
@@ -158,42 +162,42 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
 
     private void methodSetDate(String sPic, String sName, String sEmail, String sMobileNum, String sState, String sCity, String sAddress, String gender, String dob) {
         if(!TextUtils.isEmpty(sName) && !sName.equals("null")){
-            personName.setText(Html.fromHtml(sName));
+            personName.setText(Utility.fromHtml(sName));
         }else {
             personName.setText(" ");
         }
         if(!TextUtils.isEmpty(sEmail) && !sEmail.equals("null")){
-            txtEmailAddress.setText(Html.fromHtml(sEmail));
+            txtEmailAddress.setText(Utility.fromHtml(sEmail));
         }else {
             txtEmailAddress.setText(" ");
         }
         if(!TextUtils.isEmpty(sMobileNum) && !sMobileNum.equals("null")){
-            txtMobile.setText(Html.fromHtml(sMobileNum));
+            txtMobile.setText(Utility.fromHtml(sMobileNum));
         }else {
             txtMobile.setText(" ");
         }
         if(!TextUtils.isEmpty(sState) && !sState.equals("null")){
-            txtState.setText(Html.fromHtml(sState));
+            txtState.setText(Utility.fromHtml(sState));
         }else {
             txtState.setText(" ");
         }
         if(!TextUtils.isEmpty(sCity) && !sCity.equals("null")){
-            txtCity.setText(Html.fromHtml(sCity));
+            txtCity.setText(Utility.fromHtml(sCity));
         }else {
             txtCity.setText(" ");
         }
         if(!TextUtils.isEmpty(sAddress) && !sAddress.equals("null")){
-            txtAddress.setText(Html.fromHtml(sAddress));
+            txtAddress.setText(Utility.fromHtml(sAddress));
         }else {
             txtAddress.setText(" ");
         }
         if(!TextUtils.isEmpty(gender) && !gender.equals("null")){
-            txtGender.setText(Html.fromHtml(gender));
+            txtGender.setText(Utility.fromHtml(gender));
         }else {
             txtGender.setText(" ");
         }
         if(!TextUtils.isEmpty(dob) && !dob.equals("null")){
-            txtDOB.setText(Html.fromHtml(dob));
+            txtDOB.setText(Utility.fromHtml(dob));
         }else {
             txtDOB.setText(" ");
         }
@@ -274,9 +278,13 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlEdit:
-                EditProfileFragment fragment1 = new EditProfileFragment();
-                fragment1.setMyCallUpdateProfileListener(this);
-                callFragmentMethod(fragment1, this.getClass().getSimpleName(),R.id.navigationContainer);
+                if (CheckConnection.haveNetworkConnection(activity)) {
+                    EditProfileFragment fragment1 = new EditProfileFragment();
+                    fragment1.setMyCallUpdateProfileListener(this);
+                    callFragmentMethod(fragment1, this.getClass().getSimpleName(),R.id.navigationContainer);
+                }else {
+                    methodCallCheckInternet();
+                }
                 break;
             case R.id.rlBack:
                 activity.onBackPressed();
@@ -289,6 +297,12 @@ public class NavigationAboutFragment extends BaseFragment implements View.OnClic
                 }
                 break;
         }
+    }
+
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
 
     @Override

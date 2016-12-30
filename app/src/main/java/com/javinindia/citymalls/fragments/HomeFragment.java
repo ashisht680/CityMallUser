@@ -41,6 +41,7 @@ import com.javinindia.citymalls.picasso.CircleTransform;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.CustomSpinnerAdater;
 import com.javinindia.citymalls.recyclerview.ViewPagerAdapter;
+import com.javinindia.citymalls.utility.CheckConnection;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 /**
  * Created by Ashish on 08-09-2016.
  */
-public class HomeFragment extends BaseFragment implements NavigationAboutFragment.OnCallBackRefreshListener {
+public class HomeFragment extends BaseFragment implements NavigationAboutFragment.OnCallBackRefreshListener, CheckConnectionFragment.OnCallBackInternetListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -224,41 +225,50 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
     }
 
     private void displayView(CharSequence title) {
-        if (title.equals("Home")) {
-            drawerLayout.closeDrawers();
-            Intent refresh = new Intent(activity, NavigationActivity.class);
-            startActivity(refresh);//Start the same Activity
-            activity.finish();
-        } else if (title.equals("Profile")) {
-            drawerLayout.closeDrawers();
-            NavigationAboutFragment fragment = new NavigationAboutFragment();
-            fragment.setMyCallUpdateProfileListener(this);
-            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
-        } else if (title.equals("Favorite")) {
-            drawerLayout.closeDrawers();
-            BaseFragment fragment = new FavoriteTabBarFragment();
-            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
-        } else if (title.equals("Rate us")) {
-            drawerLayout.closeDrawers();
-            final String appPackageName = activity.getPackageName(); // getPackageName() from Context or Activity object
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-            }
-        } else if (title.equals("About App")) {
-            drawerLayout.closeDrawers();
-            BaseFragment fragment = new AboutAppFragments();
-            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
-        }/* else if (title.equals("Settings")) {
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            if (title.equals("Home")) {
+                drawerLayout.closeDrawers();
+                Intent refresh = new Intent(activity, NavigationActivity.class);
+                startActivity(refresh);//Start the same Activity
+                activity.finish();
+            } else if (title.equals("Profile")) {
+                drawerLayout.closeDrawers();
+                NavigationAboutFragment fragment = new NavigationAboutFragment();
+                fragment.setMyCallUpdateProfileListener(this);
+                callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+            } else if (title.equals("Favorite")) {
+                drawerLayout.closeDrawers();
+                BaseFragment fragment = new FavoriteTabBarFragment();
+                callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+            } else if (title.equals("Rate us")) {
+                drawerLayout.closeDrawers();
+                final String appPackageName = activity.getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            } else if (title.equals("About App")) {
+                drawerLayout.closeDrawers();
+                BaseFragment fragment = new AboutAppFragments();
+                callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+            }/* else if (title.equals("Settings")) {
             drawerLayout.closeDrawers();
             Toast.makeText(activity, title, Toast.LENGTH_LONG).show();
 
         }*/ else if (title.equals("Logout")) {
-            drawerLayout.closeDrawers();
-            dialogBox();
+                drawerLayout.closeDrawers();
+                dialogBox();
+            }
+        } else {
+            methodCallCheckInternet();
         }
+    }
 
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
 
     public void dialogBox() {
@@ -276,7 +286,7 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
                         SharedPreferencesManager.setEmail(activity, null);
                         SharedPreferencesManager.setLocation(activity, null);
                         SharedPreferencesManager.setProfileImage(activity, null);
-                      //  SharedPreferencesManager.setDeviceToken(activity,null);
+                        SharedPreferencesManager.setDeviceToken(activity, null);
                         Intent refresh = new Intent(activity, LoginActivity.class);
                         startActivity(refresh);//Start the same Activity
                         activity.finish();
@@ -377,5 +387,10 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
     public void onBackPressButton(Activity activity) {
         super.onBackPressButton(activity);
         drawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 }

@@ -150,7 +150,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
             try {
                 URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=200");
-                Log.e("profile_pic", profile_pic + "");
                 bundle.putString("profile_pic", profile_pic.toString());
 
             } catch (MalformedURLException e) {
@@ -170,7 +169,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             if (object.has("location"))
                 bundle.putString("location", object.getJSONObject("location").getString("name"));
 
-            mStatusTextView.setText(object.getString("first_name") + "\t" + object.getString("last_name") + "\t" + object.getString("email") + "\t" + object.getString("gender"));
+            mStatusTextView.setText(object.getString("first_name"));
             LoginManager.getInstance().logOut();
 
         } catch (JSONException e) {
@@ -198,7 +197,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             int statusCode = result.getStatus().getStatusCode();
-            Log.e("statusCode", String.valueOf(statusCode));
             handleSignInResult(result);
         } else {
 
@@ -206,11 +204,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.e("login", "handleSignInResult:" + result.isSuccess() + "\t response" + result.toString());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText(acct.getDisplayName() + "\temail " + acct.getEmail() + "\t pic " + acct.getPhotoUrl());
+            mStatusTextView.setText(acct.getDisplayName());
 
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
@@ -299,8 +296,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onSuccess(LoginResult loginResult) {
                 String accessToken = loginResult.getAccessToken().getToken();
-                Log.i("accessToken", accessToken);
-
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
@@ -347,7 +342,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("socila res",response);
                         hideLoader();
                         responseImplement(response);
                     }
@@ -405,7 +399,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                     @Override
                     public void onResponse(String response) {
                         hideLoader();
-                        Log.e("login res",response);
                         responseImplement(response);
                     }
                 },

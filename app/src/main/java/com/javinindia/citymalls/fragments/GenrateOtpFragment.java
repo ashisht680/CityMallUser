@@ -26,6 +26,7 @@ import com.javinindia.citymalls.activity.NavigationActivity;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
+import com.javinindia.citymalls.utility.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +79,7 @@ public class GenrateOtpFragment extends BaseFragment implements View.OnClickList
         et_mobileNum.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         txtResendOtp = (AppCompatTextView) view.findViewById(R.id.txtResendOtp);
         txtResendOtp.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtResendOtp.setText(Html.fromHtml("<font color=#0d7bbf>" + "Resend OTP" + "</font>"));
+        txtResendOtp.setText(Utility.fromHtml("<font color=#0d7bbf>" + "Resend OTP" + "</font>"));
         txtResendOtp.setOnClickListener(this);
         btn_regester.setOnClickListener(this);
 

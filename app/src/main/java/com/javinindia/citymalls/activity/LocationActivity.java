@@ -61,7 +61,6 @@ public class LocationActivity extends Activity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("location activity","on create");
         methodOhGPS();
     }
 
@@ -111,7 +110,6 @@ public class LocationActivity extends Activity implements LocationListener {
                         @Override
                         public void onConnectionFailed(ConnectionResult connectionResult) {
 
-                            Log.d("Location error","Location error " + connectionResult.getErrorCode());
                         }
                     }).build();
             googleApiClient.connect();
@@ -217,7 +215,6 @@ public class LocationActivity extends Activity implements LocationListener {
                                 LocationManager.NETWORK_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("Network", "Network");
                         if (locationManager != null) {
                             loc = locationManager
                                     .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -242,7 +239,6 @@ public class LocationActivity extends Activity implements LocationListener {
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
                             loc = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);

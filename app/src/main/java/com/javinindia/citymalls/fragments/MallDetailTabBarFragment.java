@@ -122,7 +122,6 @@ public class MallDetailTabBarFragment extends BaseFragment {
         }else {
             textView.setText("Mall");
         }
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
@@ -154,7 +153,7 @@ public class MallDetailTabBarFragment extends BaseFragment {
 
     private void setDateMethod() {
         if (!TextUtils.isEmpty(mallName)) {
-            txtMallName.setText(Html.fromHtml(mallName));
+            txtMallName.setText(Utility.fromHtml(mallName));
         }
         if (!TextUtils.isEmpty(mallRating)) {
             ratingBar.setRating(Float.parseFloat(mallRating));
@@ -170,9 +169,9 @@ public class MallDetailTabBarFragment extends BaseFragment {
         }
         if (totalOffer != 0) {
             if (totalOffer == 1) {
-                txtOffers.setText(Html.fromHtml(totalOffer + " Offer"));
+                txtOffers.setText(Utility.fromHtml(totalOffer + " Offer"));
             } else {
-                txtOffers.setText(Html.fromHtml(totalOffer + " Offers"));
+                txtOffers.setText(Utility.fromHtml(totalOffer + " Offers"));
             }
         } else {
             txtOffers.setText("No offers");
@@ -208,7 +207,6 @@ public class MallDetailTabBarFragment extends BaseFragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;

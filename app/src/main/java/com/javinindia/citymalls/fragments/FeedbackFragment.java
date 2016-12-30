@@ -87,7 +87,6 @@ public class FeedbackFragment extends BaseFragment {
         actionBar.setTitle(null);
         AppCompatTextView textView = (AppCompatTextView) view.findViewById(R.id.tittle);
         textView.setText("Feedback");
-        textView.setTextColor(Color.parseColor("#ffffff"));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
@@ -136,7 +135,7 @@ public class FeedbackFragment extends BaseFragment {
             e.printStackTrace();
         }
         if (status == 1) {
-            Toast.makeText(activity,"Congrats! Your feedback has been successfully submitted. We'll get back to you shortly!",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Congrats! Your feedback has been successfully submitted. We'll get back to you shortly!", Toast.LENGTH_LONG).show();
             activity.onBackPressed();
         } else {
             if (!TextUtils.isEmpty(msg)) {

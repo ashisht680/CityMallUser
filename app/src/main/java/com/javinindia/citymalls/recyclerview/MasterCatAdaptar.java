@@ -68,7 +68,7 @@ public class MasterCatAdaptar extends RecyclerView.Adapter<MasterCatAdaptar.View
 
         if (!TextUtils.isEmpty(categoryList.getCategory().trim())) {
             String catName = categoryList.getCategory().trim();
-            viewHolder.txtCat.setText(Html.fromHtml(catName));
+            viewHolder.txtCat.setText(Utility.fromHtml(catName));
         }
         if (!TextUtils.isEmpty(categoryList.getCat_pic().trim())) {
             String pic = categoryList.getCat_pic().trim();

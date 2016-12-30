@@ -36,6 +36,7 @@ import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.OfferAdaptar;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +51,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 15-11-2016.
  */
-public class SearchBrandResultFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener, TextWatcher,OfferPostFragment.OnCallBackOfferDetailFavListener {
+public class SearchBrandResultFragment extends BaseFragment implements View.OnClickListener, OfferAdaptar.MyClickListener, TextWatcher, OfferPostFragment.OnCallBackOfferDetailFavListener, StoreTabsFragment.OnCallBackShopFavListener, CheckConnectionFragment.OnCallBackInternetListener {
 
     private RecyclerView recyclerview;
     private int startLimit = 0;
@@ -58,8 +59,8 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
     private boolean loading = true;
     private RequestQueue requestQueue;
     private OfferAdaptar adapter;
-    ArrayList<DetailsList> arrayList=new ArrayList<DetailsList>();
-    AppCompatTextView txtDataNotFound,txtTitleBrand;
+    ArrayList<DetailsList> arrayList = new ArrayList<DetailsList>();
+    AppCompatTextView txtDataNotFound, txtTitleBrand;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
     ImageView imgSearch;
@@ -96,9 +97,8 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
         });
         final ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setTitle(null);
-        AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
+        AppCompatTextView textView = (AppCompatTextView) view.findViewById(R.id.tittle);
         textView.setText("Search Brand");
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
@@ -108,15 +108,13 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
                     @Override
                     public void onResponse(String response) {
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
-                        Log.e("request", response);
                         responseparsing.responseParseMethod(response);
-
                         int status = responseparsing.getStatus();
-                        if(status==1){
+                        if (status == 1) {
                             arrayList = responseparsing.getDetailsListArrayList();
-                            if(arrayList.size()>0){
+                            if (arrayList.size() > 0) {
                                 txtDataNotFound.setVisibility(View.GONE);
-                             //   llSearch.setVisibility(View.VISIBLE);
+                                //   llSearch.setVisibility(View.VISIBLE);
                                 if (adapter.getData() != null && adapter.getData().size() > 0) {
                                     adapter.getData().addAll(arrayList);
                                     adapter.notifyDataSetChanged();
@@ -126,9 +124,9 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
 
                                 }
                             }
-                        }else {
+                        } else {
                             txtDataNotFound.setVisibility(View.VISIBLE);
-                         //   llSearch.setVisibility(View.GONE);
+                            //   llSearch.setVisibility(View.GONE);
                         }
                     }
                 },
@@ -158,12 +156,13 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
         super.onActivityCreated(savedInstanceState);
         disableTouchOfBackFragment(savedInstanceState);
     }
+
     private void initialize(View view) {
-        txtTitleBrand = (AppCompatTextView)view.findViewById(R.id.txtTitleBrand);
+        txtTitleBrand = (AppCompatTextView) view.findViewById(R.id.txtTitleBrand);
         txtTitleBrand.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
-        imgSearch  =(ImageView)view.findViewById(R.id.imgSearch);
+        imgSearch = (ImageView) view.findViewById(R.id.imgSearch);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallOffer);
-        adapter = new OfferAdaptar(activity,0);
+        adapter = new OfferAdaptar(activity, 0);
         LinearLayoutManager layoutMangerDestination
                 = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layoutMangerDestination);
@@ -174,12 +173,13 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
         txtDataNotFound.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         llSearch = (LinearLayout) view.findViewById(R.id.llSearch);
 
-        etSearch = (AppCompatEditText)view.findViewById(R.id.etSearch);
+        etSearch = (AppCompatEditText) view.findViewById(R.id.etSearch);
         etSearch.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         etSearch.addTextChangedListener(this);
 
         imgSearch.setOnClickListener(this);
     }
+
     @Override
     protected int getFragmentLayout() {
         return R.layout.search_brand_result_layout;
@@ -242,23 +242,23 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
         String floor = detailsList.getOfferShopDetails().getShopFloorNo().trim();
         int favStatus = detailsList.getFavStatus();
         final ArrayList<String> data = new ArrayList<>();
-        if (!TextUtils.isEmpty(shopNo)){
+        if (!TextUtils.isEmpty(shopNo)) {
             data.add(shopNo);
         }
-        if (!TextUtils.isEmpty(floor)){
+        if (!TextUtils.isEmpty(floor)) {
             data.add(floor);
         }
 
-        if (data.size()>0){
+        if (data.size() > 0) {
             String str = Arrays.toString(data.toArray());
             String test = str.replaceAll("[\\[\\](){}]", "");
-            shopNewAddress=test;
+            shopNewAddress = test;
         }
 
         OfferPostFragment fragment1 = new OfferPostFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("shopPic",shopPic);
+        bundle.putString("shopPic", shopPic);
         bundle.putString("shopNewAddress", shopNewAddress);
         bundle.putString("brandName", brandName);
         bundle.putString("brandPic", brandPic);
@@ -303,7 +303,35 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onShopClick(int position, DetailsList detailsList) {
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String shopId = detailsList.getOfferShopDetails().getShopId().trim();
+            String mallId = detailsList.getOfferMallDetails().getMallid().trim();
+            SharedPreferencesManager.setMAllId(activity, mallId);
+            SharedPreferencesManager.setShopId(activity, shopId);
+            StoreTabsFragment fragment = new StoreTabsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("click", 0);
+            bundle.putInt("position", position);
+            bundle.putString("shopId", shopId);
+            bundle.putString("shopName", "");
+            bundle.putString("shopPic", "");
+            bundle.putString("mallName", "");
+            bundle.putString("shopRating", "");
+            bundle.putInt("totalOffers", 0);
+            bundle.putInt("favStatus", 0);
+            bundle.putString("address", "");
+            fragment.setArguments(bundle);
+            fragment.setMyCallBackShopFavListener(this);
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+        } else {
+            methodCallCheckInternet();
+        }
+    }
 
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
 
     @Override
@@ -316,7 +344,6 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -385,17 +412,20 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
 
     @Override
     public void afterTextChanged(Editable s) {
-        String text = s.toString().toLowerCase(Locale.getDefault());
-        Log.e("value",text);
-        if (arrayList.size() > 0) {
-            arrayList.removeAll(arrayList);
-            adapter.notifyDataSetChanged();
-            adapter.setData(arrayList);
-            String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(text);
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String text = s.toString().toLowerCase(Locale.getDefault());
+            if (arrayList.size() > 0) {
+                arrayList.removeAll(arrayList);
+                adapter.notifyDataSetChanged();
+                adapter.setData(arrayList);
+                String data = etSearch.getText().toString().trim();
+                sendRequestOnReplyFeed(text);
+            } else {
+                String data = etSearch.getText().toString().trim();
+                sendRequestOnReplyFeed(text);
+            }
         } else {
-            String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(text);
+            methodCallCheckInternet();
         }
     }
 
@@ -413,6 +443,16 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
         super.onPrepareOptionsMenu(menu);
         if (menu != null)
             menu.clear();
+    }
+
+    @Override
+    public void OnCallBackShopFav(int pos, int action) {
+
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 }
 

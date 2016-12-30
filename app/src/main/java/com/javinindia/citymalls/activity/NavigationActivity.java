@@ -59,8 +59,6 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
         setContentView(getLayoutResourceId());
         methodLocation();
         String username = SharedPreferencesManager.getUsername(getApplicationContext());
-        Log.e("username", username);
-
         if (CheckConnection.haveNetworkConnection(this)) {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction().setCustomAnimations(0, 0, 0, 0);
@@ -129,8 +127,6 @@ public class NavigationActivity extends BaseActivity implements LocationSearchFr
                     .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(ConnectionResult connectionResult) {
-
-                            Log.d("Location error", "Location error " + connectionResult.getErrorCode());
                         }
                     }).build();
             googleApiClient.connect();

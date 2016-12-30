@@ -34,11 +34,13 @@ import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MallStoreAdaptar;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +49,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 15-11-2016.
  */
-public class SearchStoreResultFragment extends BaseFragment implements View.OnClickListener, MallStoreAdaptar.MyClickListener,StoreTabsFragment.OnCallBackShopFavListener,TextWatcher {
+public class SearchStoreResultFragment extends BaseFragment implements View.OnClickListener, MallStoreAdaptar.MyClickListener,StoreTabsFragment.OnCallBackShopFavListener,TextWatcher,CheckConnectionFragment.OnCallBackInternetListener {
     private MallStoreAdaptar adapter;
     private RecyclerView recyclerview;
     private int startLimit = 0;
@@ -93,7 +95,6 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
         actionBar.setTitle(null);
         AppCompatTextView textView =(AppCompatTextView)view.findViewById(R.id.tittle) ;
         textView.setText("Search Store");
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
     private void sendRequestOnStoreInMallListFeed(final String title) {
@@ -101,10 +102,8 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("title ", title);
                         StoreInMallResponse responseparsing = new StoreInMallResponse();
                         responseparsing.responseParseMethod(response);
-                        Log.e("request ", response);
                         if (response.length() != 0) {
                             int status = responseparsing.getStatus();
                             if (status == 1) {
@@ -219,26 +218,54 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onItemClick(int position, ShopData model) {
-        String shopId = model.getId().trim();
-        SharedPreferencesManager.setShopId(activity, shopId);
-        String shopName = model.getStoreName().trim();
-        String shopPic = model.getBanner().trim();
-        String shopRating = model.getRating().trim();
-        String mallName = model.getMallName().trim();
-        int totalOffers = model.getShopOfferCount();
-        int favStatus = model.getFavStatus();
-        StoreTabsFragment fragment = new StoreTabsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("position",position);
-        bundle.putString("shopId", shopId);
-        bundle.putString("shopName", shopName);
-        bundle.putString("shopPic", shopPic);
-        bundle.putString("mallName", mallName);
-        bundle.putString("shopRating", shopRating);
-        bundle.putInt("totalOffers", totalOffers);
-        bundle.putInt("favStatus", favStatus);
-        fragment.setArguments(bundle);
-        fragment.setMyCallBackShopFavListener(this);
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String address ="";
+            String shopId = model.getId().trim();
+            String mallId = model.getMall().trim();
+            SharedPreferencesManager.setMAllId(activity,mallId);
+            SharedPreferencesManager.setShopId(activity, shopId);
+            String shopName = model.getStoreName().trim();
+            String shopPic = model.getBanner().trim();
+            String shopRating = model.getRating().trim();
+            String mallName = model.getMallName().trim();
+            int totalOffers = model.getShopOfferCount();
+            int favStatus = model.getFavStatus();
+            String shopNo = model.getShopNo().trim();
+            String floor = model.getFloor().trim();
+            final ArrayList<String> data = new ArrayList<>();
+            if (!TextUtils.isEmpty(shopNo)) {
+                data.add(shopNo);
+            }
+            if (!TextUtils.isEmpty(floor)) {
+                data.add(floor);
+            }
+
+            if (data.size() > 0) {
+                String str = Arrays.toString(data.toArray());
+                address = str.replaceAll("[\\[\\](){}]", "");
+            }
+            StoreTabsFragment fragment = new StoreTabsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("click",1);
+            bundle.putInt("position",position);
+            bundle.putString("shopId", shopId);
+            bundle.putString("shopName", shopName);
+            bundle.putString("shopPic", shopPic);
+            bundle.putString("mallName", mallName);
+            bundle.putString("shopRating", shopRating);
+            bundle.putInt("totalOffers", totalOffers);
+            bundle.putInt("favStatus", favStatus);
+            bundle.putString("address",address);
+            fragment.setArguments(bundle);
+            fragment.setMyCallBackShopFavListener(this);
+            callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+        } else {
+            methodCallCheckInternet();
+        }
+    }
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
         callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
     }
 
@@ -261,7 +288,6 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("fav", response);
                         JSONObject jsonObject = null;
                         String userid = null, msg = null, username = null, password = null, mallid = null, otp = null;
                         int status = 0, action = 0;
@@ -338,19 +364,21 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
 
     @Override
     public void afterTextChanged(Editable s) {
-        String text = s.toString().toLowerCase(Locale.getDefault());
-        Log.e("value",text);
-        if (arrayList.size() > 0) {
-            arrayList.removeAll(arrayList);
-            adapter.notifyDataSetChanged();
-            adapter.setData(arrayList);
-            String data = etSearch.getText().toString().trim();
-            sendRequestOnStoreInMallListFeed(text);
-        } else {
-            String data = etSearch.getText().toString().trim();
-            sendRequestOnStoreInMallListFeed(text);
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String text = s.toString().toLowerCase(Locale.getDefault());
+            if (arrayList.size() > 0) {
+                arrayList.removeAll(arrayList);
+                adapter.notifyDataSetChanged();
+                adapter.setData(arrayList);
+                String data = etSearch.getText().toString().trim();
+                sendRequestOnStoreInMallListFeed(text);
+            } else {
+                String data = etSearch.getText().toString().trim();
+                sendRequestOnStoreInMallListFeed(text);
+            }
+        }else {
+            methodCallCheckInternet();
         }
-       // adapter.filter(text);
     }
 
     @Override
@@ -358,5 +386,10 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
         super.onPrepareOptionsMenu(menu);
         if (menu != null)
             menu.clear();
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 }

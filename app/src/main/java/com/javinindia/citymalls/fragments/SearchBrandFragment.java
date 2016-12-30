@@ -28,7 +28,9 @@ import com.javinindia.citymalls.apiparsing.materBrandParsing.BrandList;
 import com.javinindia.citymalls.apiparsing.materBrandParsing.MasterBrandListResponse;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
+import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.MasterBrandAdapter;
+import com.javinindia.citymalls.utility.CheckConnection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 15-11-2016.
  */
-public class SearchBrandFragment extends BaseFragment implements View.OnClickListener, MasterBrandAdapter.MyClickListener {
+public class SearchBrandFragment extends BaseFragment implements View.OnClickListener, MasterBrandAdapter.MyClickListener, CheckConnectionFragment.OnCallBackInternetListener {
     RecyclerView brandRecyclerView;
     private RequestQueue requestQueue;
     private MasterBrandAdapter adapter;
@@ -66,7 +68,6 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
                     public void onResponse(String response) {
                         MasterBrandListResponse responseparsing = new MasterBrandListResponse();
                         responseparsing.responseParseMethod(response);
-                        Log.e("res brand", startLimit + "\t" + countLimit + "\t" + response);
                         if (responseparsing.getStatus() == 1) {
                             if (responseparsing.getBrandListArrayList().size() > 0) {
                                 arrayList = responseparsing.getBrandListArrayList();
@@ -142,7 +143,7 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onPause() {
         super.onPause();
-            startLimit=0;
+        startLimit = 0;
     }
 
     @Override
@@ -164,15 +165,19 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgSearch:
-                brand_edit = etSearch.getText().toString().trim();
-                if (!TextUtils.isEmpty(brand_edit)) {
-                    BaseFragment fragment3 = new SearchBrandResultFragment();
-                    Bundle bundle3 = new Bundle();
-                    bundle3.putString("brand", brand_edit);
-                    fragment3.setArguments(bundle3);
-                    callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
+                if (CheckConnection.haveNetworkConnection(activity)) {
+                    brand_edit = etSearch.getText().toString().trim();
+                    if (!TextUtils.isEmpty(brand_edit)) {
+                        BaseFragment fragment3 = new SearchBrandResultFragment();
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putString("brand", brand_edit);
+                        fragment3.setArguments(bundle3);
+                        callFragmentMethod(fragment3, this.getClass().getSimpleName(), R.id.navigationContainer);
+                    } else {
+                        Toast.makeText(activity, "Error! You have not entered any text", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(activity, "Error! You have not entered any text", Toast.LENGTH_LONG).show();
+                    methodCallCheckInternet();
                 }
                 break;
         }
@@ -181,18 +186,32 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onItemClick(int position, BrandList model) {
-        String brand = model.getName().trim();
-        BaseFragment fragment1 = new SearchBrandResultFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("brand", brand);
-        fragment1.setArguments(bundle);
-        callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+        if (CheckConnection.haveNetworkConnection(activity)) {
+            String brand = model.getName().trim();
+            BaseFragment fragment1 = new SearchBrandResultFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("brand", brand);
+            fragment1.setArguments(bundle);
+            callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
+        } else {
+            methodCallCheckInternet();
+        }
+    }
+
+    public void methodCallCheckInternet() {
+        CheckConnectionFragment fragment = new CheckConnectionFragment();
+        fragment.setMyCallBackInternetListener(this);
+        callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+    }
+
+    @Override
+    public void OnCallBackInternet() {
+        activity.onBackPressed();
     }
 
     public class brandScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            Log.e("scroll brand","scroll");
             LinearLayoutManager recyclerLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             int visibleItemCount = recyclerView.getChildCount();
             int totalItemCount = recyclerLayoutManager.getItemCount();

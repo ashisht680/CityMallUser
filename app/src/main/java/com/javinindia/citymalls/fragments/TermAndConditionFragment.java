@@ -95,7 +95,6 @@ public class TermAndConditionFragment extends BaseFragment {
         actionBar.setTitle(null);
         AppCompatTextView textView = (AppCompatTextView) view.findViewById(R.id.tittle);
         textView.setText("Term & Conditions");
-        textView.setTextColor(activity.getResources().getColor(android.R.color.white));
         textView.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
     }
 
