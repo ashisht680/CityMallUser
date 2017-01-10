@@ -75,7 +75,7 @@ public class MyAndroidFirebaseMsgService extends FirebaseMessagingService {
         } else {
             notificationBuilder.setContentTitle(body);
         }
-        notificationBuilder.setSmallIcon(R.mipmap.new_logo);
+        notificationBuilder.setSmallIcon(R.mipmap.logo);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSound(defaultSoundUri);
         notificationBuilder.setContentIntent(pendingIntent);
@@ -114,9 +114,9 @@ public class MyAndroidFirebaseMsgService extends FirebaseMessagingService {
 
     public int getNotiSmallIcon() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return R.mipmap.new_logo;
+            return R.mipmap.logo;
         } else {
-            return R.mipmap.new_logo;
+            return R.mipmap.logo;
         }
     }
 

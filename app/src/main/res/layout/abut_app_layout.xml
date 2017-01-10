@@ -21,14 +21,14 @@
                 android:id="@+id/imgLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/new_logo"
+                android:src="@mipmap/logo"
                 android:layout_gravity="center_horizontal"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="City Stores"
+                android:text="Ample"
                 android:textColor="@android:color/black"
                 android:gravity="center_horizontal"
                 android:textSize="18sp" />
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="That is why we bring to you- City Stores, a simple app that brings all your favorite malls to your hands. Shops, Brands, Food outlets, Food Joints, Food Trolleys, Pop Shops or even Weekend Melas whatever you want to know about- City Stores has all the best updates about it. Hint- offers! With City Stores you can plan the shopping trip by browsing all the stores, shops, eating places, fun activities before hand and get the best shopping experience by picking and choosing offers that appeal the most to you.\n\nYou can browse the shops &amp; brands checking out the exclusive offers they have published on the City Stores app, or search an offer for any product that has caught your fancy recently, or simply get the quickest real time directions to the mall that you and your folks are dying to go, all this- just for you!\n\nOh and City Stores does not only save your time but also your money. One plus one offers, discounted rates, offers till stocks last, offers that are most popular- City Stores has it all! Basically if you are going shopping at a mall without checking out City Stores you just might lose out on something big! Call it money, call it time or call it experience, simply install City Stores and all three will be by your side to gift you the best day possible.\n\nAlso, if you are not sure whether the store you love sells the products of your favorite brand… City Mall has come to your rescue. It will provide you the correct information regarding where your favorite brand products can be purchased from. Or if you don’t know which store/mall/brand to go for, simply check out the rating that City Stores provides gathered with the help of the users.\n\nAll this awesomeness in one simple app! Download City Stores app today!\n" />
+                android:text="That is why we bring to you- Ample, a simple app that brings all your favorite malls to your hands. Shops, Brands, Food outlets, Food Joints, Food Trolleys, Pop Shops or even Weekend Melas whatever you want to know about- Ample has all the best updates about it. Hint- offers! With Ample you can plan the shopping trip by browsing all the stores, shops, eating places, fun activities before hand and get the best shopping experience by picking and choosing offers that appeal the most to you.\n\nYou can browse the shops &amp; brands checking out the exclusive offers they have published on the Ample app, or search an offer for any product that has caught your fancy recently, or simply get the quickest real time directions to the mall that you and your folks are dying to go, all this- just for you!\n\nOh and Ample does not only save your time but also your money. One plus one offers, discounted rates, offers till stocks last, offers that are most popular- Ample has it all! Basically if you are going shopping at a mall without checking out Ample you just might lose out on something big! Call it money, call it time or call it experience, simply install Ample and all three will be by your side to gift you the best day possible.\n\nAlso, if you are not sure whether the store you love sells the products of your favorite brand… City Mall has come to your rescue. It will provide you the correct information regarding where your favorite brand products can be purchased from. Or if you don’t know which store/mall/brand to go for, simply check out the rating that Ample provides gathered with the help of the users.\n\nAll this awesomeness in one simple app! Download Ample app today!\n" />
         </LinearLayout>
 
     </ScrollView>

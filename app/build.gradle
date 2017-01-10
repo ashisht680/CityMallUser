@@ -1,7 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.google.gms.google-services'
-
-
 
 android {
     compileSdkVersion 25
@@ -18,8 +15,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            shrinkResources true
         }
     }
 

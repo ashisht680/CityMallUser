@@ -17,20 +17,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include layout="@layout/common_progressbar"></include>
+            <include layout="@layout/common_progressbar"
+                android:visibility="gone"></include>
             <ImageView
                 android:id="@+id/imgBrand"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/txtBrand"
                 android:scaleType="fitXY"
-                android:src="@drawable/no_image_icon"/>
+                android:src="@drawable/no_image_icon"
+                android:visibility="gone"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtBrand"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="center_horizontal"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="false"
+                android:gravity="center"
                 android:lines="2"
                 android:text="test"/>
         </RelativeLayout>

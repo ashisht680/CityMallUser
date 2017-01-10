@@ -10,14 +10,14 @@
         android:id="@+id/wish_zee_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@mipmap/new_logo"
+        android:src="@mipmap/logo"
         android:layout_centerInParent="true"/>
     <TextView
         android:id="@+id/txt_splash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wish_zee_logo"
-        android:text="City Stores"
+        android:text="Ample"
         android:gravity="center"
         android:textColor="#1b2d5e"
         android:textStyle="italic"
