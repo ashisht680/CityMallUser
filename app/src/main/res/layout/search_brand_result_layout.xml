@@ -54,23 +54,32 @@
           </Spinner>-->
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerviewMallOffer"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llSearch"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <include
+            layout="@layout/common_progressbar"
+            android:visibility="gone" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/txtDataNotFound"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="There are no offer under this brand."
-        android:visibility="gone" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerviewMallOffer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtDataNotFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="There are no offer under this brand."
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
 </LinearLayout>

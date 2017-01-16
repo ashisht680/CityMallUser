@@ -1,10 +1,7 @@
 package com.javinindia.citymalls.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -28,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.apiparsing.CountryModel;
 import com.javinindia.citymalls.apiparsing.offerListparsing.DetailsList;
 import com.javinindia.citymalls.apiparsing.offerListparsing.OfferListResponseparsing;
 import com.javinindia.citymalls.constant.Constants;
@@ -61,7 +55,7 @@ public class MallsOffersListFragment extends BaseFragment implements View.OnClic
     AppCompatTextView txtDataNotFound;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
-
+    ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -69,15 +63,17 @@ public class MallsOffersListFragment extends BaseFragment implements View.OnClic
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize(view);
-        sendRequestOnReplyFeed(startLimit, countLimit);
+        sendRequestOnMallOfferListFeed(startLimit, countLimit);
         return view;
     }
 
-    private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit) {
+    private void sendRequestOnMallOfferListFeed(final int AstartLimit, final int AcountLimit) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.OFFERS_IN_MALL_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
                         responseparsing.responseParseMethod(response);
                         if (responseparsing.getStatus() == 1) {
@@ -132,7 +128,7 @@ public class MallsOffersListFragment extends BaseFragment implements View.OnClic
     }
 
     private void initialize(View view) {
-
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallOffer);
         adapter = new OfferAdaptar(activity,1);
         LinearLayoutManager layoutMangerDestination
@@ -381,7 +377,7 @@ public class MallsOffersListFragment extends BaseFragment implements View.OnClic
 
                     showLoader();
 
-                    sendRequestOnReplyFeed(startLimit, countLimit);
+                    sendRequestOnMallOfferListFeed(startLimit, countLimit);
                     loading = true;
                 }
             }

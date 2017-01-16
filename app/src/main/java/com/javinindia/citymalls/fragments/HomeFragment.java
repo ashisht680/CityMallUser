@@ -117,10 +117,10 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
         list.add("City");
         list.add("Delhi NCR");
         list.add("Mumbai");
-        list.add("Kolkata");
+       // list.add("Kolkata");
         list.add("Bengaluru");
         list.add("Chennai");
-        list.add("Hyderabad");
+       // list.add("Hyderabad");
 
         // Custom ArrayAdapter with spinner item layout to set popup background
 
@@ -274,7 +274,7 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
     public void dialogBox() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
         alertDialogBuilder.setTitle("Logout");
-        alertDialogBuilder.setMessage("Thanks for visiting City mall! Be back soon!");
+        alertDialogBuilder.setMessage("Thanks for visiting Ample! Be back soon!");
         alertDialogBuilder.setPositiveButton("Ok!",
                 new DialogInterface.OnClickListener() {
 

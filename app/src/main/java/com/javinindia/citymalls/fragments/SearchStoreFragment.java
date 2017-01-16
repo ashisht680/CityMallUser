@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -52,6 +53,7 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     private boolean loading = true;
     ArrayList<CategoryList> arrayList = new ArrayList<CategoryList>();
     AppCompatEditText etSearch;
+    ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -64,10 +66,12 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void sendRequestOnCatListFeed(final int startLimit, final int countLimit) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.MASTER_CATEGORY_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         MasterCategoryListResponse responseparsing = new MasterCategoryListResponse();
                         responseparsing.responseParseMethod(response);
                         int status = responseparsing.getStatus();
@@ -126,6 +130,7 @@ public class SearchStoreFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void initialize(View view) {
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
         catRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerviewCategory);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 3);
         catRecyclerView.setLayoutManager(gridLayoutManager);

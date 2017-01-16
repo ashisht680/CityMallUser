@@ -37,6 +37,9 @@
 
           </Spinner>-->
     </LinearLayout>
+    <include
+        layout="@layout/common_progressbar"
+        android:visibility="gone" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewMallSearch"
         android:layout_below="@+id/llSearch"
@@ -50,6 +53,6 @@
         android:layout_height="match_parent"
         android:text="Data not found"
         android:gravity="center"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -1,74 +1,39 @@
 {
   "project_info": {
-    "project_number": "130538105966",
-    "firebase_url": "https://city-malls-1479383383491.firebaseio.com",
-    "project_id": "city-malls-1479383383491",
-    "storage_bucket": "city-malls-1479383383491.appspot.com"
+    "project_number": "985480961711",
+    "firebase_url": "https://ample-21aa3.firebaseio.com",
+    "project_id": "ample-21aa3",
+    "storage_bucket": "ample-21aa3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:130538105966:android:27d689d63f1b7a06",
-        "android_client_info": {
-          "package_name": "com.google.samples.quickstart.signin"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "130538105966-5qikhm84hsesr8bcjpk2s70ou64s3op6.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "130538105966-ib71g18qm8v1bknjt2qeus131vh4s7dq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCWom7wGPE7WH6HpAyBoKYyZj4YihLMcFM"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:130538105966:android:e8a5583540556877",
+        "mobilesdk_app_id": "1:985480961711:android:e8a5583540556877",
         "android_client_info": {
           "package_name": "com.javinindia.citymalls"
         }
       },
       "oauth_client": [
         {
-          "client_id": "130538105966-2cvl26llkirdg213qp4lor0522itfpbl.apps.googleusercontent.com",
+          "client_id": "985480961711-cv33k0c12rs54s8cseou2o5cg5s9qn9g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.javinindia.citymalls",
-            "certificate_hash": "EB6D7F215A2398A91E5E86B6B89DB56B44F0D081"
+            "certificate_hash": "A5E612EFB53345BCF0D4A5FC5E149D4BB8C0FDB5"
           }
         },
         {
-          "client_id": "130538105966-5qikhm84hsesr8bcjpk2s70ou64s3op6.apps.googleusercontent.com",
+          "client_id": "985480961711-2ea0mp2st8j60j8s906smdp4407jefvd.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "130538105966-ib71g18qm8v1bknjt2qeus131vh4s7dq.apps.googleusercontent.com",
+          "client_id": "985480961711-ft6v7gtc0jm2ecd622t9l55alaki5sto.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWom7wGPE7WH6HpAyBoKYyZj4YihLMcFM"
+          "current_key": "AIzaSyDC9UZTiErGmQTJbRAfVYTkpvYIxhQa-gY"
         }
       ],
       "services": {
@@ -79,7 +44,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "130538105966-5qikhm84hsesr8bcjpk2s70ou64s3op6.apps.googleusercontent.com",
+              "client_id": "985480961711-2ea0mp2st8j60j8s906smdp4407jefvd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

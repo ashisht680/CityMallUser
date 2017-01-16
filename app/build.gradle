@@ -8,22 +8,20 @@ android {
         applicationId "com.javinindia.citymalls"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.5"
         multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
         }
     }
 
     dexOptions {
         javaMaxHeapSize "4g"
-        preDexLibraries = false
     }
 }
 repositories {

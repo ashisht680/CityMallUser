@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -65,6 +66,7 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
     double longitude = 0.0;
     NewLoc gps;
     AppCompatTextView txtDataNotFound;
+    ProgressBar progressBar;
 
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -123,10 +125,12 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
     }
 
     private void sendRequestOnMallListFeed(final int AstartLimit, final int AcountLimit, final double Alatitude, final double Alongitude) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.MALL_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         MallListResponseParsing responseparsing = new MallListResponseParsing();
                         responseparsing.responseParseMethod(response);
 
@@ -188,6 +192,7 @@ public class MallsFragmet extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initialize(View view) {
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.corner_swipe_refresh_layout);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMall);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

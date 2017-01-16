@@ -5,16 +5,17 @@
     android:background="@color/background_color"
     android:orientation="vertical">
 
-    <include layout="@layout/common_toolbar_layout"/>
+    <include layout="@layout/common_toolbar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                     android:minHeight="300dp"
                     android:minWidth="300dp"
                     android:src="@drawable/no_image_icon" />
+
                 <ImageView
                     android:id="@+id/imgProfilePicNotFound"
                     android:layout_width="match_parent"
@@ -36,7 +38,8 @@
                     android:minHeight="300dp"
                     android:minWidth="300dp"
                     android:src="@drawable/no_image_icon"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
+
                 <RelativeLayout
                     android:id="@+id/rlBack"
                     android:layout_width="wrap_content"
@@ -97,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/white"
-                        android:hint="Name"
+                        android:hint="NAME"
                         android:padding="5dp"
                         android:textColor="@color/toolbar_color"
                         android:textSize="13sp" />
@@ -149,7 +152,7 @@
                         android:paddingLeft="5dp"
                         android:text="Email"
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img1"
@@ -165,18 +168,18 @@
                         android:layout_height="30dp"
                         android:layout_toLeftOf="@+id/imgverify1"
                         android:layout_toRightOf="@+id/img1"
-                        android:gravity="center|left"
+                        android:background="@color/toolbar_color"
                         android:clickable="true"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:hint="abcdefg@xyz.com"
+                        android:gravity="center|left"
+                        android:hint="EMAIL"
                         android:inputType="textEmailAddress"
-                        android:singleLine="true"
-                        android:background="@color/toolbar_color"
+                        android:lines="1"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textColorHint="@color/black_transparent_color"
+                        android:textSize="12dp" />
 
 
                 </RelativeLayout>
@@ -201,7 +204,7 @@
                         android:paddingLeft="5dp"
                         android:text="Mobile no."
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img2"
@@ -219,16 +222,13 @@
                         android:layout_toRightOf="@+id/img2"
                         android:background="@color/toolbar_color"
                         android:gravity="center|left"
-                        android:hint="+91-123567890"
-                        android:clickable="true"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:singleLine="true"
+                        android:hint="MOBILE NUMBER"
                         android:inputType="phone"
+                        android:lines="1"
+                        android:maxLength="10"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textColorHint="@color/black_transparent_color"
+                        android:textSize="12dp" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -252,7 +252,7 @@
                         android:paddingLeft="5dp"
                         android:text="Gender"
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img3"
@@ -268,15 +268,15 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img3"
                         android:background="@color/toolbar_color"
-                        android:gravity="center|left"
-                        android:hint="Gender"
                         android:clickable="true"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:singleLine="true"
+                        android:gravity="center|left"
+                        android:hint="GENDER"
+                        android:lines="1"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
+                        android:textColorHint="@color/black_transparent_color"
                         android:textSize="12dp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -300,7 +300,7 @@
                         android:paddingLeft="5dp"
                         android:text="Date of Birth"
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img4"
@@ -316,18 +316,19 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img4"
                         android:background="@color/toolbar_color"
-                        android:gravity="center|left"
-                        android:hint="Date of birth"
-                        android:singleLine="true"
                         android:clickable="true"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
+                        android:gravity="center|left"
+                        android:hint="DATE OF BIRTH"
+                        android:lines="1"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textColorHint="@color/black_transparent_color"
+                        android:textSize="12dp" />
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -347,7 +348,7 @@
                         android:paddingLeft="5dp"
                         android:text="State"
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img5"
@@ -363,18 +364,19 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img5"
                         android:background="@color/toolbar_color"
-                        android:gravity="center|left"
-                        android:hint="State"
                         android:clickable="true"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:singleLine="true"
+                        android:gravity="center|left"
+                        android:hint="STATE"
+                        android:lines="1"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textColorHint="@color/black_transparent_color"
+                        android:textSize="12dp" />
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -394,7 +396,7 @@
                         android:paddingLeft="5dp"
                         android:text="City"
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img6"
@@ -410,16 +412,16 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img6"
                         android:background="@color/toolbar_color"
-                        android:gravity="center|left"
-                        android:hint="City"
                         android:clickable="true"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:singleLine="true"
+                        android:gravity="center|left"
+                        android:hint="CITY"
+                        android:lines="1"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textColorHint="@color/black_transparent_color"
+                        android:textSize="12dp" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -442,7 +444,7 @@
                         android:paddingLeft="5dp"
                         android:text="Address"
                         android:textColor="@color/toolbar_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img7"
@@ -459,11 +461,11 @@
                         android:layout_toRightOf="@+id/img7"
                         android:background="@color/toolbar_color"
                         android:gravity="center|left"
-                        android:hint="Address"
-                        android:singleLine="true"
+                        android:hint="ADDRESS"
+                        android:lines="1"
                         android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textColorHint="@color/black_transparent_color"
+                        android:textSize="12dp" />
                 </RelativeLayout>
             </LinearLayout>
 

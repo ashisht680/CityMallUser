@@ -809,4 +809,11 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
             }
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+       // mImageCaptureUri=null;
+       // outPutFile=null;
+    }
 }

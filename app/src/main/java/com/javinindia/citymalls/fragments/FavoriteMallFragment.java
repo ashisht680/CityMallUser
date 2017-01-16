@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -59,6 +60,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
     double latitude = 0.0;
     double longitude = 0.0;
     AppCompatTextView txtDataNotFound;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,10 +98,12 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
 
 
     private void sendRequestOnMallListFeed(final int AstartLimit, final int AcountLimit, final double latitude, final double longitude) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FAVORITE_MALL_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         MallListResponseParsing responseparsing = new MallListResponseParsing();
                         responseparsing.responseParseMethod(response);
                         ArrayList arrayList = responseparsing.getMallDetailsArrayList();
@@ -148,6 +152,7 @@ public class FavoriteMallFragment extends BaseFragment implements View.OnClickLi
 
 
     private void initialize(View view) {
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewFavMall);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);

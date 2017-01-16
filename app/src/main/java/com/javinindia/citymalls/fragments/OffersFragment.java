@@ -1,6 +1,5 @@
 package com.javinindia.citymalls.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,13 +7,11 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,12 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
-import com.javinindia.citymalls.apiparsing.CountryModel;
-import com.javinindia.citymalls.apiparsing.mallListParsing.MallDetail;
 import com.javinindia.citymalls.apiparsing.offerListparsing.DetailsList;
-import com.javinindia.citymalls.apiparsing.offerListparsing.OfferDetails;
 import com.javinindia.citymalls.apiparsing.offerListparsing.OfferListResponseparsing;
-import com.javinindia.citymalls.apiparsing.storeInMallParsing.ShopData;
 import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
@@ -58,6 +51,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
     private OfferAdaptar adapter;
     ArrayList arrayList;
     AppCompatTextView txtDataNotFound;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +71,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
         View view = inflater.inflate(getFragmentLayout(), container, false);
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initialize(view);
-        sendRequestOnReplyFeed(0, 10);
+        sendRequestOnOfferListFeed(0, 10);
         return view;
     }
 
@@ -87,11 +81,13 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
         startLimit=0;
     }
 
-    private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit) {
+    private void sendRequestOnOfferListFeed(final int AstartLimit, final int AcountLimit) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.OFFER_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
                         responseparsing.responseParseMethod(response);
                         int status = responseparsing.getStatus();
@@ -115,7 +111,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
                                         adapter.setData(arrayList);
                                         if (arrayList.size() > 0) {
                                         } else {
-                                            sendRequestOnReplyFeed(0, 5);
+                                            sendRequestOnOfferListFeed(0, 5);
                                         }
                                     }
                                 });
@@ -155,6 +151,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
 
 
     private void initialize(View view) {
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.offer_swipe_refresh_layout);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewOffer);
         adapter = new OfferAdaptar(activity,0);
@@ -415,7 +412,7 @@ public class OffersFragment extends BaseFragment implements OfferAdaptar.MyClick
 
                     showLoader();
 
-                    sendRequestOnReplyFeed(startLimit, countLimit);
+                    sendRequestOnOfferListFeed(startLimit, countLimit);
                     loading = true;
                 }
             }

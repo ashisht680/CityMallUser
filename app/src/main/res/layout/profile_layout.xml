@@ -6,7 +6,7 @@
     android:background="@color/background_color"
     android:orientation="vertical">
 
-    <include layout="@layout/common_toolbar_layout"/>
+    <include layout="@layout/common_toolbar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,13 +25,15 @@
 
 
                 <include layout="@layout/common_progressbar" />
+
                 <ImageView
                     android:id="@+id/imgProfilePic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="300dp"
                     android:minWidth="300dp"
-                    android:src="@drawable/no_image_icon"  />
+                    android:src="@drawable/no_image_icon" />
+
                 <RelativeLayout
                     android:id="@+id/rlBack"
                     android:layout_width="wrap_content"
@@ -64,17 +66,6 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/black_transparent_color">
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/personName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/rlEdit"
-                        android:padding="5dp"
-                        android:text="Ashish Tiwari Javin Indian "
-                        android:textColor="@android:color/white"
-                        android:textSize="13sp" />
-
                     <RelativeLayout
                         android:id="@+id/rlEdit"
                         android:layout_width="wrap_content"
@@ -100,6 +91,19 @@
                             android:textSize="10dp" />
                     </RelativeLayout>
 
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/personName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text=""
+                        android:lines="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="13sp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -118,10 +122,10 @@
                         android:id="@+id/txtEmailHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Email"
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
                         android:textSize="12dp" />
 
@@ -140,10 +144,10 @@
                         android:layout_toLeftOf="@+id/imgverify1"
                         android:layout_toRightOf="@+id/img1"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="abcdefg@xyz.com"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/imgverify1"
@@ -152,7 +156,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
                         android:src="@mipmap/ic_launcher"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="match_parent"
@@ -177,12 +181,12 @@
                         android:id="@+id/txtMobileHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Mobile no."
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img2"
@@ -199,10 +203,10 @@
                         android:layout_toLeftOf="@+id/imgverify2"
                         android:layout_toRightOf="@+id/img2"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="+91-123567890"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/imgverify2"
@@ -211,7 +215,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
                         android:src="@mipmap/ic_launcher"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="match_parent"
@@ -236,12 +240,12 @@
                         android:id="@+id/txtGenderHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Gender"
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img3"
@@ -257,10 +261,10 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img3"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="Male"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -285,12 +289,12 @@
                         android:id="@+id/txtDOBHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Date of Birth"
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img4"
@@ -306,10 +310,10 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img4"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="15 August 1947"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -334,12 +338,12 @@
                         android:id="@+id/txtStateHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="State"
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img5"
@@ -355,10 +359,10 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img5"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="New Delhi"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -383,12 +387,12 @@
                         android:id="@+id/txtCityHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="City"
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img6"
@@ -404,10 +408,10 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img6"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="Delhi"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -432,12 +436,12 @@
                         android:id="@+id/txtAddressHd"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:background="@android:color/white"
                         android:gravity="center|left"
                         android:paddingLeft="5dp"
                         android:text="Address"
-                        android:background="@android:color/white"
                         android:textColor="@color/blue_button_color"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:id="@+id/img7"
@@ -453,10 +457,10 @@
                         android:layout_height="30dp"
                         android:layout_toRightOf="@+id/img7"
                         android:gravity="center|left"
-                        android:singleLine="true"
-                        android:text="Kohat inclave, Pitampura"
+                        android:lines="1"
+                        android:text=""
                         android:textColor="@android:color/white"
-                        android:textSize="12dp"  />
+                        android:textSize="12dp" />
 
                     <View
                         android:layout_width="match_parent"

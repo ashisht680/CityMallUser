@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -65,6 +66,7 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
     AppCompatEditText etSearch;
     ImageView imgSearch;
     String brand;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,10 +105,12 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
     }
 
     private void sendRequestOnReplyFeed(final String data) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SEARCH_BRAND_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
                         responseparsing.responseParseMethod(response);
                         int status = responseparsing.getStatus();
@@ -158,6 +162,7 @@ public class SearchBrandResultFragment extends BaseFragment implements View.OnCl
     }
 
     private void initialize(View view) {
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         txtTitleBrand = (AppCompatTextView) view.findViewById(R.id.txtTitleBrand);
         txtTitleBrand.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
         imgSearch = (ImageView) view.findViewById(R.id.imgSearch);

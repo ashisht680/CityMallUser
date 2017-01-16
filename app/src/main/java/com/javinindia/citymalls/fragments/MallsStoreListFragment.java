@@ -68,6 +68,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
     AppCompatTextView txtDataNotFound;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,16 +88,15 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
     }
 
     private void sendRequestOnStoreInMallListFeed(final int AstartLimit, final int AcountLimit) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SHOP_IN_MALL_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("limits", AstartLimit + "" + AcountLimit);
+                        progressBar.setVisibility(View.GONE);
                         StoreInMallResponse responseparsing = new StoreInMallResponse();
                         responseparsing.responseParseMethod(response);
-                        Log.e("request mallId", String.valueOf(response.length()));
                         if (response.length() != 0) {
-                           // int status = responseparsing.getStatus();
                             if (responseparsing.getStatus() == 1) {
                                 if (responseparsing.getShopDataArrayList().size() > 0) {
                                     arrayList = responseparsing.getShopDataArrayList();
@@ -152,6 +152,7 @@ public class MallsStoreListFragment extends BaseFragment implements View.OnClick
     }
 
     private void initialize(View view) {
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewStores);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);

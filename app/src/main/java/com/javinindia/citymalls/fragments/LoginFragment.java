@@ -1,6 +1,10 @@
 package com.javinindia.citymalls.fragments;
 
 import android.content.Intent;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +68,8 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,6 +107,21 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 .build();
         //-----------facebook----------------//
         FacebookSdk.sdkInitialize(getActivity());
+
+        try {
+            PackageInfo info = activity.getPackageManager().getPackageInfo(
+                    "com.javinindia.citymalls",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
     }
 
@@ -183,7 +205,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         if (signedIn) {
             // signInButton.setVisibility(View.GONE);
         } else {
-            mStatusTextView.setText("sign");
+            mStatusTextView.setText("or sign up with");
             // signInButton.setVisibility(View.VISIBLE);
         }
     }

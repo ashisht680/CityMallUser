@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,6 +55,7 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
     AppCompatTextView txtDataNotFound;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,34 +73,35 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
     }
 
     private void sendRequestOnStoreInMallListFeed(final int AstartLimit, final int AcountLimit) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FAVORITE_SHOP_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         StoreInMallResponse responseparsing = new StoreInMallResponse();
                         responseparsing.responseParseMethod(response);
                         if (response.length() != 0) {
-                        //    int status = responseparsing.getStatus();
                             if (responseparsing.getStatus() == 1) {
                                 if (responseparsing.getShopDataArrayList().size() > 0) {
                                     ArrayList arrayList = responseparsing.getShopDataArrayList();
                                     if (arrayList.size() > 0) {
                                         txtDataNotFound.setVisibility(View.GONE);
                                         llSearch.setVisibility(View.VISIBLE);
-                                  /*  if (adapter.getData() != null && adapter.getData().size() > 0) {
-                                        adapter.getData().addAll(arrayList);
-                                        adapter.notifyDataSetChanged();
-                                    } else {*/
                                         adapter.setData(arrayList);
                                         adapter.notifyDataSetChanged();
-
-                                        // }
                                     } else {
                                         txtDataNotFound.setVisibility(View.VISIBLE);
                                         llSearch.setVisibility(View.GONE);
                                     }
+                                } else {
+                                    txtDataNotFound.setVisibility(View.VISIBLE);
+                                    llSearch.setVisibility(View.GONE);
                                 }
 
+                            } else {
+                                txtDataNotFound.setVisibility(View.VISIBLE);
+                                llSearch.setVisibility(View.GONE);
                             }
                         }
 
@@ -133,6 +136,7 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initialize(View view) {
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewStores);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(layoutManager);
@@ -246,7 +250,7 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                              // showDialogMethod(msg);
+                                // showDialogMethod(msg);
                             }
                         }
                     }

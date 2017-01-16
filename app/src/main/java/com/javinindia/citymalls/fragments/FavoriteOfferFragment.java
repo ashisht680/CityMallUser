@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,6 +55,7 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
     AppCompatTextView txtDataNotFound;
     LinearLayout llSearch;
     AppCompatEditText etSearch;
+    ProgressBar progressBar;
 
 
     @Nullable
@@ -67,10 +69,12 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
     }
 
     private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FAVORITE_OFFER_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         OfferListResponseparsing responseparsing = new OfferListResponseparsing();
                         responseparsing.responseParseMethod(response);
                         if (responseparsing.getStatus() == 1) {
@@ -116,7 +120,7 @@ public class FavoriteOfferFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initialize(View view) {
-
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallOffer);
         adapter = new OfferAdaptar(activity, 0);
         LinearLayoutManager layoutMangerDestination

@@ -37,6 +37,9 @@
 
         </Spinner>-->
     </LinearLayout>
+    <include
+        layout="@layout/common_progressbar"
+        android:visibility="gone" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewMallOffer"
         android:layout_below="@+id/llSearch"

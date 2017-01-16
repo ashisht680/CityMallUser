@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,7 +49,7 @@ import java.util.Map;
 /**
  * Created by Ashish on 15-11-2016.
  */
-public class SearchMallFragments extends BaseFragment implements View.OnClickListener, TextWatcher, MallAdapter.MyClickListener, MallDetailTabBarFragment.OnCallBackMallFavListener,CheckConnectionFragment.OnCallBackInternetListener {
+public class SearchMallFragments extends BaseFragment implements View.OnClickListener, TextWatcher, MallAdapter.MyClickListener, MallDetailTabBarFragment.OnCallBackMallFavListener, CheckConnectionFragment.OnCallBackInternetListener {
     private RecyclerView recyclerview;
     private boolean loading = true;
     private RequestQueue requestQueue;
@@ -64,6 +63,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
     NewLoc gps;
     double latitude = 0.0;
     double longitude = 0.0;
+    ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -86,7 +86,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
         latitude = gps.getLatitude();
         longitude = gps.getLongitude();
         Log.e("gps mall", latitude + "---" + longitude);
-        sendRequestOnReplyFeed(0, 500, latitude, longitude,mall);
+        sendRequestOnSearchMallFeed(0, 500, latitude, longitude, mall);
     }
 
     @Override
@@ -105,6 +105,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
     }
 
     private void initialize(View view) {
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
         imgSearch = (ImageView) view.findViewById(R.id.imgSearch);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerviewMallSearch);
         adapter = new MallAdapter(activity);
@@ -124,21 +125,23 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
         imgSearch.setOnClickListener(this);
     }
 
-    private void sendRequestOnReplyFeed(final int AstartLimit, final int AcountLimit, final double Alatitude, final double Alongitude,final String name) {
+    private void sendRequestOnSearchMallFeed(final int AstartLimit, final int AcountLimit, final double Alatitude, final double Alongitude, final String name) {
+        progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SEARCH_MALL_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         MallListResponseParsing responseparsing = new MallListResponseParsing();
                         responseparsing.responseParseMethod(response);
                         int status = responseparsing.getStatus();
                         if (status == 1) {
-                            if (responseparsing.getMallDetailsArrayList().size()>0){
+                            if (responseparsing.getMallDetailsArrayList().size() > 0) {
                                 arrayList = responseparsing.getMallDetailsArrayList();
                                 if (arrayList.size() > 0) {
                                     txtDataNotFound.setVisibility(View.GONE);
-                                        adapter.setData(arrayList);
-                                        adapter.notifyDataSetChanged();
+                                    adapter.setData(arrayList);
+                                    adapter.notifyDataSetChanged();
                                 } else {
                                     txtDataNotFound.setVisibility(View.VISIBLE);
                                 }
@@ -173,7 +176,6 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -201,7 +203,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             adapter.notifyDataSetChanged();
             adapter.setData(arrayList);
             String data = etSearch.getText().toString().trim();
-            sendRequestOnReplyFeed(0, 500, latitude, longitude,data);
+            sendRequestOnSearchMallFeed(0, 500, latitude, longitude, data);
         } else {
             methodCallCheckInternet();
         }
@@ -260,7 +262,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
 
                         } else {
                             if (!TextUtils.isEmpty(msg)) {
-                              //  showDialogMethod(msg);
+                                //  showDialogMethod(msg);
                             }
                         }
                     }
@@ -299,7 +301,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             String mallPic = model.getMallPic().trim();
             int favStatus = model.getFavStatus();
             int totalOffer = model.getOfferCount();
-            String address="";
+            String address = "";
 
             String mallLandmark = model.getMallLandmark().trim();
             String city = model.getCity().trim();
@@ -332,7 +334,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             fragment1.setMyCallBackMallFavListener(this);
             Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 1;
             callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
-        }else {
+        } else {
             methodCallCheckInternet();
         }
     }
@@ -348,7 +350,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             String mallPic = modal.getMallPic().trim();
             int favStatus = modal.getFavStatus();
             int totalOffer = modal.getOfferCount();
-            String address="";
+            String address = "";
 
             String mallLandmark = modal.getMallLandmark().trim();
             String city = modal.getCity().trim();
@@ -381,7 +383,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
             fragment1.setMyCallBackMallFavListener(this);
             Constants.VIEW_PAGER_MALL_CURRENT_POSITION = 0;
             callFragmentMethod(fragment1, this.getClass().getSimpleName(), R.id.navigationContainer);
-        }else {
+        } else {
             methodCallCheckInternet();
         }
     }
@@ -391,7 +393,7 @@ public class SearchMallFragments extends BaseFragment implements View.OnClickLis
         String mallLat = modal.getMallLat().trim();
         String mallLong = modal.getMallLong().trim();
         String mallName = modal.getMallName().trim();
-        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat),  Double.parseDouble(mallLong),mallName);
+        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)", Double.parseDouble(mallLat), Double.parseDouble(mallLong), mallName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         activity.startActivity(intent);
     }
