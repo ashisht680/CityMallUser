@@ -182,6 +182,8 @@ public class FavoriteStoreFragment extends BaseFragment implements View.OnClickL
     public void onItemClick(int position, ShopData model) {
         String shopId = model.getId().trim();
         SharedPreferencesManager.setShopId(activity, shopId);
+        String mallId = model.getMall().trim();
+        SharedPreferencesManager.setMAllId(activity,mallId);
         String shopName = model.getStoreName().trim();
         String shopPic = model.getBanner().trim();
         String shopRating = model.getRating().trim();
