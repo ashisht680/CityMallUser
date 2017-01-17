@@ -1,6 +1,7 @@
 package com.javinindia.citymalls.fragments;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -43,6 +45,11 @@ public class FeedbackFragment extends BaseFragment {
     AppCompatButton btnFeedback;
     private RequestQueue requestQueue;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -53,6 +60,7 @@ public class FeedbackFragment extends BaseFragment {
         AppCompatTextView txtFeedback, txtTitle, txtPoints;
         txtFeedback = (AppCompatTextView) view.findViewById(R.id.txtFeedback);
         txtFeedback.setTypeface(FontAsapBoldSingleTonClass.getInstance(activity).getTypeFace());
+        txtFeedback.setPaintFlags(txtFeedback.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         txtTitle = (AppCompatTextView) view.findViewById(R.id.txtTitle);
         txtTitle.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         etFeedback = (AppCompatEditText) view.findViewById(R.id.etFeedback);
@@ -71,6 +79,12 @@ public class FeedbackFragment extends BaseFragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        disableTouchOfBackFragment(savedInstanceState);
     }
 
     private void initToolbar(View view) {
@@ -157,5 +171,12 @@ public class FeedbackFragment extends BaseFragment {
     @Override
     public void onNetworkConnected() {
 
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu != null)
+            menu.clear();
     }
 }
