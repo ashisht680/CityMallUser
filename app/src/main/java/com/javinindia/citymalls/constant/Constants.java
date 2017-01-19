@@ -5,6 +5,7 @@ public class Constants {
     //  public static final String NEW_BASE_URL = "http://wonderdelights.com/delights/";
     public static final String NEW_BASE_URL = "http://hnwkart.com/delights/";
     public static final String LOGIN_URL = Constants.NEW_BASE_URL + "login.php";
+    public static final String LOGOUT_URL = Constants.NEW_BASE_URL + "logout.php";
     public static final String SIGN_UP_URL = Constants.NEW_BASE_URL + "signupuser.php";
     public static final String VERIFY_OTP_URL = Constants.NEW_BASE_URL + "verifyOtp.php";
     public static final String FORGET_PASSWORD_URL = Constants.NEW_BASE_URL + "forget_mallusers.php";
@@ -37,8 +38,10 @@ public class Constants {
     public static final String SEARCH_BRAND_LIST_URL = Constants.NEW_BASE_URL + "brand_search.php";
     public static final String SEARCH_MALL_LIST_URL = Constants.NEW_BASE_URL + "mallSearch.php";
 
-    public static final String MASTER_CATEGORY_LIST_URL = Constants.NEW_BASE_URL + "MasterCategoryList.php";
     public static final String MASTER_BRAND_LIST_URL = Constants.NEW_BASE_URL + "MasterBrandList.php";
+    public static final String MASTER_CATEGORY_LIST_URL = Constants.NEW_BASE_URL + "MasterCategoryList.php";
+    public static final String MASTER_BRAND_VERSION_2_LIST_URL  = Constants.NEW_BASE_URL + "MasterBrandVersion2.php";
+    public static final String MASTER_CATEGORY_VERSION_2_LIST_URL = Constants.NEW_BASE_URL + "mastercategoryVersion2.php";
 
     public static final String FEEDBACK_URL = Constants.NEW_BASE_URL + "feedback.php";
 

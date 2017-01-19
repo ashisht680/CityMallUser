@@ -221,11 +221,11 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
         if (CheckConnection.haveNetworkConnection(activity)) {
             String address ="";
             String shopId = model.getId().trim();
+            SharedPreferencesManager.setShopId(activity, shopId);
             String mallId = model.getMall().trim();
             SharedPreferencesManager.setMAllId(activity,mallId);
-            SharedPreferencesManager.setShopId(activity, shopId);
             String shopName = model.getStoreName().trim();
-            String shopPic = model.getBanner().trim();
+            String shopPic = model.getProfilepic().trim();
             String shopRating = model.getRating().trim();
             String mallName = model.getMallName().trim();
             int totalOffers = model.getShopOfferCount();
@@ -247,7 +247,7 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
             StoreTabsFragment fragment = new StoreTabsFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("click",1);
-            bundle.putInt("position",position);
+            bundle.putInt("position", position);
             bundle.putString("shopId", shopId);
             bundle.putString("shopName", shopName);
             bundle.putString("shopPic", shopPic);
@@ -259,10 +259,11 @@ public class SearchStoreResultFragment extends BaseFragment implements View.OnCl
             fragment.setArguments(bundle);
             fragment.setMyCallBackShopFavListener(this);
             callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
-        } else {
+        }else {
             methodCallCheckInternet();
         }
     }
+
     public void methodCallCheckInternet() {
         CheckConnectionFragment fragment = new CheckConnectionFragment();
         fragment.setMyCallBackInternetListener(this);

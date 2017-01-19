@@ -65,7 +65,7 @@ public class SearchBrandFragment extends BaseFragment implements View.OnClickLis
 
     private void sendRequestOnCatListFeed(final int startLimit, final int countLimit) {
         progressBar.setVisibility(View.VISIBLE);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.MASTER_BRAND_LIST_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.MASTER_BRAND_VERSION_2_LIST_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

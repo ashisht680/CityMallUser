@@ -14,7 +14,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
-        android:elevation="7dp"
+        android:elevation="1dp"
         app:tabGravity="fill"
         app:tabIndicatorColor="@android:color/black"
         app:tabIndicatorHeight="3dp"

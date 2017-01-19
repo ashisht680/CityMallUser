@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.fragments.BaseFragment;
 import com.javinindia.citymalls.fragments.LoginFragment;
@@ -22,7 +23,8 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceId());
-
+        MyAndroidFirebaseInstanceIdService service =new MyAndroidFirebaseInstanceIdService(this);
+        service.sendRegistrationToServer();
         String username = SharedPreferencesManager.getUsername(getApplicationContext());
         if (TextUtils.isEmpty(username)) {
             BaseFragment baseFragment = new LoginFragment();
@@ -37,6 +39,7 @@ public class LoginActivity extends BaseActivity {
             finish();
         }
     }
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_login;

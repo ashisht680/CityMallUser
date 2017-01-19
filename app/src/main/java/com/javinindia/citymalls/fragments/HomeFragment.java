@@ -1,6 +1,7 @@
 package com.javinindia.citymalls.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,9 +34,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.activity.LoginActivity;
 import com.javinindia.citymalls.activity.NavigationActivity;
+import com.javinindia.citymalls.constant.Constants;
 import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.picasso.CircleTransform;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
@@ -44,12 +52,18 @@ import com.javinindia.citymalls.recyclerview.ViewPagerAdapter;
 import com.javinindia.citymalls.utility.CheckConnection;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Ashish on 08-09-2016.
  */
 public class HomeFragment extends BaseFragment implements NavigationAboutFragment.OnCallBackRefreshListener, CheckConnectionFragment.OnCallBackInternetListener {
+    private RequestQueue requestQueue;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -117,10 +131,10 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
         list.add("City");
         list.add("Delhi NCR");
         list.add("Mumbai");
-       // list.add("Kolkata");
+        // list.add("Kolkata");
         list.add("Bengaluru");
         list.add("Chennai");
-       // list.add("Hyderabad");
+        // list.add("Hyderabad");
 
         // Custom ArrayAdapter with spinner item layout to set popup background
 
@@ -240,6 +254,20 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
                 drawerLayout.closeDrawers();
                 BaseFragment fragment = new FavoriteTabBarFragment();
                 callFragmentMethod(fragment, this.getClass().getSimpleName(), R.id.navigationContainer);
+            } else if (title.equals("Invite")) {
+                drawerLayout.closeDrawers();
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Ample App");
+                    String sAux = "\nLet me recommend you this application\n\n";
+                    sAux = sAux + "https://play.google.com/store/apps/details?id=com.javinindia.citymalls\n\n";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "choose one"));
+                } catch (Exception e) {
+
+                }
+
             } else if (title.equals("Rate us")) {
                 drawerLayout.closeDrawers();
                 final String appPackageName = activity.getPackageName(); // getPackageName() from Context or Activity object
@@ -280,16 +308,7 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        SharedPreferencesManager.setUserID(activity, null);
-                        SharedPreferencesManager.setUsername(activity, null);
-                        SharedPreferencesManager.setPassword(activity, null);
-                        SharedPreferencesManager.setEmail(activity, null);
-                        SharedPreferencesManager.setLocation(activity, null);
-                        SharedPreferencesManager.setProfileImage(activity, null);
-                        SharedPreferencesManager.setDeviceToken(activity, null);
-                        Intent refresh = new Intent(activity, LoginActivity.class);
-                        startActivity(refresh);//Start the same Activity
-                        activity.finish();
+                        sendDataOnLogOutApi();
                     }
                 });
 
@@ -304,6 +323,72 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+
+    private void sendDataOnLogOutApi() {
+        final ProgressDialog loading = ProgressDialog.show(activity, "Logging out...", "Please wait...", false, false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGOUT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        loading.dismiss();
+                        responseImplement(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        loading.dismiss();
+                        volleyErrorHandle(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("uid", SharedPreferencesManager.getUserID(activity));
+                params.put("type", "user");
+                return params;
+            }
+
+        };
+        stringRequest.setTag(this.getClass().getSimpleName());
+        volleyDefaultTimeIncreaseMethod(stringRequest);
+        requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
+    }
+
+    private void responseImplement(String response) {
+        JSONObject jsonObject = null;
+        String msg = null;
+        int status = 0;
+        try {
+            jsonObject = new JSONObject(response);
+            if (jsonObject.has("status"))
+                status = jsonObject.optInt("status");
+            if (jsonObject.has("msg"))
+                msg = jsonObject.optString("msg");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (status == 1) {
+            SharedPreferencesManager.setUserID(activity, null);
+            SharedPreferencesManager.setUsername(activity, null);
+            SharedPreferencesManager.setPassword(activity, null);
+            SharedPreferencesManager.setEmail(activity, null);
+            SharedPreferencesManager.setLocation(activity, null);
+            SharedPreferencesManager.setProfileImage(activity, null);
+            SharedPreferencesManager.setDeviceToken(activity, null);
+            Intent refresh = new Intent(activity, LoginActivity.class);
+            startActivity(refresh);//Start the same Activity
+            activity.finish();
+        } else {
+            if (!TextUtils.isEmpty(msg)) {
+                showDialogMethod("Try again");
+            }
+        }
     }
 
 
