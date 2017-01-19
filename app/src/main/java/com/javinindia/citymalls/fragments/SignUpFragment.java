@@ -84,7 +84,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         radioButton = (RadioButton) view.findViewById(R.id.radioButton);
         txtTermCondition = (TextView) view.findViewById(R.id.txtTermCondition);
         txtTermCondition.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
-        txtTermCondition.setText(Html.fromHtml("<font color=#000000>" + "I accept the" + "</font>" + "\t" + "<font color=#0d7bbf>" + "terms and conditions." + "</font>"));
+        txtTermCondition.setText(Utility.fromHtml("<font color=#ffffff>" + "I accept the" + "</font>" + "\t" + "<font color=#0d7bbf>" + "terms and conditions." + "</font>"));
         checkShowPassword = (CheckBox)view.findViewById(R.id.checkShowPassword);
         checkShowPassword.setTypeface(FontAsapRegularSingleTonClass.getInstance(activity).getTypeFace());
         checkShowPassword.setOnClickListener(this);

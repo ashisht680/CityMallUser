@@ -98,7 +98,7 @@ public class MasterCatAdaptar extends RecyclerView.Adapter<MasterCatAdaptar.View
             imgCat = (ImageView) itemLayoutView.findViewById(R.id.imgCat);
             progressBar = (ProgressBar) itemLayoutView.findViewById(R.id.progress);
             txtCat = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtCat);
-            txtCat.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            txtCat.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             rlMain = (CardView) itemLayoutView.findViewById(R.id.rlMain);
         }
     }

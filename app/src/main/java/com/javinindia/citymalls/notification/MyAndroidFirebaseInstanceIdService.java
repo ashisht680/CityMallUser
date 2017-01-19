@@ -15,16 +15,20 @@ public class MyAndroidFirebaseInstanceIdService extends FirebaseInstanceIdServic
     private static final String TAG = "MyAndroidFCMIIDService";
     Context context;
 
+
+   /* public MyAndroidFirebaseInstanceIdService() {
+    }
+
     public MyAndroidFirebaseInstanceIdService(Context context) {
         this.context = context;
-    }
+    }*/
 
     @Override
     public void onTokenRefresh() {
         //Get hold of the registration token
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         if (!TextUtils.isEmpty(refreshedToken)) {
-            SharedPreferencesManager.setDeviceToken(context, refreshedToken);
+            SharedPreferencesManager.setDeviceToken(getApplicationContext(), refreshedToken);
         } else {
 
         }
@@ -32,9 +36,9 @@ public class MyAndroidFirebaseInstanceIdService extends FirebaseInstanceIdServic
 
     }
 
-    public void sendRegistrationToServer() {
+  /*  public void sendRegistrationToServer() {
         //Implement this method if you want to store the token on your server
         onTokenRefresh();
-    }
+    }*/
 
 }

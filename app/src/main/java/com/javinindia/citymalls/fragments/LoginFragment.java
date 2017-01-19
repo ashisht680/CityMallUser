@@ -1,5 +1,6 @@
 package com.javinindia.citymalls.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 
 import android.content.pm.PackageInfo;
@@ -416,18 +417,19 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void sendDataOnLoginApi(final String username, final String password) {
+        final ProgressDialog loading = ProgressDialog.show(activity, "Loading...", "Please wait...", false, false);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        hideLoader();
+                        loading.dismiss();
                         responseImplement(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        hideLoader();
+                        loading.dismiss();
                         volleyErrorHandle(error);
                     }
                 }) {

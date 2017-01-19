@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/toolbar_color"
+    android:background="@drawable/splesh"
     tools:ignore="NewApi">
 
     <RelativeLayout
@@ -94,7 +94,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Show password"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:buttonTint="@android:color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -106,12 +107,14 @@
                 <RadioButton
                     android:id="@+id/radioButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@android:color/white"/>
 
                 <TextView
                     android:id="@+id/txtTermCondition"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"/>
             </LinearLayout>
 
 
@@ -123,7 +126,7 @@
                 android:background="@android:color/white"
                 android:nextFocusDown="@+id/et_ConfirmPassword"
                 android:text="Register"
-                android:textColor="@color/blue_button_color" />
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 

@@ -5,7 +5,7 @@
     android:id="@+id/login_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/toolbar_color"
+    android:background="@drawable/splesh"
     android:orientation="vertical"
     tools:ignore="NewApi">
 
@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Show password"
+                    android:buttonTint="@android:color/white"
                     android:textColor="@android:color/white" />
 
                 <TextView
@@ -94,7 +95,7 @@
                         android:background="@android:color/white"
                         android:padding="3dp"
                         android:text="SIGN IN"
-                        android:textColor="@color/blue_button_color"
+                        android:textColor="@android:color/black"
                         android:textSize="15dp" />
 
 
@@ -111,7 +112,7 @@
                     android:background="@android:color/white"
                     android:padding="3dp"
                     android:text="REGISTER AS A NEW USER"
-                    android:textColor="@color/blue_button_color"
+                    android:textColor="@android:color/black"
                     android:textSize="15dp" />
 
                <!-- <com.google.android.gms.common.SignInButton

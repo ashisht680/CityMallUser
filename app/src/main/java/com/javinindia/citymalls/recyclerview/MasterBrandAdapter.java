@@ -16,6 +16,7 @@ import com.javinindia.citymalls.R;
 import com.javinindia.citymalls.apiparsing.masterCategoryParsing.CategoryList;
 import com.javinindia.citymalls.apiparsing.materBrandParsing.BrandList;
 import com.javinindia.citymalls.font.FontAsapBoldSingleTonClass;
+import com.javinindia.citymalls.font.FontAsapRegularSingleTonClass;
 import com.javinindia.citymalls.picasso.CircleTransform;
 import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.utility.Utility;
@@ -94,7 +95,7 @@ public class MasterBrandAdapter extends RecyclerView.Adapter<MasterBrandAdapter.
             imgBrand = (ImageView) itemLayoutView.findViewById(R.id.imgBrand);
             progressBar = (ProgressBar) itemLayoutView.findViewById(R.id.progress);
             txtBrand = (AppCompatTextView) itemLayoutView.findViewById(R.id.txtBrand);
-            txtBrand.setTypeface(FontAsapBoldSingleTonClass.getInstance(context).getTypeFace());
+            txtBrand.setTypeface(FontAsapRegularSingleTonClass.getInstance(context).getTypeFace());
             rlMain = (CardView) itemLayoutView.findViewById(R.id.rlMain);
         }
     }

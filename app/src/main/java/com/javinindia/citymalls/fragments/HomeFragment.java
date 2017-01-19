@@ -50,6 +50,7 @@ import com.javinindia.citymalls.preference.SharedPreferencesManager;
 import com.javinindia.citymalls.recyclerview.CustomSpinnerAdater;
 import com.javinindia.citymalls.recyclerview.ViewPagerAdapter;
 import com.javinindia.citymalls.utility.CheckConnection;
+import com.javinindia.citymalls.utility.Utility;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -323,6 +324,8 @@ public class HomeFragment extends BaseFragment implements NavigationAboutFragmen
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Utility.getColor(activity,R.color.toolbar_color));
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Utility.getColor(activity,R.color.toolbar_color));
     }
 
 

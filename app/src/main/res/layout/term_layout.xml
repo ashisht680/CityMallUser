@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@drawable/splesh">
     <include layout="@layout/common_toolbar_layout" />
     <ScrollView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Terms &amp; Conditions (T&amp;Cs)"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:gravity="center"/>
             <View
@@ -32,19 +32,20 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="2dp"
-                android:background="@android:color/black" />
+                android:background="@android:color/white" />
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="•	Your Acceptance"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="This is an agreement between Ample mobile app, a product of Javinindia, an Internet services company, the Ample software (collectively, including all content provided by Ample through the apps, and you ('you' or 'You'), a user of the Ample app.\n\nBY USING THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE AGREED TO ALL THESE TERMS OF SERVICE, AND also to Ample' PRIVACY POLICY, WHICH CAN BE FOUND AT [---]\n\nIf you choose not to agree with any of the terms mentioned, you may NOT USE THE Ample APP.\n\nPLEASE NOTE Ample DOES NOT AUTHORISE OR VALIDATE ANY OFFER PUBLISHED ON THE APP AND ANY DISCREPANCY OR REFUSAL TO COMMIT BY TO IT BY ANY PARTY IS NOT THE RESPONSIBILITY OF THE Ample MOBILE APP."/>
 
             <android.support.v7.widget.AppCompatTextView
@@ -53,13 +54,14 @@
                 android:layout_height="wrap_content"
                 android:text="•	Ample Mobile App Services"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="Please note that these Terms of Service apply to all registered users of the Ample App.\n\nInformation provided by our registered Shops/Brands may contain third party links to websites that are not owned or controlled by Ample.\n\nAmple takes no responsibility for the third party websites."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead3"
@@ -67,19 +69,20 @@
                 android:layout_height="wrap_content"
                 android:text="•	Ample Access"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="1.	Once agreed for Ample T&amp;Cs give permission to utilise its services to registered users, provided that:\ni.	It is solely for personal use, and not for reselling or any other activity that shall demean the Ample app.\nii.	Duplication or transfer of offer codes or content to any party not registered with the Ample app without prior permission shall be considered as a breach of trust.\niii.	Compliance to all T&amp;Cs shall be adhered to strictly.\n\n2.	You are providing correct and accurate information because you understand for accessing &amp; usage of the Ample registered users have to provide their mobile number and other private details as asked by the app. Furthermore, registered users (you) explicitly agree that, Ample may access your contact list and/or address book on your mobile device as required by it.\n\n3.	Ample collects the mobile phone numbers, email addresses, favourites selection and most favourite offers of all users for improvement of the Ample app and also for promotion. Please notify Ample for any change in any of the private details collected from you in case of any loss or any such mishappening."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtPolicy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Privacy Policy"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"/>
@@ -89,19 +92,20 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="2dp"
-                android:background="@android:color/black" />
+                android:background="@android:color/white" />
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="•	What kind of Private Information does Ample mobile app collect?"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtFour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="1.	Your names, gender, email address, mobile number (to send OTP for registration to be successful).\n\n2.	Your real time location information to bring all nearest malls to you.\n\n3.	Technical information about your device such as operating system information, hardware related info, mobile carrier info (if available).\n\n4.	Access to use media from phone for the purpose of adding profile image to user profiles."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead5"
@@ -109,12 +113,13 @@
                 android:layout_height="wrap_content"
                 android:text="•	Why is this information collected?"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtFive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="a)	Your Ample account is associated to the Ample app with the help of your mobile number. All vital functions such as browsing the app, checking out offers, customize search to be more useful to you and similar functions are reliant on the location the app receives thanks to your private details and mobile number.\n\nb)	 Furthermore the required information is used to enhance Ample team’s research activities for the purpose of increasing the effectiveness of our network and related Services, which then help us in developing new features for the Ample community to make shopping a pleasurable experience.c)	Also the contact information provided by you shall be used by Ample to send you relevant app upgrade notices and sponsored promotions.\n\nd)	Please note that your acceptance to this privacy policy implies you give Ample every right to contact you by SMS or e-mail for any such promotions or as required for the purpose improving the Ample app or as needed\n\ne)	Effectiveness of mall and offer search as per the requirements of the user depends upon this information.\n\nf)	 Required contact information is collected for availing offers and shall be used for future feature updates."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead6"
@@ -122,12 +127,13 @@
                 android:layout_height="wrap_content"
                 android:text="•	Is My Information Shared with other parties?"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtSix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="No. We don’t share private information with third parties except those affiliated with the Ample app and that too for promotion related activities."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead7"
@@ -135,12 +141,13 @@
                 android:layout_height="wrap_content"
                 android:text="•	Determining mobile device location"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtSeven"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="Our Services are reliant on the location you provide, so in order for Ample to provide you the best offers that are nearest to you we need to know your location.\n\nWhenever you use the Ample app the location information you provide or let us pick from your mobile device or browser (latitude &amp; longitude details) is used to customize the mall shopping experience with respect to your current location (i.e., we'll show you a list of nearby malls, brands and shops).\n\nAmple app further uses your mobile device's ‘background location to provide notification updates about recent offers in malls or shops or brands that you have explicitly chosen as your favourite."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead8"
@@ -148,12 +155,13 @@
                 android:layout_height="wrap_content"
                 android:text="•	Location Sharing on the Ample app"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtEight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="Please be assured that your mobile’s real-time location is not shared with any mall/shop/brand or anyone on the Ample app in a way to specifically identify you.\n\nThe location data is shared ONLY when you self decide to 'purchase'' an offer or book an offer from any of the shops/brands on the Ample app who are all registered and verified merchants of the Ample app hence nothing to worry about."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead9"
@@ -161,19 +169,20 @@
                 android:layout_height="wrap_content"
                 android:text="•	Your Location History"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtNine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="Ample App stores location history of your device to provide best offers at your beck and call. This information is critically private to the Ample app and is never under any circumstances whatsoever shared with anybody."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Intellectual Property Rights"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
                 android:gravity="center"/>
@@ -183,12 +192,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="2dp"
-                android:background="@android:color/black" />
+                android:background="@android:color/white" />
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtTen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
                 android:text="The design of the Ample Mobile app along with all associated properties(whatsoever), are owned by or licensed to Javinindia, subject to copyright and other intellectual property rights under Indian Law."/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txtHead10"
@@ -196,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:text="'Ample reserves the right to discontinue any aspect of the Ample mobile app with respect to any service at any time without prior notice.'"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:layout_marginTop="5dp"/>
         </LinearLayout>
     </ScrollView>

@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_weight="10"
-    android:background="@color/toolbar_color"
+    android:background="@drawable/splesh"
     android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatTextView
@@ -56,5 +56,5 @@
         android:layout_margin="20dp"
         android:textColor="@android:color/black"
         android:gravity="center"
-        android:background="@color/background_color"/>
+        android:background="@android:color/white"/>
 </LinearLayout>

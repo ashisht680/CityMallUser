@@ -3,7 +3,7 @@
     android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@drawable/splesh">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,8 +73,7 @@
             android:id="@+id/viewpager"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@id/tabs"
-            android:background="@color/background_color" />
+            android:layout_below="@id/tabs" />
 
     </LinearLayout>
 
